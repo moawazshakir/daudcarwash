@@ -411,21 +411,30 @@ if (bookingForm) {
       if (N8N_WEBHOOK_URL && N8N_WEBHOOK_URL !== "YOUR_N8N_WEBHOOK_URL_HERE") {
         try {
           console.log("Sending to n8n...");
-          const n8nRes = await fetch(N8N_WEBHOOK_URL, {
+          const n8nRes = await fetch("https://glokararehman.app.n8n.cloud/webhook/63febd10-033f-4b0f-8d4d-289a132daa3e", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload) // Sending the full payload
+            body: JSON.stringify({
+              service: payload.service,
+              full_name: payload.name,
+              email: payload.email,
+              phone: payload.phone,
+              vehicle_type: payload.vehicle,
+              vehicle_model: payload.model,
+              pet_hair: payload.petHairRemoval,
+              preferred_date: payload.date,
+              preferred_time: payload.time,
+              flexible: payload.flexibleTiming
+            })
           });
           
           if (n8nRes.ok) {
             console.log("n8n Success!");
-            const result = await n8nRes.json().catch(() => ({}));
-            console.log("n8n Result:", result);
           } else {
             console.warn("n8n returned a status error:", n8nRes.status);
           }
         } catch (n8nErr) {
-          console.warn("n8n Webhook connection failed (but DB was updated):", n8nErr);
+          console.warn("n8n Webhook connection failed:", n8nErr);
         }
       }
 
