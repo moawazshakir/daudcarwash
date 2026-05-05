@@ -407,13 +407,16 @@ if (bookingForm) {
         }
       }
 
-      // 2. n8n Task (Independent but awaited)
+      // 2. n8n Task (Production Webhook)
       if (N8N_WEBHOOK_URL && N8N_WEBHOOK_URL !== "YOUR_N8N_WEBHOOK_URL_HERE") {
         try {
           console.log("Sending to n8n...");
-          const n8nRes = await fetch("https://glokararehman.app.n8n.cloud/webhook/63febd10-033f-4b0f-8d4d-289a132daa3e", {
+          await fetch("https://glokararehman.app.n8n.cloud/webhook/63febd10-033f-4b0f-8d4d-289a132daa3e", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            mode: "cors",
+            headers: { 
+              "Content-Type": "application/json" 
+            },
             body: JSON.stringify({
               service: payload.service,
               full_name: payload.name,
@@ -427,12 +430,7 @@ if (bookingForm) {
               flexible: payload.flexibleTiming
             })
           });
-          
-          if (n8nRes.ok) {
-            console.log("n8n Success!");
-          } else {
-            console.warn("n8n returned a status error:", n8nRes.status);
-          }
+          console.log("n8n request sent successfully.");
         } catch (n8nErr) {
           console.warn("n8n Webhook connection failed:", n8nErr);
         }
