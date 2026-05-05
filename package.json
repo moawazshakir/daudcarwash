@@ -1,0 +1,13 @@
+{
+  "name": "daudcarwash",
+  "version": "1.0.0",
+  "description": "Premium Car Wash Booking Website",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server .",
+    "build": "echo 'Static site - no build needed'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
