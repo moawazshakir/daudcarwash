@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal - Autolavaggio La Palma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <!-- LOGIN PANEL -->
+    <div class="glass-panel" id="login-panel">
+      <div class="logo-container">
+        <i class="fas fa-shield-halved"></i>
+      </div>
+      <h2>Admin Access</h2>
+      <p class="subtitle">Enter your credentials to manage the portal.</p>
+      
+      <form id="admin-login-form">
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="admin-password" placeholder="Admin Password" required>
+        </div>
+        <div class="error-msg" id="error-msg">Incorrect password. Please try again.</div>
+        <button type="submit" class="btn-glow">
+          <span>Authenticate</span>
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- DASHBOARD PANEL -->
+    <div class="glass-panel hidden" id="dashboard-panel" style="padding: 30px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h2 style="margin: 0;">Bookings Dashboard</h2>
+        <button class="btn-glow" style="width: auto; padding: 10px 20px;" onclick="window.location.href='../index.html'">
+          <i class="fas fa-home"></i> View Site
+        </button>
+      </div>
+      
+      <div class="table-wrapper">
+        <table class="bookings-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Client Name</th>
+              <th>Contact</th>
+              <th>Vehicle</th>
+              <th>Service</th>
+              <th>Date & Time</th>
+              <th>Pet Hair</th>
+              <th>Flex Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="bookings-body">
+            <!-- Data will be populated via JS -->
+            <tr>
+              <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 12px; display: block;"></i>
+                Connecting to Supabase...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
