@@ -184,7 +184,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   padding: 0 24px;
   display: flex;
   align-items: center;
-  gap: 32px;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .logo {
