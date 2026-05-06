@@ -184,7 +184,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   padding: 0 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 20px;
 }
 
@@ -214,14 +213,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 #navbar.scrolled .logo-text { color: var(--navy); }
 
 .logo-img {
-  height: 45px; /* Scaled down to professional size */
+  height: 100px;
   width: auto;
   object-fit: contain;
   transition: var(--tr);
 }
 
 #navbar.scrolled .logo-img {
-  height: 55px;
+  height: 100px;
 }
 
 .logo-accent { color: var(--blue-lite); }
