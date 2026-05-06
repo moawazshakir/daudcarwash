@@ -168,7 +168,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 9000;
-  padding: 22px 0;
+  padding: 12px 0; /* Reduced from 22px to move it up */
   transition: var(--tr);
 }
 
@@ -211,6 +211,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: var(--tr);
 }
 #navbar.scrolled .logo-text { color: var(--navy); }
+
+.logo-img {
+  height: 85px; /* Slightly reduced from 105px to fit better at the top */
+  width: auto;
+  object-fit: contain;
+  transition: var(--tr);
+}
+
+#navbar.scrolled .logo-img {
+  height: 55px;
+}
 
 .logo-accent { color: var(--blue-lite); }
 #navbar.scrolled .logo-accent { color: var(--blue); }
