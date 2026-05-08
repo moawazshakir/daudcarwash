@@ -332,13 +332,10 @@ if (dateInput) {
 }
 
 // === BOOKING FORM ===
-// === BOOKING FORM CONFIGURATION ===
-// TEST URL: Use this while building your workflow (requires clicking 'Execute Workflow' in n8n)
-// PRODUCTION URL: Remove '-test' from the link and ACTIVATE the workflow in n8n to make it work 24/7.
-const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook-test/63febd10-033f-4b0f-8d4d-289a132daa3e"; 
-
-const SUPABASE_URL = "https://wqjkhoswqucapkddgaxl.supabase.co";       // Replace with your Supabase URL
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indxamtob3N3cXVjYXBrZGRnYXhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4NzM1MDEsImV4cCI6MjA5MzQ0OTUwMX0.-CSxDNYVEJGrQ4EwN7uHAis5Et3NVTip1tGBTgyKluw"; // Replace with your Supabase Anon Key
+// === TEST URL FOR INTERACTIVE DEBUGGING ===
+const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook-test/9a4dcae0-5fc7-446f-bc18-c674a7289576"; 
+const SUPABASE_URL = "https://wqjkhoswqucapkddgaxl.supabase.co";       
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indxamtob3N3cXVjYXBrZGRnYXhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4NzM1MDEsImV4cCI6MjA5MzQ0OTUwMX0.-CSxDNYVEJGrQ4EwN7uHAis5Et3NVTip1tGBTgyKluw";
 
 const bookingForm = document.getElementById('booking-form');
 if (bookingForm) {
@@ -347,120 +344,87 @@ if (bookingForm) {
     const btn = bookingForm.querySelector('button[type="submit"]');
     const selectedSvc = document.querySelector('.bk-svc-btn.active').querySelector('span').innerText;
     
-    // Generate a unique Appointment ID
-    const appointmentId = 'APP-' + Math.floor(100000 + Math.random() * 900000);
-    
-    // Build the payload for n8n
     const payload = {
-      appointmentId: appointmentId,
-      name: document.getElementById('bk-name').value,
-      email: document.getElementById('bk-email').value,
+      appointment_id: 'APP-' + Math.floor(100000 + Math.random() * 900000),
+      client_name: document.getElementById('bk-name').value,
       phone: document.getElementById('bk-phone').value,
+      email: document.getElementById('bk-email').value,
+      vehicle_type: document.getElementById('bk-vehicle').value,
+      vehicle_model: document.getElementById('bk-model').value,
+      plan: selectedSvc,
       date: document.getElementById('bk-date').value,
-      time: document.getElementById('bk-time').value,
-      flexibleTiming: document.getElementById('bk-flexible').checked,
-      vehicle: document.getElementById('bk-vehicle').value,
-      model: document.getElementById('bk-model').value,
-      petHairRemoval: document.getElementById('bk-pet-hair').checked,
-      service: selectedSvc
+      time_slot: document.getElementById('bk-time').value,
+      flexible_timing: document.getElementById('bk-flexible') ? document.getElementById('bk-flexible').checked : false,
+      pet_hair_removal: document.getElementById('bk-pet-hair') ? document.getElementById('bk-pet-hair').checked : false,
+      api_key: "autolaviggo_secret_2026"
     };
 
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Confirming…';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing…';
     btn.disabled = true;
 
     try {
-      // 1. Supabase Task
-      let supabaseSuccess = false;
-      if (SUPABASE_URL && SUPABASE_URL !== "YOUR_SUPABASE_URL_HERE") {
-        try {
-          console.log("Saving to Supabase...");
-          const res = await fetch(`${SUPABASE_URL}/rest/v1/bookings`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'apikey': SUPABASE_ANON_KEY,
-              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-              'Prefer': 'return=minimal'
-            },
-            body: JSON.stringify({
-              appointment_id: payload.appointmentId,
-              name: payload.name,
-              email: payload.email,
-              phone: payload.phone,
-              date: payload.date,
-              time: payload.time,
-              flexible_timing: payload.flexibleTiming,
-              vehicle_type: payload.vehicle,
-              vehicle_model: payload.model,
-              service_tier: payload.service,
-              pet_hair_removal: payload.petHairRemoval
-            })
-          });
-          if (res.ok) {
-            supabaseSuccess = true;
-            console.log("Supabase Success!");
-          } else {
-            console.error("Supabase returned an error:", await res.text());
-          }
-        } catch (err) {
-          console.error("Supabase Network Error:", err);
-        }
-      }
+      // 1. Database
+      await fetch(`${SUPABASE_URL}/rest/v1/bookings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          appointment_id: payload.appointment_id,
+          name: payload.client_name,
+          email: payload.email,
+          phone: payload.phone,
+          date: payload.date,
+          time: payload.time_slot,
+          flexible_timing: payload.flexible_timing,
+          vehicle_type: payload.vehicle_type,
+          vehicle_model: payload.vehicle_model,
+          service_tier: payload.plan,
+          pet_hair_removal: payload.pet_hair_removal
+        })
+      });
 
-      // 2. n8n Task (Production Webhook)
-      if (N8N_WEBHOOK_URL && N8N_WEBHOOK_URL !== "YOUR_N8N_WEBHOOK_URL_HERE") {
-        try {
-          console.log("Sending to n8n...");
-          await fetch("https://glokararehman.app.n8n.cloud/webhook/63febd10-033f-4b0f-8d4d-289a132daa3e", {
-            method: "POST",
-            mode: "cors",
-            headers: { 
-              "Content-Type": "application/json" 
-            },
-            body: JSON.stringify({
-              service: payload.service,
-              full_name: payload.name,
-              email: payload.email,
-              phone: payload.phone,
-              vehicle_type: payload.vehicle,
-              vehicle_model: payload.model,
-              pet_hair: payload.petHairRemoval,
-              preferred_date: payload.date,
-              preferred_time: payload.time,
-              flexible: payload.flexibleTiming
-            })
-          });
-          console.log("n8n request sent successfully.");
-        } catch (n8nErr) {
-          console.warn("n8n Webhook connection failed:", n8nErr);
-        }
-      }
+      // 2. n8n (Test URL)
+      console.log("Sending to n8n Test URL...");
+      fetch(N8N_WEBHOOK_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
 
-      // Show success as long as Supabase worked
-      if (supabaseSuccess) {
-        btn.innerHTML = '<i class="fas fa-circle-check"></i> Appointment Confirmed!';
-        btn.style.background = '#16a34a';
-        console.log("Booking complete (Saved to DB)!", payload);
-      } else {
-        throw new Error("Database save failed");
-      }
+      // Success
+      btn.innerHTML = '<i class="fas fa-circle-check"></i> Appointment Confirmed!';
+      btn.style.background = '#10b981';
+
+      document.getElementById('conf-service').textContent = payload.plan;
+      document.getElementById('conf-date').textContent = payload.date;
+      document.getElementById('conf-time').textContent = payload.time_slot;
+      document.getElementById('conf-vehicle').textContent = `${payload.vehicle_type} (${payload.vehicle_model})`;
+
+      bookingForm.reset();
+      setTimeout(() => {
+        document.getElementById('booking').style.display = 'none';
+        const confSection = document.getElementById('confirmation');
+        if (confSection) {
+          confSection.style.display = 'block';
+          confSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 1500);
 
     } catch (error) {
-      console.error('Critical Error:', error);
+      console.error('Booking Error:', error);
       btn.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Error - Try Again';
       btn.style.background = '#dc2626';
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 4000);
     }
-
-    setTimeout(() => {
-      btn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
-      btn.style.background = '';
-      btn.disabled = false;
-      bookingForm.reset();
-      if (typeof dateInput !== 'undefined' && dateInput) {
-        dateInput.value = new Date().toISOString().split('T')[0];
-      }
-      document.querySelectorAll('.bk-svc-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
-    }, 4000);
   });
 }
 
