@@ -332,7 +332,7 @@ if (dateInput) {
 }
 
 // === BOOKING FORM ===
-const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook/book-appointment";
+const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook-test/book-appointment";
 
 const bookingForm = document.getElementById('booking-form');
 if (bookingForm) {
@@ -374,7 +374,7 @@ if (bookingForm) {
       vehicle_type: document.getElementById('bk-vehicle').value,
       vehicle_model: document.getElementById('bk-model').value,
       plan: selectedSvc,
-      date: document.getElementById('bk-date').value, // Input type="date" is already YYYY-MM-DD
+      date: document.getElementById('bk-date').value,
       time_slot: convertTo24Hour(document.getElementById('bk-time').value),
       pet_hair_removal: document.getElementById('bk-pet-hair') ? document.getElementById('bk-pet-hair').checked : false,
       flexible_timing: document.getElementById('bk-flexible') ? document.getElementById('bk-flexible').checked : false
@@ -386,20 +386,23 @@ if (bookingForm) {
     msgEl.style.display = 'none';
 
     try {
-      // Using 'no-cors' mode to bypass browser security blocks. 
-      // Note: In this mode, we cannot read the response from the server, 
-      // but the data will still be sent to n8n.
-      fetch(N8N_WEBHOOK_URL, {
+      const response = await fetch(N8N_WEBHOOK_URL, {
         method: 'POST',
-        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(payload)
       });
 
-      // Since we are in 'no-cors' mode, we assume success as long as no local error occurs
+      if (!response.ok) {
+        throw new Error(`Server Error: ${response.status}`);
+      }
+
+      // Success
       btn.innerHTML = '<i class="fas fa-circle-check"></i> Confirmed!';
       btn.style.background = '#10b981';
       
-      msgEl.innerText = "Booking confirmed successfully.";
+      msgEl.innerText = "Booking confirmed successfully (Test Mode).";
       msgEl.style.color = "#10b981";
       msgEl.style.display = 'block';
 
@@ -418,7 +421,7 @@ if (bookingForm) {
       btn.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Try Again';
       btn.style.background = '#dc2626';
       
-      msgEl.innerText = error.message;
+      msgEl.innerText = "Error: " + error.message + " - Please ensure n8n 'Listen for Test Event' is active.";
       msgEl.style.color = "#dc2626";
       msgEl.style.display = 'block';
 
@@ -430,7 +433,6 @@ if (bookingForm) {
     }
   });
 }
-
 
 // === CONTACT FORM ===
 const contactForm = document.getElementById('contact-form');
