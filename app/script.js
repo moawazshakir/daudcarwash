@@ -389,7 +389,8 @@ if (bookingForm) {
       const response = await fetch(N8N_WEBHOOK_URL, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-api-key': 'autolaviggo_secret_2026'
         },
         body: JSON.stringify(payload)
       });
