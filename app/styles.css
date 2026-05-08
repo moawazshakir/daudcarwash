@@ -289,6 +289,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .hero-bg {
   position: absolute;
   inset: 0;
+  background: url('../public/images/hero-bg.jpg') center/cover no-repeat;
   z-index: 0;
 }
 
