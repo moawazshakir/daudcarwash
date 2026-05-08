@@ -332,93 +332,102 @@ if (dateInput) {
 }
 
 // === BOOKING FORM ===
-// === TEST URL FOR INTERACTIVE DEBUGGING ===
-const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook-test/9a4dcae0-5fc7-446f-bc18-c674a7289576"; 
-const SUPABASE_URL = "https://wqjkhoswqucapkddgaxl.supabase.co";       
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indxamtob3N3cXVjYXBrZGRnYXhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4NzM1MDEsImV4cCI6MjA5MzQ0OTUwMX0.-CSxDNYVEJGrQ4EwN7uHAis5Et3NVTip1tGBTgyKluw";
+const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook/book-appointment";
+const API_KEY = "autolaviggo_secret_2026";
 
 const bookingForm = document.getElementById('booking-form');
 if (bookingForm) {
+  // Helper to convert AM/PM to 24h HH:MM
+  const convertTo24Hour = (timeStr) => {
+    if (!timeStr) return "";
+    const [time, modifier] = timeStr.split(' ');
+    let [hours, minutes] = time.split(':');
+    if (modifier === 'PM' && hours !== '12') {
+      hours = parseInt(hours, 10) + 12;
+    }
+    if (modifier === 'AM' && hours === '12') {
+      hours = '00';
+    }
+    return `${hours.toString().padStart(2, '0')}:${minutes}`;
+  };
+
   bookingForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = bookingForm.querySelector('button[type="submit"]');
-    const selectedSvc = document.querySelector('.bk-svc-btn.active').querySelector('span').innerText;
-    
+    const msgEl = document.getElementById('booking-msg') || (() => {
+      const el = document.createElement('div');
+      el.id = 'booking-msg';
+      el.style.marginTop = '15px';
+      el.style.textAlign = 'center';
+      el.style.fontSize = '14px';
+      el.style.fontWeight = '600';
+      bookingForm.appendChild(el);
+      return el;
+    })();
+
+    const selectedSvcBtn = document.querySelector('.bk-svc-btn.active');
+    const selectedSvc = selectedSvcBtn ? selectedSvcBtn.querySelector('span').innerText : "Standard Wash";
+
     const payload = {
-      appointment_id: 'APP-' + Math.floor(100000 + Math.random() * 900000),
       client_name: document.getElementById('bk-name').value,
-      phone: document.getElementById('bk-phone').value,
       email: document.getElementById('bk-email').value,
+      phone: document.getElementById('bk-phone').value,
       vehicle_type: document.getElementById('bk-vehicle').value,
       vehicle_model: document.getElementById('bk-model').value,
       plan: selectedSvc,
-      date: document.getElementById('bk-date').value,
-      time_slot: document.getElementById('bk-time').value,
-      flexible_timing: document.getElementById('bk-flexible') ? document.getElementById('bk-flexible').checked : false,
+      date: document.getElementById('bk-date').value, // Input type="date" is already YYYY-MM-DD
+      time_slot: convertTo24Hour(document.getElementById('bk-time').value),
       pet_hair_removal: document.getElementById('bk-pet-hair') ? document.getElementById('bk-pet-hair').checked : false,
-      api_key: "autolaviggo_secret_2026"
+      flexible_timing: document.getElementById('bk-flexible') ? document.getElementById('bk-flexible').checked : false
     };
 
+    // UI Loading State
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing…';
     btn.disabled = true;
+    msgEl.style.display = 'none';
 
     try {
-      // 1. Database
-      await fetch(`${SUPABASE_URL}/rest/v1/bookings`, {
+      const response = await fetch(N8N_WEBHOOK_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'Prefer': 'return=minimal'
+          'x-api-key': API_KEY
         },
-        body: JSON.stringify({
-          appointment_id: payload.appointment_id,
-          name: payload.client_name,
-          email: payload.email,
-          phone: payload.phone,
-          date: payload.date,
-          time: payload.time_slot,
-          flexible_timing: payload.flexible_timing,
-          vehicle_type: payload.vehicle_type,
-          vehicle_model: payload.vehicle_model,
-          service_tier: payload.plan,
-          pet_hair_removal: payload.pet_hair_removal
-        })
-      });
-
-      // 2. n8n (Test URL)
-      console.log("Sending to n8n Test URL...");
-      fetch(N8N_WEBHOOK_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
-      // Success
-      btn.innerHTML = '<i class="fas fa-circle-check"></i> Appointment Confirmed!';
-      btn.style.background = '#10b981';
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Error ${response.status}: ${response.statusText}`);
+      }
 
-      document.getElementById('conf-service').textContent = payload.plan;
-      document.getElementById('conf-date').textContent = payload.date;
-      document.getElementById('conf-time').textContent = payload.time_slot;
-      document.getElementById('conf-vehicle').textContent = `${payload.vehicle_type} (${payload.vehicle_model})`;
+      // Success
+      btn.innerHTML = '<i class="fas fa-circle-check"></i> Confirmed!';
+      btn.style.background = '#10b981';
+      
+      msgEl.innerText = "Booking confirmed successfully.";
+      msgEl.style.color = "#10b981";
+      msgEl.style.display = 'block';
 
       bookingForm.reset();
+      
+      // Reset button after 5 seconds
       setTimeout(() => {
-        document.getElementById('booking').style.display = 'none';
-        const confSection = document.getElementById('confirmation');
-        if (confSection) {
-          confSection.style.display = 'block';
-          confSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 1500);
+        btn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
+        btn.style.background = '';
+        btn.disabled = false;
+        msgEl.style.display = 'none';
+      }, 5000);
 
     } catch (error) {
       console.error('Booking Error:', error);
-      btn.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Error - Try Again';
+      btn.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Try Again';
       btn.style.background = '#dc2626';
+      
+      msgEl.innerText = error.message;
+      msgEl.style.color = "#dc2626";
+      msgEl.style.display = 'block';
+
       setTimeout(() => {
         btn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
         btn.style.background = '';
