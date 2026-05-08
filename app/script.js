@@ -333,7 +333,6 @@ if (dateInput) {
 
 // === BOOKING FORM ===
 const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook/book-appointment";
-const API_KEY = "autolaviggo_secret_2026";
 
 const bookingForm = document.getElementById('booking-form');
 if (bookingForm) {
@@ -390,8 +389,7 @@ if (bookingForm) {
       const response = await fetch(N8N_WEBHOOK_URL, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': API_KEY
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
       });
