@@ -428,7 +428,7 @@ document.addEventListener('click', (e) => {
 });
 
 // === BOOKING FORM ===
-const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook-test/book-appointment";
+const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook/book-appointment";
 
 const bookingForm = document.getElementById('booking-form');
 if (bookingForm) {
