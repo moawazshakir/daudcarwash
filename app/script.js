@@ -331,23 +331,122 @@ if (dateInput) {
   dateInput.value = today;
 }
 
+// Business hours (Europe/Rome timezone)
+const BUSINESS_HOURS = {
+  // Monday-Saturday
+  'weekday': {
+    start: '08:00',
+    end: '18:00',
+    slots: ['8:00 AM', '8:30 AM', '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM', '6:00 PM']
+  },
+  // Sunday
+  'sunday': {
+    start: '08:30',
+    end: '12:30',
+    slots: ['8:30 AM', '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '12:00 PM', '12:30 PM']
+  }
+};
+
+function getAvailableTimeSlots(dateString) {
+  const date = new Date(dateString + 'T00:00:00');
+  const dayOfWeek = date.getDay();
+
+  if (dayOfWeek === 0) {
+    return BUSINESS_HOURS.sunday.slots;
+  } else {
+    return BUSINESS_HOURS.weekday.slots;
+  }
+}
+
+function renderTimeSlots(dateString) {
+  const slotsContainer = document.getElementById('bk-time-slots');
+  const timeInput = document.getElementById('bk-time');
+
+  if (!slotsContainer) return;
+
+  const slots = getAvailableTimeSlots(dateString);
+
+  slotsContainer.innerHTML = slots.map(slot => `
+    <button type="button" class="bk-time-slot" data-time="${slot}">
+      ${slot}
+    </button>
+  `).join('');
+
+  document.querySelectorAll('.bk-time-slot').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const selectedTime = btn.dataset.time;
+
+      document.querySelectorAll('.bk-time-slot').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      timeInput.value = selectedTime;
+
+      const trigger = document.getElementById('bk-time-trigger');
+      const display = document.getElementById('bk-time-display');
+      const dropdown = document.getElementById('bk-time-dropdown');
+
+      display.textContent = selectedTime;
+      trigger.classList.remove('open');
+      dropdown.classList.remove('open');
+    });
+  });
+}
+
+function closeTimeDropdown() {
+  const trigger = document.getElementById('bk-time-trigger');
+  const dropdown = document.getElementById('bk-time-dropdown');
+  trigger.classList.remove('open');
+  dropdown.classList.remove('open');
+}
+
+if (dateInput) {
+  renderTimeSlots(dateInput.value);
+  dateInput.addEventListener('change', (e) => {
+    renderTimeSlots(e.target.value);
+    document.getElementById('bk-time').value = '';
+    document.getElementById('bk-time-display').textContent = 'Select a time…';
+    closeTimeDropdown();
+  });
+}
+
+const timeTrigger = document.getElementById('bk-time-trigger');
+const timeDropdown = document.getElementById('bk-time-dropdown');
+
+if (timeTrigger) {
+  timeTrigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    timeTrigger.classList.toggle('open');
+    timeDropdown.classList.toggle('open');
+  });
+}
+
+document.addEventListener('click', (e) => {
+  const timeWrapper = document.querySelector('.bk-time-wrapper');
+  if (timeWrapper && !timeWrapper.contains(e.target)) {
+    closeTimeDropdown();
+  }
+});
+
 // === BOOKING FORM ===
 const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook-test/book-appointment";
 
 const bookingForm = document.getElementById('booking-form');
 if (bookingForm) {
-  // Helper to convert AM/PM to 24h HH:MM
+  // Helper to convert 12h AM/PM to 24h HH:MM
   const convertTo24Hour = (timeStr) => {
     if (!timeStr) return "";
     const [time, modifier] = timeStr.split(' ');
     let [hours, minutes] = time.split(':');
-    if (modifier === 'PM' && hours !== '12') {
-      hours = parseInt(hours, 10) + 12;
+    hours = parseInt(hours, 10);
+
+    if (modifier === 'PM' && hours !== 12) {
+      hours = hours + 12;
     }
-    if (modifier === 'AM' && hours === '12') {
-      hours = '00';
+    if (modifier === 'AM' && hours === 12) {
+      hours = 0;
     }
-    return `${hours.toString().padStart(2, '0')}:${minutes}`;
+
+    return `${hours.toString().padStart(2, '0')}:${minutes.padStart(2, '0')}`;
   };
 
   bookingForm.addEventListener('submit', async (e) => {
