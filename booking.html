@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment — Autolavaggio La Palma</title>
+  <link rel="icon" href="public/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="app/booking.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="bw-header">
+    <div class="bw-header-inner">
+      <a href="index.html" class="bw-logo">
+        <img src="public/images/logo.png" alt="Autolavaggio La Palma">
+        <span>La Palma</span>
+      </a>
+      <a href="index.html" class="bw-back-link">
+        <i class="fas fa-arrow-left"></i> Back to Main Site
+      </a>
+    </div>
+  </header>
+
+  <!-- ===== PROGRESS BAR ===== -->
+  <div class="bw-progress-bar">
+    <div class="bw-progress-inner">
+      <div class="bw-step active" data-step="1">
+        <div class="bw-step-circle">1</div>
+        <div class="bw-step-label">Category</div>
+      </div>
+      <div class="bw-line" id="line-1"></div>
+      <div class="bw-step" data-step="2">
+        <div class="bw-step-circle">2</div>
+        <div class="bw-step-label">Service</div>
+      </div>
+      <div class="bw-line" id="line-2"></div>
+      <div class="bw-step" data-step="3">
+        <div class="bw-step-circle">3</div>
+        <div class="bw-step-label">Vehicle</div>
+      </div>
+      <div class="bw-line" id="line-3"></div>
+      <div class="bw-step" data-step="4">
+        <div class="bw-step-circle">4</div>
+        <div class="bw-step-label">Date &amp; Time</div>
+      </div>
+      <div class="bw-line" id="line-4"></div>
+      <div class="bw-step" data-step="5">
+        <div class="bw-step-circle">5</div>
+        <div class="bw-step-label">Your Details</div>
+      </div>
+      <div class="bw-line" id="line-5"></div>
+      <div class="bw-step" data-step="6">
+        <div class="bw-step-circle">6</div>
+        <div class="bw-step-label">Summary</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN ===== -->
+  <main class="bw-main">
+
+    <!-- STEP 1: CATEGORY -->
+    <section class="bw-panel active" id="panel-1">
+      <h2 class="bw-title">Choose a Service Category</h2>
+      <p class="bw-sub">Select the type of service you need for your vehicle</p>
+      <div class="bw-cat-grid">
+        <button class="bw-cat-card" data-cat="carwash">
+          <div class="bw-cat-icon"><i class="fas fa-car-side"></i></div>
+          <strong>Car Wash</strong>
+          <span>Complete exterior &amp; interior cleaning</span>
+        </button>
+        <button class="bw-cat-card" data-cat="interior">
+          <div class="bw-cat-icon"><i class="fas fa-couch"></i></div>
+          <strong>Interior Detailing</strong>
+          <span>Deep clean seats, carpets &amp; dashboard</span>
+        </button>
+        <button class="bw-cat-card" data-cat="polish">
+          <div class="bw-cat-icon"><i class="fas fa-shield-halved"></i></div>
+          <strong>Polish &amp; Protection</strong>
+          <span>Wax, sealant &amp; paint protection</span>
+        </button>
+        <button class="bw-cat-card" data-cat="engine">
+          <div class="bw-cat-icon"><i class="fas fa-gears"></i></div>
+          <strong>Engine Cleaning</strong>
+          <span>Safe &amp; detailed engine bay cleaning</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- STEP 2: SERVICE / PACKAGE -->
+    <section class="bw-panel" id="panel-2">
+      <h2 class="bw-title" id="s2-title">Services for: Car Wash</h2>
+      <p class="bw-sub">Choose the package that best suits your needs</p>
+      <div class="bw-pkg-list" id="pkg-list"></div>
+      <div class="bw-nav">
+        <button class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+      </div>
+    </section>
+
+    <!-- STEP 3: VEHICLE + ADD-ONS -->
+    <section class="bw-panel" id="panel-3">
+      <h2 class="bw-title">Configure Your Visit</h2>
+      <div class="bw-s3-layout">
+
+        <!-- Left column -->
+        <div class="bw-s3-left">
+
+          <div class="bw-block">
+            <h3 class="bw-block-title">Vehicle Type</h3>
+            <div class="bw-vtype-row">
+              <button class="bw-vtype active" data-vtype="sedan"><i class="fas fa-car"></i> Sedan</button>
+              <button class="bw-vtype" data-vtype="suv"><i class="fas fa-truck-monster"></i> SUV</button>
+              <button class="bw-vtype" data-vtype="van"><i class="fas fa-van-shuttle"></i> Van / Minivan</button>
+            </div>
+          </div>
+
+          <div class="bw-block">
+            <h3 class="bw-block-title">Vehicle Details</h3>
+            <div class="bw-two-col">
+              <div class="bw-field">
+                <label>Car Brand *</label>
+                <input type="text" id="bw-brand" placeholder="e.g. Ferrari, BMW, Fiat">
+              </div>
+              <div class="bw-field">
+                <label>Model *</label>
+                <input type="text" id="bw-model" placeholder="e.g. 911, Series 3, Panda">
+              </div>
+            </div>
+          </div>
+
+          <div class="bw-block">
+            <h3 class="bw-block-title">Additional Services</h3>
+            <div class="bw-addon-grid">
+
+              <div class="bw-addon-card">
+                <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400&auto=format&fit=crop&q=80" alt="Pet hair on car seat">
+                <div class="bw-addon-body">
+                  <p class="bw-addon-q">Is there animal / pet hair on the seats?</p>
+                  <div class="bw-yn-row">
+                    <button class="bw-yn bw-yn-yes" data-addon="pethair" data-val="yes">YES <span>+€15</span></button>
+                    <button class="bw-yn bw-yn-no active" data-addon="pethair" data-val="no">NO</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bw-addon-card">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&auto=format&fit=crop&q=80" alt="Bird stains on car">
+                <div class="bw-addon-body">
+                  <p class="bw-addon-q">Are there bird droppings or resin stains on the exterior?</p>
+                  <div class="bw-yn-row">
+                    <button class="bw-yn bw-yn-yes" data-addon="stains" data-val="yes">YES <span>+€10</span></button>
+                    <button class="bw-yn bw-yn-no active" data-addon="stains" data-val="no">NO</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Price sidebar -->
+        <div class="bw-s3-right">
+          <div class="bw-price-card" id="price-card">
+            <div class="bw-price-header">
+              <div class="bw-price-icon"><i class="fas fa-car-side" id="pc-icon"></i></div>
+              <div>
+                <div class="bw-price-name" id="pc-name">—</div>
+                <div class="bw-price-cat" id="pc-cat">—</div>
+              </div>
+            </div>
+            <div class="bw-price-rows">
+              <div class="bw-price-row">
+                <span>Base price</span>
+                <span id="pc-base">€0</span>
+              </div>
+              <div class="bw-price-row bw-addon-row" id="row-pethair" style="display:none">
+                <span>Pet hair removal</span>
+                <span>+€15</span>
+              </div>
+              <div class="bw-price-row bw-addon-row" id="row-stains" style="display:none">
+                <span>Stain treatment</span>
+                <span>+€10</span>
+              </div>
+            </div>
+            <div class="bw-price-total">
+              <span>Total</span>
+              <strong id="pc-total">€0</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="bw-nav">
+        <button class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+        <button class="bw-btn-next" onclick="nextStep()">Continue <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </section>
+
+    <!-- STEP 4: DATE & TIME -->
+    <section class="bw-panel" id="panel-4">
+      <h2 class="bw-title">Select Date &amp; Time</h2>
+      <div class="bw-dt-layout">
+
+        <!-- Calendar -->
+        <div class="bw-cal-wrap">
+          <div class="bw-cal-nav">
+            <button class="bw-cal-arrow" onclick="calPrev()"><i class="fas fa-chevron-left"></i></button>
+            <span class="bw-cal-month" id="cal-month">May 2026</span>
+            <button class="bw-cal-arrow" onclick="calNext()"><i class="fas fa-chevron-right"></i></button>
+          </div>
+          <div class="bw-cal-grid" id="cal-grid">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Time slots -->
+        <div class="bw-slots-wrap">
+          <h3 class="bw-slots-title" id="slots-title">Select a date to see available times</h3>
+          <div class="bw-slots-grid" id="slots-grid"></div>
+        </div>
+
+      </div>
+      <div class="bw-nav">
+        <button class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+        <button class="bw-btn-next" id="btn-s4-next" onclick="nextStep()" disabled>Continue <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </section>
+
+    <!-- STEP 5: PERSONAL DETAILS -->
+    <section class="bw-panel" id="panel-5">
+      <h2 class="bw-title">Your Details</h2>
+      <div class="bw-form-wrap">
+        <div class="bw-two-col">
+          <div class="bw-field">
+            <label>First Name *</label>
+            <input type="text" id="bw-fname" placeholder="Marco">
+          </div>
+          <div class="bw-field">
+            <label>Last Name *</label>
+            <input type="text" id="bw-lname" placeholder="Rossi">
+          </div>
+        </div>
+        <div class="bw-two-col">
+          <div class="bw-field">
+            <label>Phone Number *</label>
+            <div class="bw-phone-row">
+              <div class="bw-phone-prefix">
+                <img src="https://flagcdn.com/16x12/it.png" alt="IT" style="margin-right:4px"> +39
+              </div>
+              <input type="tel" id="bw-phone" placeholder="333 000 0000">
+            </div>
+          </div>
+          <div class="bw-field">
+            <label>Email <span class="bw-optional">(optional)</span></label>
+            <input type="email" id="bw-email" placeholder="marco@example.com">
+          </div>
+        </div>
+        <div class="bw-field">
+          <label>License Plate <span class="bw-optional">(optional)</span></label>
+          <input type="text" id="bw-plate" placeholder="AB 123 CD">
+        </div>
+        <div class="bw-field">
+          <label>Notes <span class="bw-optional">(optional)</span></label>
+          <textarea id="bw-notes" rows="3" placeholder="Any special requests or additional information…"></textarea>
+        </div>
+      </div>
+      <div class="bw-nav">
+        <button class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+        <button class="bw-btn-next" onclick="nextStep()">Go to Summary <i class="fas fa-arrow-right"></i></button>
+      </div>
+    </section>
+
+    <!-- STEP 6: SUMMARY -->
+    <section class="bw-panel" id="panel-6">
+      <h2 class="bw-title">Booking Summary</h2>
+      <p class="bw-sub">Review your details before confirming</p>
+      <div class="bw-summary-wrap">
+        <div class="bw-summary-list" id="summary-list"></div>
+        <div class="bw-summary-total">
+          <span>Total Amount</span>
+          <strong id="summary-total">€0</strong>
+        </div>
+        <button class="bw-btn-confirm" id="btn-confirm" onclick="submitBooking()">
+          <i class="fas fa-calendar-check"></i> Confirm Appointment
+        </button>
+        <div id="bw-err" style="display:none;color:#dc2626;text-align:center;margin-top:14px;font-size:14px;font-weight:600;"></div>
+      </div>
+      <div class="bw-nav" style="margin-top:24px;">
+        <button class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== CONFIRMATION OVERLAY ===== -->
+  <div class="bw-overlay" id="bw-overlay" style="display:none;">
+    <div class="bw-overlay-card">
+      <div class="bw-check-wrap">
+        <svg viewBox="0 0 52 52" class="bw-check-svg">
+          <circle class="bw-check-circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="bw-check-tick" fill="none" d="M14 27l8 8 16-16"/>
+        </svg>
+      </div>
+      <h2 class="bw-overlay-title">Appointment Confirmed!</h2>
+      <p class="bw-overlay-sub">Your booking has been received. We'll contact you shortly to confirm.</p>
+      <div class="bw-overlay-details" id="overlay-details"></div>
+      <div class="bw-overlay-actions">
+        <a href="index.html" class="bw-ol-home"><i class="fas fa-house"></i> Back to Home</a>
+        <button class="bw-ol-again" onclick="resetWizard()"><i class="fas fa-calendar-plus"></i> Book Another</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app/booking.js"></script>
+</body>
+</html>
