@@ -1520,7 +1520,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .bk-time-dropdown {
   position: absolute;
-  bottom: calc(100% + 8px);
+  top: calc(100% + 8px);
   left: 0;
   right: 0;
   background: white;
@@ -1529,13 +1529,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   z-index: 1000;
   display: none;
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(-12px);
   transition: opacity .25s ease, transform .25s ease;
   box-shadow: 0 12px 40px rgba(2,132,199,.18);
   border: 1px solid #e0e7ff;
   min-width: 320px;
-  max-height: 400px;
+  max-height: 320px;
   overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .bk-time-dropdown {
+    max-height: 280px;
+  }
 }
 
 .bk-time-dropdown.open {
@@ -1561,6 +1567,13 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .bk-time-slots {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
 }
 
 .bk-time-slot {
