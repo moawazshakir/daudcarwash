@@ -359,73 +359,29 @@ function getAvailableTimeSlots(dateString) {
 }
 
 function renderTimeSlots(dateString) {
-  const slotsContainer = document.getElementById('bk-time-slots');
-  const timeInput = document.getElementById('bk-time');
+  const select = document.getElementById('bk-time-select');
+  if (!select) return;
 
-  if (!slotsContainer) return;
+  select.innerHTML = '<option value="" disabled selected>Select a time…</option>';
+  if (!dateString) return;
 
   const slots = getAvailableTimeSlots(dateString);
-
-  slotsContainer.innerHTML = slots.map(slot => `
-    <button type="button" class="bk-time-slot" data-time="${slot}">
-      ${slot}
-    </button>
-  `).join('');
-
-  document.querySelectorAll('.bk-time-slot').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const selectedTime = btn.dataset.time;
-
-      document.querySelectorAll('.bk-time-slot').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      timeInput.value = selectedTime;
-
-      const trigger = document.getElementById('bk-time-trigger');
-      const display = document.getElementById('bk-time-display');
-      const dropdown = document.getElementById('bk-time-dropdown');
-
-      display.textContent = selectedTime;
-      trigger.classList.remove('open');
-      dropdown.classList.remove('open');
-    });
+  slots.forEach(slot => {
+    const opt = document.createElement('option');
+    opt.value = slot;
+    opt.textContent = slot;
+    select.appendChild(opt);
   });
-}
-
-function closeTimeDropdown() {
-  const trigger = document.getElementById('bk-time-trigger');
-  const dropdown = document.getElementById('bk-time-dropdown');
-  trigger.classList.remove('open');
-  dropdown.classList.remove('open');
 }
 
 if (dateInput) {
   renderTimeSlots(dateInput.value);
   dateInput.addEventListener('change', (e) => {
     renderTimeSlots(e.target.value);
-    document.getElementById('bk-time').value = '';
-    document.getElementById('bk-time-display').textContent = 'Select a time…';
-    closeTimeDropdown();
+    const sel = document.getElementById('bk-time-select');
+    if (sel) sel.value = '';
   });
 }
-
-const timeTrigger = document.getElementById('bk-time-trigger');
-const timeDropdown = document.getElementById('bk-time-dropdown');
-
-if (timeTrigger) {
-  timeTrigger.addEventListener('click', (e) => {
-    e.preventDefault();
-    timeTrigger.classList.toggle('open');
-    timeDropdown.classList.toggle('open');
-  });
-}
-
-document.addEventListener('click', (e) => {
-  const timeWrapper = document.querySelector('.bk-time-wrapper');
-  if (timeWrapper && !timeWrapper.contains(e.target)) {
-    closeTimeDropdown();
-  }
-});
 
 // === BOOKING FORM ===
 const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook/book-appointment";
@@ -474,7 +430,7 @@ if (bookingForm) {
       vehicle_model: document.getElementById('bk-model').value,
       plan: selectedSvc,
       date: document.getElementById('bk-date').value,
-      time_slot: convertTo24Hour(document.getElementById('bk-time').value),
+      time_slot: convertTo24Hour(document.getElementById('bk-time-select').value),
       pet_hair_removal: document.getElementById('bk-pet-hair') ? document.getElementById('bk-pet-hair').checked : false,
       flexible_timing: document.getElementById('bk-flexible') ? document.getElementById('bk-flexible').checked : false
     };
@@ -500,9 +456,7 @@ if (bookingForm) {
 
       // Success — show confirmation overlay
       bookingForm.reset();
-      document.getElementById('bk-time-display').textContent = 'Select a time…';
-      document.getElementById('bk-time').value = '';
-      closeTimeDropdown();
+      renderTimeSlots(document.getElementById('bk-date').value);
 
       // Populate confirmation details
       const detailsEl = document.getElementById('confirm-details');

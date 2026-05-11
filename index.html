@@ -249,21 +249,9 @@
           <div class="bk-row">
             <div class="bk-field" style="grid-column: span 2;">
               <label>Preferred Time</label>
-              <div class="bk-time-wrapper">
-                <button type="button" class="bk-time-trigger" id="bk-time-trigger">
-                  <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
-                    <i class="fas fa-clock"></i>
-                    <span id="bk-time-display">Select a time…</span>
-                  </div>
-                  <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="bk-time-dropdown" id="bk-time-dropdown">
-                  <div class="bk-time-slots" id="bk-time-slots">
-                    <p style="color: #94a3b8; font-size: 13px; text-align: center; grid-column: span 4; padding: 20px 0;">Select a date to see available times</p>
-                  </div>
-                </div>
-              </div>
-              <input type="hidden" id="bk-time" required>
+              <select id="bk-time-select" required>
+                <option value="" disabled selected>Select a time…</option>
+              </select>
             </div>
           </div>
           <div class="bk-row" style="margin-top: -10px; margin-bottom: 15px;">
