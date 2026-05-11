@@ -498,23 +498,61 @@ if (bookingForm) {
         throw new Error(`Server Error: ${response.status}`);
       }
 
-      // Success
-      btn.innerHTML = '<i class="fas fa-circle-check"></i> Confirmed!';
-      btn.style.background = '#10b981';
-      
-      msgEl.innerText = "Booking confirmed successfully (Test Mode).";
-      msgEl.style.color = "#10b981";
-      msgEl.style.display = 'block';
-
+      // Success — show confirmation overlay
       bookingForm.reset();
-      
-      // Reset button after 5 seconds
-      setTimeout(() => {
-        btn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
-        btn.style.background = '';
-        btn.disabled = false;
-        msgEl.style.display = 'none';
-      }, 5000);
+      document.getElementById('bk-time-display').textContent = 'Select a time…';
+      document.getElementById('bk-time').value = '';
+      closeTimeDropdown();
+
+      // Populate confirmation details
+      const detailsEl = document.getElementById('confirm-details');
+      const timeDisplay = payload.time_slot
+        ? (() => {
+            const [h, m] = payload.time_slot.split(':').map(Number);
+            const suffix = h >= 12 ? 'PM' : 'AM';
+            const h12 = h % 12 || 12;
+            return `${h12}:${m.toString().padStart(2,'0')} ${suffix}`;
+          })()
+        : 'Flexible';
+
+      const dateDisplay = payload.date
+        ? new Date(payload.date + 'T00:00:00').toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' })
+        : '—';
+
+      detailsEl.innerHTML = `
+        <div class="confirm-detail-row">
+          <i class="fas fa-user"></i>
+          <span class="confirm-detail-label">Name</span>
+          <span class="confirm-detail-value">${payload.client_name}</span>
+        </div>
+        <div class="confirm-detail-row">
+          <i class="fas fa-star"></i>
+          <span class="confirm-detail-label">Service</span>
+          <span class="confirm-detail-value">${payload.plan}</span>
+        </div>
+        <div class="confirm-detail-row">
+          <i class="fas fa-car"></i>
+          <span class="confirm-detail-label">Vehicle</span>
+          <span class="confirm-detail-value">${payload.vehicle_type}${payload.vehicle_model ? ' — ' + payload.vehicle_model : ''}</span>
+        </div>
+        <div class="confirm-detail-row">
+          <i class="fas fa-calendar"></i>
+          <span class="confirm-detail-label">Date</span>
+          <span class="confirm-detail-value">${dateDisplay}</span>
+        </div>
+        <div class="confirm-detail-row">
+          <i class="fas fa-clock"></i>
+          <span class="confirm-detail-label">Time</span>
+          <span class="confirm-detail-value">${timeDisplay}</span>
+        </div>
+      `;
+
+      document.getElementById('booking-confirmation').style.display = 'flex';
+
+      // Reset button
+      btn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
+      btn.style.background = '';
+      btn.disabled = false;
 
     } catch (error) {
       console.error('Booking Error:', error);

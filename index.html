@@ -131,6 +131,29 @@
     </div>
   </section>
 
+  <!-- ===== BOOKING CONFIRMATION OVERLAY ===== -->
+  <div id="booking-confirmation" class="booking-confirmation-overlay" style="display:none;">
+    <div class="booking-confirmation-card">
+      <div class="confirm-checkmark">
+        <svg class="confirm-svg" viewBox="0 0 52 52">
+          <circle class="confirm-circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="confirm-tick" fill="none" d="M14 27l8 8 16-16"/>
+        </svg>
+      </div>
+      <h2 class="confirm-title">Appointment Confirmed!</h2>
+      <p class="confirm-subtitle">Your booking has been received. We'll see you soon!</p>
+      <div class="confirm-details" id="confirm-details"></div>
+      <div class="confirm-actions">
+        <button class="btn-primary btn-lg" onclick="document.getElementById('booking-confirmation').style.display='none'; window.scrollTo({top:0,behavior:'smooth'});">
+          <i class="fas fa-house"></i> Back to Home
+        </button>
+        <button class="btn-outline-dark" onclick="document.getElementById('booking-confirmation').style.display='none';">
+          <i class="fas fa-calendar-plus"></i> Book Another
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== BOOKING ===== -->
   <section id="booking" class="booking section-pad bg-white">
     <div class="container">

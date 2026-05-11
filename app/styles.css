@@ -1694,6 +1694,175 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   line-height: 1.5;
 }
 
+/* =============================================
+   BOOKING CONFIRMATION OVERLAY
+   ============================================= */
+.booking-confirmation-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.65);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeInOverlay .3s ease;
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.booking-confirmation-card {
+  background: white;
+  border-radius: 24px;
+  padding: 52px 40px 44px;
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 80px rgba(15,23,42,.22);
+  animation: slideUpCard .4s cubic-bezier(.22,1,.36,1);
+}
+
+@keyframes slideUpCard {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Animated checkmark */
+.confirm-checkmark {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 28px;
+}
+
+.confirm-svg {
+  width: 90px;
+  height: 90px;
+}
+
+.confirm-circle {
+  stroke: #10b981;
+  stroke-width: 2.5;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: drawCircle .6s cubic-bezier(.65,0,.45,1) .2s forwards;
+}
+
+.confirm-tick {
+  stroke: #10b981;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: drawTick .4s cubic-bezier(.65,0,.45,1) .8s forwards;
+}
+
+@keyframes drawCircle {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes drawTick {
+  to { stroke-dashoffset: 0; }
+}
+
+.confirm-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+
+.confirm-subtitle {
+  color: var(--gray);
+  font-size: 15px;
+  margin-bottom: 28px;
+}
+
+.confirm-details {
+  background: var(--off);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.confirm-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--gray-lite);
+  font-size: 14px;
+}
+
+.confirm-detail-row:last-child { border-bottom: none; }
+
+.confirm-detail-row i {
+  color: var(--blue);
+  font-size: 15px;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.confirm-detail-label {
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--gray);
+  min-width: 80px;
+}
+
+.confirm-detail-value {
+  color: var(--navy);
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-outline-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: transparent;
+  color: var(--navy);
+  border: 2px solid var(--gray-lite);
+  border-radius: 50px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--tr);
+}
+
+.btn-outline-dark:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+@media (max-width: 480px) {
+  .booking-confirmation-card {
+    padding: 36px 24px 32px;
+  }
+  .confirm-title { font-size: 22px; }
+  .confirm-actions { flex-direction: column; }
+  .confirm-actions .btn-primary,
+  .confirm-actions .btn-outline-dark { width: 100%; justify-content: center; }
+}
+
 /* responsive for new sections */
 @media (max-width: 900px) {
   .booking-card     { grid-template-columns: 1fr; }
