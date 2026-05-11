@@ -3,7 +3,7 @@
    Multi-step booking wizard logic
    ============================================= */
 
-const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook/book-appointment";
+const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook/book-appointment?apikey=autolaviggo_secret_2026";
 
 // ===== BOOKING STATE =====
 const state = {
