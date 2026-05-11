@@ -363,12 +363,12 @@ async function submitBooking() {
   };
 
   try {
-    await fetch(N8N_WEBHOOK_URL, {
+    const res = await fetch(N8N_WEBHOOK_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
+    if (!res.ok) throw new Error('Server responded with ' + res.status);
 
     const dateFmt = state.date
       ? state.date.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })
