@@ -120,8 +120,9 @@ function validate(step) {
     state.fname = document.getElementById('bw-fname').value.trim();
     state.lname = document.getElementById('bw-lname').value.trim();
     state.phone = document.getElementById('bw-phone').value.trim();
-    if (!state.fname || !state.lname || !state.phone) { alert('Please fill in your name and phone number.'); return false; }
     state.email = document.getElementById('bw-email').value.trim();
+    if (!state.fname || !state.lname || !state.phone) { alert('Please fill in your name and phone number.'); return false; }
+    if (!state.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)) { alert('Please enter a valid email address.'); return false; }
     state.plate = document.getElementById('bw-plate').value.trim();
     state.notes = document.getElementById('bw-notes').value.trim();
   }
