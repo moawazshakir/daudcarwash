@@ -5,50 +5,105 @@
 
 const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook-test/book-appointment";
 
-// ===== CAR DATABASE (Italian market) =====
+// ===== CAR DATABASE — keyed by vehicle type (Italian market) =====
 const CAR_DATA = {
-  'Abarth':        ['124 Spider', '595', '695'],
-  'Alfa Romeo':    ['147', '156', '159', '166', '4C', 'Brera', 'Giulia', 'Giulietta', 'GTV', 'MiTo', 'Spider', 'Stelvio', 'Tonale'],
-  'Audi':          ['A1', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'e-tron', 'e-tron GT', 'Q2', 'Q3', 'Q3 Sportback', 'Q5', 'Q7', 'Q8', 'Q8 e-tron', 'R8', 'RS3', 'RS4', 'RS5', 'RS6', 'RS7', 'S3', 'S4', 'S5', 'SQ5', 'SQ7', 'SQ8', 'TT', 'TT RS'],
-  'BMW':           ['116i', '118i', '118d', '120d', '218i', '220d', '316i', '318i', '318d', '320i', '320d', '330i', '330d', '420i', '420d', '430i', '520i', '520d', '530i', '530d', '540i', '730d', '740i', '740d', '750i', 'i3', 'i4', 'i5', 'i7', 'iX', 'iX1', 'iX3', 'M2', 'M3', 'M4', 'M5', 'M8', 'X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'Z4'],
-  'BYD':           ['Atto 3', 'Dolphin', 'Han', 'Seal', 'Seal U', 'Sealion 6', 'Tang'],
-  'Citroën':       ['Ami', 'Berlingo', 'C1', 'C3', 'C3 Aircross', 'C4', 'C5 Aircross', 'C5 X', 'Jumpy', 'Ë-C4'],
-  'Cupra':         ['Ateca', 'Born', 'Formentor', 'Leon', 'Tavascan', 'Terramar'],
-  'Dacia':         ['Bigster', 'Duster', 'Jogger', 'Logan', 'Sandero', 'Spring'],
-  'DS':            ['DS 3', 'DS 3 Crossback', 'DS 4', 'DS 7', 'DS 7 Crossback', 'DS 9'],
-  'Ferrari':       ['296 GTB', '296 GTS', '458 Italia', '458 Spider', '488 GTB', '488 Pista', '488 Spider', 'California', 'California T', 'F8 Tributo', 'F8 Spider', 'GTC4Lusso', 'LaFerrari', 'Portofino', 'Portofino M', 'Purosangue', 'Roma', 'Roma Spider', 'SF90 Stradale', 'SF90 Spider'],
-  'Fiat':          ['500', '500C', '500e', '500L', '500X', 'Bravo', 'Doblò', 'Ducato', 'Fiorino', 'Freemont', 'Grande Punto', 'Multipla', 'Panda', 'Punto', 'Qubo', 'Scudo', 'Sedici', 'Stilo', 'Tipo'],
-  'Ford':          ['Bronco', 'EcoSport', 'Explorer', 'Fiesta', 'Focus', 'Galaxy', 'Kuga', 'Mondeo', 'Mustang', 'Mustang Mach-E', 'Puma', 'Ranger', 'S-Max', 'Transit', 'Transit Custom'],
-  'Honda':         ['Accord', 'CR-V', 'Civic', 'e', 'HR-V', 'Jazz', 'NSX', 'ZR-V'],
-  'Hyundai':       ['Bayon', 'i10', 'i20', 'i30', 'Ioniq 5', 'Ioniq 6', 'Ioniq 9', 'Kona', 'Kona Electric', 'Nexo', 'Santa Fe', 'Tucson'],
-  'Jaguar':        ['E-Pace', 'F-Pace', 'F-Type', 'I-Pace', 'XE', 'XF'],
-  'Jeep':          ['Avenger', 'Cherokee', 'Commander', 'Compass', 'Grand Cherokee', 'Renegade', 'Wrangler'],
-  'Kia':           ['Ceed', 'EV3', 'EV6', 'EV9', 'Niro', 'Niro EV', 'Picanto', 'ProCeed', 'Rio', 'Sorento', 'Soul', 'Sportage', 'Stinger', 'Stonic', 'XCeed'],
-  'Lamborghini':   ['Aventador', 'Countach', 'Diablo', 'Gallardo', 'Huracán', 'Murciélago', 'Revuelto', 'Sterrato', 'Urus'],
-  'Land Rover':    ['Defender', 'Discovery', 'Discovery Sport', 'Freelander', 'Range Rover', 'Range Rover Evoque', 'Range Rover Sport', 'Range Rover Velar'],
-  'Lancia':        ['Delta', 'Musa', 'Phedra', 'Thesis', 'Ypsilon'],
-  'Lexus':         ['ES', 'GX', 'IS', 'LC', 'LX', 'NX', 'RC', 'RX', 'RZ', 'UX'],
-  'Maserati':      ['Ghibli', 'GranCabrio', 'GranTurismo', 'Grecale', 'Levante', 'MC20', 'Quattroporte'],
-  'Mazda':         ['CX-3', 'CX-30', 'CX-5', 'CX-60', 'CX-80', 'Mazda2', 'Mazda3', 'Mazda6', 'MX-30', 'MX-5'],
-  'Mercedes-Benz': ['A 180', 'A 200', 'A 220', 'B 180', 'B 200', 'C 180', 'C 200', 'C 220d', 'C 300', 'CLA 180', 'CLA 200', 'CLS 350', 'E 200', 'E 220d', 'E 300', 'EQA 250', 'EQB 250', 'EQC 400', 'EQE 350', 'EQS 450', 'G 350d', 'G 500', 'GLA 180', 'GLA 200', 'GLB 200', 'GLC 220d', 'GLC 300', 'GLE 300d', 'GLE 350d', 'GLS 400d', 'S 350d', 'S 580', 'SL 43', 'SL 55', 'Sprinter', 'V 220d', 'Vito'],
-  'MG':            ['HS', 'MG3', 'MG4', 'MG5', 'ZS'],
-  'MINI':          ['Aceman', 'Clubman', 'Convertible', 'Countryman', 'Hatch 3-door', 'Hatch 5-door'],
-  'Mitsubishi':    ['ASX', 'Eclipse Cross', 'L200', 'Outlander', 'Space Star'],
-  'Nissan':        ['Ariya', 'Juke', 'Leaf', 'Micra', 'Navara', 'NV200', 'Qashqai', 'Townstar', 'X-Trail'],
-  'Opel':          ['Astra', 'Cascada', 'Combo', 'Corsa', 'Crossland', 'Grandland', 'Insignia', 'Mokka', 'Vivaro', 'Zafira'],
-  'Pagani':        ['Huayra', 'Utopia', 'Zonda'],
-  'Peugeot':       ['108', '208', '308', '408', '508', '2008', '3008', '5008', 'e-208', 'e-2008', 'Expert', 'Partner'],
-  'Porsche':       ['718 Boxster', '718 Cayman', '911 Carrera', '911 Targa', '911 Turbo', '911 GT3', 'Cayenne', 'Cayenne Coupe', 'Macan', 'Panamera', 'Taycan', 'Taycan Cross Turismo'],
-  'Renault':       ['Arkana', 'Austral', 'Captur', 'Clio', 'Espace', 'Kangoo', 'Koleos', 'Mégane', 'Rafale', 'Scenic', 'Symbioz', 'Trafic', 'Twingo', 'Zoé'],
-  'SEAT':          ['Arona', 'Ateca', 'Ibiza', 'Leon', 'Mii', 'Tarraco'],
-  'Škoda':         ['Enyaq', 'Fabia', 'Karoq', 'Kodiaq', 'Octavia', 'Scala', 'Superb'],
-  'Smart':         ['#1', '#3', 'EQ forfour', 'EQ fortwo'],
-  'Subaru':        ['BRZ', 'Forester', 'Impreza', 'Outback', 'WRX', 'XV'],
-  'Suzuki':        ['Across', 'Baleno', 'Ignis', 'Jimny', 'S-Cross', 'Swace', 'Swift', 'Vitara'],
-  'Tesla':         ['Cybertruck', 'Model 3', 'Model S', 'Model X', 'Model Y'],
-  'Toyota':        ['Aygo X', 'bZ4X', 'C-HR', 'Camry', 'Corolla', 'Corolla Cross', 'GR86', 'GR Yaris', 'GR Supra', 'Highlander', 'Land Cruiser', 'Prius', 'Proace', 'RAV4', 'Yaris', 'Yaris Cross'],
-  'Volkswagen':    ['Arteon', 'Caddy', 'Golf', 'Golf Plus', 'Golf Variant', 'ID.3', 'ID.4', 'ID.5', 'ID.7', 'Passat', 'Polo', 'Sharan', 'T-Cross', 'T-Roc', 'Tiguan', 'Tiguan Allspace', 'Touareg', 'Touran', 'Transporter', 'Up!'],
-  'Volvo':         ['C40', 'EX30', 'EX90', 'S60', 'S90', 'V60', 'V60 Cross Country', 'V90', 'V90 Cross Country', 'XC40', 'XC60', 'XC90'],
+  sedan: {
+    'Abarth':        ['124 Spider', '595', '695'],
+    'Alfa Romeo':    ['147', '156', '159', '166', '4C', 'Brera', 'Giulia', 'Giulietta', 'GTV', 'MiTo', 'Spider'],
+    'Audi':          ['A1', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'e-tron GT', 'R8', 'RS3', 'RS4', 'RS5', 'RS6', 'RS7', 'S3', 'S4', 'S5', 'TT', 'TT RS'],
+    'BMW':           ['116i', '118i', '118d', '120d', '218i', '220d', '316i', '318i', '318d', '320i', '320d', '330i', '330d', '420i', '420d', '430i', '520i', '520d', '530i', '530d', '540i', '730d', '740i', '740d', '750i', 'i3', 'i4', 'i5', 'i7', 'M2', 'M3', 'M4', 'M5', 'M8', 'Z4'],
+    'BYD':           ['Dolphin', 'Han', 'Seal'],
+    'Citroën':       ['Ami', 'C1', 'C3', 'C4', 'Ë-C4'],
+    'Cupra':         ['Born', 'Leon'],
+    'Dacia':         ['Logan', 'Sandero', 'Spring'],
+    'DS':            ['DS 3', 'DS 4', 'DS 9'],
+    'Ferrari':       ['296 GTB', '296 GTS', '458 Italia', '458 Spider', '488 GTB', '488 Pista', '488 Spider', 'California', 'California T', 'F8 Tributo', 'F8 Spider', 'GTC4Lusso', 'LaFerrari', 'Portofino', 'Portofino M', 'Roma', 'Roma Spider', 'SF90 Stradale', 'SF90 Spider'],
+    'Fiat':          ['500', '500C', '500e', '500L', 'Bravo', 'Grande Punto', 'Panda', 'Punto', 'Stilo', 'Tipo'],
+    'Ford':          ['Fiesta', 'Focus', 'Mondeo', 'Mustang', 'Mustang Mach-E', 'Puma'],
+    'Honda':         ['Accord', 'Civic', 'e', 'Jazz', 'NSX'],
+    'Hyundai':       ['i10', 'i20', 'i30', 'Ioniq 5', 'Ioniq 6'],
+    'Jaguar':        ['F-Type', 'XE', 'XF'],
+    'Kia':           ['Ceed', 'EV3', 'EV6', 'Picanto', 'ProCeed', 'Rio', 'Stinger'],
+    'Lamborghini':   ['Aventador', 'Countach', 'Diablo', 'Gallardo', 'Huracán', 'Murciélago', 'Revuelto'],
+    'Lancia':        ['Delta', 'Thesis', 'Ypsilon'],
+    'Lexus':         ['ES', 'IS', 'LC', 'RC'],
+    'Maserati':      ['Ghibli', 'GranCabrio', 'GranTurismo', 'MC20', 'Quattroporte'],
+    'Mazda':         ['Mazda2', 'Mazda3', 'Mazda6', 'MX-5'],
+    'Mercedes-Benz': ['A 180', 'A 200', 'A 220', 'B 180', 'B 200', 'C 180', 'C 200', 'C 220d', 'C 300', 'CLA 180', 'CLA 200', 'CLS 350', 'E 200', 'E 220d', 'E 300', 'EQE 350', 'EQS 450', 'S 350d', 'S 580', 'SL 43', 'SL 55'],
+    'MG':            ['MG3', 'MG4', 'MG5'],
+    'MINI':          ['Clubman', 'Convertible', 'Hatch 3-door', 'Hatch 5-door'],
+    'Nissan':        ['Leaf', 'Micra'],
+    'Opel':          ['Astra', 'Cascada', 'Corsa', 'Insignia'],
+    'Pagani':        ['Huayra', 'Utopia', 'Zonda'],
+    'Peugeot':       ['108', '208', '308', '408', '508', 'e-208'],
+    'Porsche':       ['718 Boxster', '718 Cayman', '911 Carrera', '911 GT3', '911 Targa', '911 Turbo', 'Panamera', 'Taycan', 'Taycan Cross Turismo'],
+    'Renault':       ['Arkana', 'Clio', 'Mégane', 'Twingo', 'Zoé'],
+    'SEAT':          ['Ibiza', 'Leon', 'Mii'],
+    'Škoda':         ['Fabia', 'Octavia', 'Scala', 'Superb'],
+    'Smart':         ['EQ forfour', 'EQ fortwo'],
+    'Subaru':        ['BRZ', 'Impreza', 'WRX'],
+    'Suzuki':        ['Baleno', 'Ignis', 'Swift', 'Swace'],
+    'Tesla':         ['Model 3', 'Model S'],
+    'Toyota':        ['Aygo X', 'Camry', 'Corolla', 'GR86', 'GR Supra', 'GR Yaris', 'Prius', 'Yaris'],
+    'Volkswagen':    ['Arteon', 'Golf', 'Golf Plus', 'Golf Variant', 'ID.3', 'ID.7', 'Passat', 'Polo', 'Up!'],
+    'Volvo':         ['S60', 'S90', 'V60', 'V60 Cross Country', 'V90', 'V90 Cross Country'],
+  },
+  suv: {
+    'Alfa Romeo':    ['Stelvio', 'Tonale'],
+    'Audi':          ['e-tron', 'Q2', 'Q3', 'Q3 Sportback', 'Q5', 'Q7', 'Q8', 'Q8 e-tron', 'SQ5', 'SQ7', 'SQ8'],
+    'BMW':           ['iX', 'iX1', 'iX3', 'X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7'],
+    'BYD':           ['Atto 3', 'Seal U', 'Sealion 6', 'Tang'],
+    'Citroën':       ['C3 Aircross', 'C5 Aircross', 'C5 X'],
+    'Cupra':         ['Ateca', 'Formentor', 'Tavascan', 'Terramar'],
+    'Dacia':         ['Bigster', 'Duster'],
+    'DS':            ['DS 3 Crossback', 'DS 7', 'DS 7 Crossback'],
+    'Fiat':          ['500X', 'Freemont', 'Sedici'],
+    'Ford':          ['Bronco', 'EcoSport', 'Explorer', 'Kuga'],
+    'Honda':         ['CR-V', 'HR-V', 'ZR-V'],
+    'Hyundai':       ['Bayon', 'Ioniq 9', 'Kona', 'Kona Electric', 'Nexo', 'Santa Fe', 'Tucson'],
+    'Jaguar':        ['E-Pace', 'F-Pace', 'I-Pace'],
+    'Jeep':          ['Avenger', 'Cherokee', 'Commander', 'Compass', 'Grand Cherokee', 'Renegade', 'Wrangler'],
+    'Kia':           ['EV9', 'Niro', 'Niro EV', 'Sorento', 'Soul', 'Sportage', 'Stonic', 'XCeed'],
+    'Lamborghini':   ['Sterrato', 'Urus'],
+    'Land Rover':    ['Defender', 'Discovery', 'Discovery Sport', 'Freelander', 'Range Rover', 'Range Rover Evoque', 'Range Rover Sport', 'Range Rover Velar'],
+    'Lexus':         ['GX', 'LX', 'NX', 'RX', 'RZ', 'UX'],
+    'Maserati':      ['Grecale', 'Levante'],
+    'Mazda':         ['CX-3', 'CX-30', 'CX-5', 'CX-60', 'CX-80', 'MX-30'],
+    'Mercedes-Benz': ['EQA 250', 'EQB 250', 'EQC 400', 'G 350d', 'G 500', 'GLA 180', 'GLA 200', 'GLB 200', 'GLC 220d', 'GLC 300', 'GLE 300d', 'GLE 350d', 'GLS 400d'],
+    'MG':            ['HS', 'ZS'],
+    'MINI':          ['Aceman', 'Countryman'],
+    'Mitsubishi':    ['ASX', 'Eclipse Cross', 'Outlander'],
+    'Nissan':        ['Ariya', 'Juke', 'Qashqai', 'X-Trail'],
+    'Opel':          ['Crossland', 'Grandland', 'Mokka'],
+    'Peugeot':       ['2008', '3008', '5008', 'e-2008'],
+    'Porsche':       ['Cayenne', 'Cayenne Coupe', 'Macan'],
+    'Renault':       ['Austral', 'Captur', 'Espace', 'Koleos', 'Rafale', 'Scenic', 'Symbioz'],
+    'SEAT':          ['Arona', 'Ateca', 'Tarraco'],
+    'Škoda':         ['Enyaq', 'Kamiq', 'Karoq', 'Kodiaq'],
+    'Smart':         ['#1', '#3'],
+    'Subaru':        ['Forester', 'Outback', 'XV'],
+    'Suzuki':        ['Across', 'Jimny', 'S-Cross', 'Vitara'],
+    'Tesla':         ['Cybertruck', 'Model X', 'Model Y'],
+    'Toyota':        ['bZ4X', 'C-HR', 'Corolla Cross', 'Highlander', 'Land Cruiser', 'RAV4', 'Yaris Cross'],
+    'Volkswagen':    ['ID.4', 'ID.5', 'T-Cross', 'T-Roc', 'Tiguan', 'Tiguan Allspace', 'Touareg'],
+    'Volvo':         ['C40', 'EX30', 'EX90', 'XC40', 'XC60', 'XC90'],
+  },
+  van: {
+    'Citroën':       ['Berlingo', 'Jumpy'],
+    'Dacia':         ['Jogger'],
+    'Fiat':          ['Doblò', 'Ducato', 'Fiorino', 'Multipla', 'Qubo', 'Scudo'],
+    'Ford':          ['Galaxy', 'S-Max', 'Transit', 'Transit Custom'],
+    'Kia':           ['Carnival'],
+    'Lancia':        ['Musa', 'Phedra'],
+    'Mercedes-Benz': ['Sprinter', 'V 220d', 'Vito'],
+    'Mitsubishi':    ['L200'],
+    'Nissan':        ['Navara', 'NV200', 'Townstar'],
+    'Opel':          ['Combo', 'Vivaro', 'Zafira'],
+    'Peugeot':       ['Expert', 'Partner'],
+    'Renault':       ['Kangoo', 'Trafic'],
+    'Toyota':        ['Proace'],
+    'Volkswagen':    ['Caddy', 'Sharan', 'Touran', 'Transporter'],
+  },
 };
 
 // ===== BOOKING STATE =====
@@ -143,6 +198,9 @@ function validate(step) {
     state.model = document.getElementById('bw-model').value;
     if (!state.brand) { alert('Please select your car brand.'); return false; }
     if (!state.model) { alert('Please select your car model.'); return false; }
+    if (state.vehicleType === 'suv' && !state.addons.suvseater) {
+      alert('Please select the number of seats for your SUV.'); return false;
+    }
   }
   if (step === 4 && !state.time) {
     alert('Please select a date and time to continue.'); return false;
@@ -207,19 +265,45 @@ function selectPkg(id) {
 }
 
 // ===== STEP 3: VEHICLE + ADDONS =====
+function refreshBrands() {
+  const data     = CAR_DATA[state.vehicleType] || {};
+  const brandSel = document.getElementById('bw-brand');
+  const modelSel = document.getElementById('bw-model');
+  brandSel.innerHTML = '<option value="">Select brand…</option>';
+  Object.keys(data).sort().forEach(brand => {
+    const opt = document.createElement('option');
+    opt.value = brand; opt.textContent = brand;
+    brandSel.appendChild(opt);
+  });
+  modelSel.innerHTML = '<option value="">Select a brand first…</option>';
+  modelSel.disabled = true;
+  state.brand = ''; state.model = '';
+}
+
 document.querySelectorAll('.bw-vtype').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.bw-vtype').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     state.vehicleType = btn.dataset.vtype;
-    const suvCard = document.getElementById('suv-seater-card');
-    if (suvCard) {
-      suvCard.style.display = state.vehicleType === 'suv' ? '' : 'none';
+
+    const suvInline = document.getElementById('suv-seater-inline');
+    if (suvInline) {
+      suvInline.style.display = state.vehicleType === 'suv' ? '' : 'none';
       if (state.vehicleType !== 'suv') {
         state.addons.suvseater = 0;
-        suvCard.querySelectorAll('.bw-yn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.bw-suv-seat').forEach(b => b.classList.remove('active'));
       }
     }
+    refreshBrands();
+    updatePrice();
+  });
+});
+
+document.querySelectorAll('.bw-suv-seat').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.bw-suv-seat').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.addons.suvseater = parseInt(btn.dataset.seats);
     updatePrice();
   });
 });
@@ -462,13 +546,11 @@ function resetWizard() {
   document.querySelectorAll('.bw-cat-card').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('.bw-yn-no').forEach(b => b.classList.add('active'));
   document.querySelectorAll('.bw-yn-yes').forEach(b => b.classList.remove('active'));
-  const suvCard = document.getElementById('suv-seater-card');
-  if (suvCard) suvCard.style.display = 'none';
+  const suvInline = document.getElementById('suv-seater-inline');
+  if (suvInline) suvInline.style.display = 'none';
+  document.querySelectorAll('.bw-suv-seat').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.bw-vtype').forEach((b, i) => b.classList.toggle('active', i === 0));
-  document.getElementById('bw-brand').value = '';
-  const modelSel = document.getElementById('bw-model');
-  modelSel.innerHTML = '<option value="">Select a brand first…</option>';
-  modelSel.disabled = true;
+  refreshBrands();
   goTo(1);
 }
 
@@ -476,13 +558,6 @@ function resetWizard() {
 function populateBrands() {
   const brandSel = document.getElementById('bw-brand');
   const modelSel = document.getElementById('bw-model');
-
-  Object.keys(CAR_DATA).sort().forEach(brand => {
-    const opt = document.createElement('option');
-    opt.value = brand;
-    opt.textContent = brand;
-    brandSel.appendChild(opt);
-  });
 
   brandSel.addEventListener('change', () => {
     const brand = brandSel.value;
@@ -493,12 +568,12 @@ function populateBrands() {
       modelSel.disabled = true;
       return;
     }
+    const models = (CAR_DATA[state.vehicleType] || {})[brand] || [];
     modelSel.disabled = false;
     modelSel.innerHTML = '<option value="">Select model…</option>';
-    CAR_DATA[brand].forEach(model => {
+    models.forEach(model => {
       const opt = document.createElement('option');
-      opt.value = model;
-      opt.textContent = model;
+      opt.value = model; opt.textContent = model;
       modelSel.appendChild(opt);
     });
   });
@@ -506,6 +581,8 @@ function populateBrands() {
   modelSel.addEventListener('change', () => {
     state.model = modelSel.value;
   });
+
+  refreshBrands();
 }
 
 // ===== INIT =====
