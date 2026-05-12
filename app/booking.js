@@ -219,17 +219,15 @@ function validate(step) {
 }
 
 // ===== STEP 1: CATEGORY =====
-document.querySelectorAll('.bw-cat-card').forEach(card => {
-  card.addEventListener('click', () => {
-    document.querySelectorAll('.bw-cat-card').forEach(c => c.classList.remove('active'));
-    card.classList.add('active');
-    state.category     = card.dataset.cat;
-    state.categoryName = CAT_NAMES[state.category];
-    state.packageId    = null;
-    renderPackages();
-    setTimeout(() => goTo(2), 180);
-  });
-});
+function selectCat(card) {
+  document.querySelectorAll('.bw-cat-card').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+  state.category     = card.dataset.cat;
+  state.categoryName = CAT_NAMES[state.category];
+  state.packageId    = null;
+  renderPackages();
+  setTimeout(() => goTo(2), 180);
+}
 
 // ===== STEP 2: PACKAGES =====
 function renderPackages() {
@@ -269,6 +267,7 @@ function refreshBrands() {
   const data     = CAR_DATA[state.vehicleType] || {};
   const brandSel = document.getElementById('bw-brand');
   const modelSel = document.getElementById('bw-model');
+  if (!brandSel || !modelSel) return;
   brandSel.innerHTML = '<option value="">Select brand…</option>';
   Object.keys(data).sort().forEach(brand => {
     const opt = document.createElement('option');
@@ -280,46 +279,39 @@ function refreshBrands() {
   state.brand = ''; state.model = '';
 }
 
-document.querySelectorAll('.bw-vtype').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.bw-vtype').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    state.vehicleType = btn.dataset.vtype;
-
-    const suvInline = document.getElementById('suv-seater-inline');
-    if (suvInline) {
-      suvInline.style.display = state.vehicleType === 'suv' ? '' : 'none';
-      if (state.vehicleType !== 'suv') {
-        state.addons.suvseater = 0;
-        document.querySelectorAll('.bw-suv-seat').forEach(b => b.classList.remove('active'));
-      }
+function handleVtype(btn) {
+  document.querySelectorAll('.bw-vtype').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.vehicleType = btn.dataset.vtype;
+  const suvInline = document.getElementById('suv-seater-inline');
+  if (suvInline) {
+    suvInline.style.display = state.vehicleType === 'suv' ? '' : 'none';
+    if (state.vehicleType !== 'suv') {
+      state.addons.suvseater = 0;
+      document.querySelectorAll('.bw-suv-seat').forEach(b => b.classList.remove('active'));
     }
-    refreshBrands();
-    updatePrice();
-  });
-});
+  }
+  refreshBrands();
+  updatePrice();
+}
 
-document.querySelectorAll('.bw-suv-seat').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.bw-suv-seat').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    state.addons.suvseater = parseInt(btn.dataset.seats);
-    updatePrice();
-  });
-});
+function handleSuvSeat(btn) {
+  document.querySelectorAll('.bw-suv-seat').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.addons.suvseater = parseInt(btn.dataset.seats);
+  updatePrice();
+}
 
-document.querySelectorAll('.bw-yn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const addon = btn.dataset.addon;
-    const val   = btn.dataset.val;
-    if (val === 'no')   state.addons[addon] = false;
-    else if (val === 'yes') state.addons[addon] = true;
-    else                state.addons[addon] = parseInt(val);
-    btn.closest('.bw-addon-card').querySelectorAll('.bw-yn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    updatePrice();
-  });
-});
+function handleAddon(btn) {
+  const addon = btn.dataset.addon;
+  const val   = btn.dataset.val;
+  if (val === 'no')        state.addons[addon] = false;
+  else if (val === 'yes')  state.addons[addon] = true;
+  else                     state.addons[addon] = parseInt(val);
+  btn.closest('.bw-addon-card').querySelectorAll('.bw-yn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updatePrice();
+}
 
 function updatePrice() {
   if (!state.category || !state.packageId) return;

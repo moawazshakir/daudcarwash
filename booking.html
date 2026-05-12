@@ -69,17 +69,17 @@
       <h2 class="bw-title">Choose a Service Category</h2>
       <p class="bw-sub">Select the type of service you need for your vehicle</p>
       <div class="bw-cat-grid">
-        <button class="bw-cat-card" data-cat="carwash">
+        <button type="button" class="bw-cat-card" data-cat="carwash" onclick="selectCat(this)">
           <div class="bw-cat-icon"><i class="fas fa-car-side"></i></div>
           <strong>Car Wash</strong>
           <span>Complete exterior &amp; interior cleaning</span>
         </button>
-        <button class="bw-cat-card" data-cat="interior">
+        <button type="button" class="bw-cat-card" data-cat="interior" onclick="selectCat(this)">
           <div class="bw-cat-icon"><i class="fas fa-couch"></i></div>
           <strong>Interior Detailing</strong>
           <span>Deep clean seats, carpets &amp; dashboard</span>
         </button>
-        <button class="bw-cat-card" data-cat="engine">
+        <button type="button" class="bw-cat-card" data-cat="engine" onclick="selectCat(this)">
           <div class="bw-cat-icon"><i class="fas fa-gears"></i></div>
           <strong>Engine Cleaning</strong>
           <span>Safe &amp; detailed engine bay cleaning</span>
@@ -93,7 +93,7 @@
       <p class="bw-sub">Choose the package that best suits your needs</p>
       <div class="bw-pkg-list" id="pkg-list"></div>
       <div class="bw-nav">
-        <button class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
       </div>
     </section>
 
@@ -108,15 +108,15 @@
           <div class="bw-block">
             <h3 class="bw-block-title">Vehicle Type</h3>
             <div class="bw-vtype-row">
-              <button class="bw-vtype active" data-vtype="sedan"><i class="fas fa-car"></i> Sedan</button>
-              <button class="bw-vtype" data-vtype="suv"><i class="fas fa-truck-monster"></i> SUV</button>
-              <button class="bw-vtype" data-vtype="van"><i class="fas fa-van-shuttle"></i> Van / Minivan</button>
+              <button type="button" class="bw-vtype active" data-vtype="sedan" onclick="handleVtype(this)"><i class="fas fa-car"></i> Sedan</button>
+              <button type="button" class="bw-vtype" data-vtype="suv" onclick="handleVtype(this)"><i class="fas fa-truck-monster"></i> SUV</button>
+              <button type="button" class="bw-vtype" data-vtype="van" onclick="handleVtype(this)"><i class="fas fa-van-shuttle"></i> Van / Minivan</button>
             </div>
             <div id="suv-seater-inline" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
               <p class="bw-block-subtitle">How many seats does your SUV have?</p>
               <div class="bw-vtype-row">
-                <button class="bw-suv-seat" data-seats="5"><i class="fas fa-users"></i> 5 Seats <span>+€13</span></button>
-                <button class="bw-suv-seat" data-seats="7"><i class="fas fa-users"></i> 7 Seats <span>+€20</span></button>
+                <button type="button" class="bw-suv-seat" data-seats="5" onclick="handleSuvSeat(this)"><i class="fas fa-users"></i> 5 Seats <span>+€13</span></button>
+                <button type="button" class="bw-suv-seat" data-seats="7" onclick="handleSuvSeat(this)"><i class="fas fa-users"></i> 7 Seats <span>+€20</span></button>
               </div>
             </div>
           </div>
@@ -126,13 +126,13 @@
             <div class="bw-two-col">
               <div class="bw-field">
                 <label>Car Brand *</label>
-                <select id="bw-brand">
+                <select id="bw-brand" autocomplete="off">
                   <option value="">Select brand…</option>
                 </select>
               </div>
               <div class="bw-field">
                 <label>Model *</label>
-                <select id="bw-model" disabled>
+                <select id="bw-model" disabled autocomplete="off">
                   <option value="">Select a brand first…</option>
                 </select>
               </div>
@@ -148,8 +148,8 @@
                 <div class="bw-addon-body">
                   <p class="bw-addon-q">Is there animal / pet hair on the seats?</p>
                   <div class="bw-yn-row">
-                    <button class="bw-yn bw-yn-yes" data-addon="pethair" data-val="yes">YES <span>+€10</span></button>
-                    <button class="bw-yn bw-yn-no active" data-addon="pethair" data-val="no">NO</button>
+                    <button type="button" class="bw-yn bw-yn-yes" data-addon="pethair" data-val="yes" onclick="handleAddon(this)">YES <span>+€10</span></button>
+                    <button type="button" class="bw-yn bw-yn-no active" data-addon="pethair" data-val="no" onclick="handleAddon(this)">NO</button>
                   </div>
                 </div>
               </div>
@@ -159,8 +159,8 @@
                 <div class="bw-addon-body">
                   <p class="bw-addon-q">Are there bird droppings or resin stains on the exterior?</p>
                   <div class="bw-yn-row">
-                    <button class="bw-yn bw-yn-yes" data-addon="stains" data-val="yes">YES <span>+€10</span></button>
-                    <button class="bw-yn bw-yn-no active" data-addon="stains" data-val="no">NO</button>
+                    <button type="button" class="bw-yn bw-yn-yes" data-addon="stains" data-val="yes" onclick="handleAddon(this)">YES <span>+€10</span></button>
+                    <button type="button" class="bw-yn bw-yn-no active" data-addon="stains" data-val="no" onclick="handleAddon(this)">NO</button>
                   </div>
                 </div>
               </div>
@@ -170,8 +170,8 @@
                 <div class="bw-addon-body">
                   <p class="bw-addon-q">Is the interior heavily soiled or very dirty?</p>
                   <div class="bw-yn-row">
-                    <button class="bw-yn bw-yn-yes" data-addon="dirtinterior" data-val="yes">YES <span>+€5</span></button>
-                    <button class="bw-yn bw-yn-no active" data-addon="dirtinterior" data-val="no">NO</button>
+                    <button type="button" class="bw-yn bw-yn-yes" data-addon="dirtinterior" data-val="yes" onclick="handleAddon(this)">YES <span>+€5</span></button>
+                    <button type="button" class="bw-yn bw-yn-no active" data-addon="dirtinterior" data-val="no" onclick="handleAddon(this)">NO</button>
                   </div>
                 </div>
               </div>
@@ -222,8 +222,8 @@
 
       </div>
       <div class="bw-nav">
-        <button class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
-        <button class="bw-btn-next" onclick="nextStep()">Continue <i class="fas fa-arrow-right"></i></button>
+        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+        <button type="button" class="bw-btn-next" onclick="nextStep()">Continue <i class="fas fa-arrow-right"></i></button>
       </div>
     </section>
 
@@ -235,9 +235,9 @@
         <!-- Calendar -->
         <div class="bw-cal-wrap">
           <div class="bw-cal-nav">
-            <button class="bw-cal-arrow" onclick="calPrev()"><i class="fas fa-chevron-left"></i></button>
+            <button type="button" class="bw-cal-arrow" onclick="calPrev()"><i class="fas fa-chevron-left"></i></button>
             <span class="bw-cal-month" id="cal-month">May 2026</span>
-            <button class="bw-cal-arrow" onclick="calNext()"><i class="fas fa-chevron-right"></i></button>
+            <button type="button" class="bw-cal-arrow" onclick="calNext()"><i class="fas fa-chevron-right"></i></button>
           </div>
           <div class="bw-cal-grid" id="cal-grid">
             <!-- Rendered by JS -->
@@ -252,8 +252,8 @@
 
       </div>
       <div class="bw-nav">
-        <button class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
-        <button class="bw-btn-next" id="btn-s4-next" onclick="nextStep()" disabled>Continue <i class="fas fa-arrow-right"></i></button>
+        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+        <button type="button" class="bw-btn-next" id="btn-s4-next" onclick="nextStep()" disabled>Continue <i class="fas fa-arrow-right"></i></button>
       </div>
     </section>
 
@@ -296,8 +296,8 @@
         </div>
       </div>
       <div class="bw-nav">
-        <button class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
-        <button class="bw-btn-next" onclick="nextStep()">Go to Summary <i class="fas fa-arrow-right"></i></button>
+        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+        <button type="button" class="bw-btn-next" onclick="nextStep()">Go to Summary <i class="fas fa-arrow-right"></i></button>
       </div>
     </section>
 
@@ -311,13 +311,13 @@
           <span>Total Amount</span>
           <strong id="summary-total">€0</strong>
         </div>
-        <button class="bw-btn-confirm" id="btn-confirm" onclick="submitBooking()">
+        <button type="button" class="bw-btn-confirm" id="btn-confirm" onclick="submitBooking()">
           <i class="fas fa-calendar-check"></i> Confirm Appointment
         </button>
         <div id="bw-err" style="display:none;color:#dc2626;text-align:center;margin-top:14px;font-size:14px;font-weight:600;"></div>
       </div>
       <div class="bw-nav" style="margin-top:24px;">
-        <button class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
       </div>
     </section>
 
@@ -337,7 +337,7 @@
       <div class="bw-overlay-details" id="overlay-details"></div>
       <div class="bw-overlay-actions">
         <a href="index.html" class="bw-ol-home"><i class="fas fa-house"></i> Back to Home</a>
-        <button class="bw-ol-again" onclick="resetWizard()"><i class="fas fa-calendar-plus"></i> Book Another</button>
+        <button type="button" class="bw-ol-again" onclick="resetWizard()"><i class="fas fa-calendar-plus"></i> Book Another</button>
       </div>
     </div>
   </div>

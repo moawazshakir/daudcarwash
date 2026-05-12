@@ -291,6 +291,7 @@ body {
 .bw-field select:focus { border-color: var(--blue); background: white; }
 .bw-field textarea { resize: vertical; }
 .bw-field select {
+  -webkit-appearance: none;
   appearance: none;
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -298,7 +299,7 @@ body {
   background-position: right 14px center;
   padding-right: 38px;
 }
-.bw-field select:disabled { opacity: 0.5; cursor: not-allowed; }
+.bw-field select:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
 
 /* Phone row */
 .bw-phone-row {
@@ -511,6 +512,25 @@ body {
   .bw-form-wrap    { padding: 20px; }
   .bw-summary-wrap { padding: 20px; }
   .bw-summary-row  { grid-template-columns: 24px 100px 1fr; gap: 8px; }
+
+  /* Prevent iOS Safari from auto-zooming on tap (requires font-size >= 16px) */
+  .bw-field input,
+  .bw-field textarea,
+  .bw-field select { font-size: 16px; }
+
+  /* Restore native select on mobile — appearance:none breaks Android Chrome's
+     native picker dialog and can cause Samsung/WebView browsers to show an
+     empty or non-interactive dropdown */
+  .bw-field select {
+    -webkit-appearance: menulist-button;
+    appearance: auto;
+    background-image: none;
+    padding-right: 14px;
+  }
+
+  /* Prevent 300ms tap delay on interactive elements */
+  .bw-vtype, .bw-suv-seat, .bw-yn, .bw-btn-next, .bw-btn-back,
+  .bw-cat-card, .bw-pkg-card, .bw-slot, .bw-cal-day { touch-action: manipulation; }
 
   .bw-overlay-card    { padding: 30px 18px; }
   .bw-overlay-actions { flex-direction: column; }
