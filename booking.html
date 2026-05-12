@@ -79,11 +79,6 @@
           <strong>Interior Detailing</strong>
           <span>Deep clean seats, carpets &amp; dashboard</span>
         </button>
-        <button class="bw-cat-card" data-cat="polish">
-          <div class="bw-cat-icon"><i class="fas fa-shield-halved"></i></div>
-          <strong>Polish &amp; Protection</strong>
-          <span>Wax, sealant &amp; paint protection</span>
-        </button>
         <button class="bw-cat-card" data-cat="engine">
           <div class="bw-cat-icon"><i class="fas fa-gears"></i></div>
           <strong>Engine Cleaning</strong>
@@ -142,7 +137,7 @@
                 <div class="bw-addon-body">
                   <p class="bw-addon-q">Is there animal / pet hair on the seats?</p>
                   <div class="bw-yn-row">
-                    <button class="bw-yn bw-yn-yes" data-addon="pethair" data-val="yes">YES <span>+€15</span></button>
+                    <button class="bw-yn bw-yn-yes" data-addon="pethair" data-val="yes">YES <span>+€10</span></button>
                     <button class="bw-yn bw-yn-no active" data-addon="pethair" data-val="no">NO</button>
                   </div>
                 </div>
@@ -155,6 +150,28 @@
                   <div class="bw-yn-row">
                     <button class="bw-yn bw-yn-yes" data-addon="stains" data-val="yes">YES <span>+€10</span></button>
                     <button class="bw-yn bw-yn-no active" data-addon="stains" data-val="no">NO</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bw-addon-card" id="suv-seater-card" style="display:none">
+                <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&auto=format&fit=crop&q=80" alt="SUV seating">
+                <div class="bw-addon-body">
+                  <p class="bw-addon-q">How many seats does your SUV have?</p>
+                  <div class="bw-yn-row">
+                    <button class="bw-yn bw-yn-yes" data-addon="suvseater" data-val="7">7 SEATS <span>+€20</span></button>
+                    <button class="bw-yn bw-yn-yes" data-addon="suvseater" data-val="5">5 SEATS <span>+€13</span></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bw-addon-card">
+                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&auto=format&fit=crop&q=80" alt="Dirty car interior">
+                <div class="bw-addon-body">
+                  <p class="bw-addon-q">Is the interior heavily soiled or very dirty?</p>
+                  <div class="bw-yn-row">
+                    <button class="bw-yn bw-yn-yes" data-addon="dirtinterior" data-val="yes">YES <span>+€5</span></button>
+                    <button class="bw-yn bw-yn-no active" data-addon="dirtinterior" data-val="no">NO</button>
                   </div>
                 </div>
               </div>
@@ -181,11 +198,19 @@
               </div>
               <div class="bw-price-row bw-addon-row" id="row-pethair" style="display:none">
                 <span>Pet hair removal</span>
-                <span>+€15</span>
+                <span>+€10</span>
               </div>
               <div class="bw-price-row bw-addon-row" id="row-stains" style="display:none">
                 <span>Stain treatment</span>
                 <span>+€10</span>
+              </div>
+              <div class="bw-price-row bw-addon-row" id="row-suvseater" style="display:none">
+                <span>SUV seater surcharge</span>
+                <span id="row-suvseater-amt">+€0</span>
+              </div>
+              <div class="bw-price-row bw-addon-row" id="row-dirtinterior" style="display:none">
+                <span>Heavy soiling surcharge</span>
+                <span>+€5</span>
               </div>
             </div>
             <div class="bw-price-total">

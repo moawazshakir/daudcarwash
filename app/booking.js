@@ -3,7 +3,7 @@
    Multi-step booking wizard logic
    ============================================= */
 
-const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook/book-appointment?apikey=autolaviggo_secret_2026";
+const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook-test/book-appointment";
 
 // ===== BOOKING STATE =====
 const state = {
@@ -12,7 +12,7 @@ const state = {
   packageId: null, packageName: '',
   vehicleType: 'sedan',
   brand: '', model: '',
-  addons: { pethair: false, stains: false },
+  addons: { pethair: false, stains: false, suvseater: 0, dirtinterior: false },
   calYear: null, calMonth: null,
   date: null, dateStr: '',
   time: null,
@@ -25,7 +25,7 @@ const PACKAGES = {
   carwash: [
     { id: 'basic',    name: 'Basic Wash',     desc: 'Exterior hand wash, wheel & window cleaning',            price: { sedan: 15, suv: 22, van: 28 }, dur: 30,
       features: ['Exterior Hand Wash', 'Wheel Cleaning', 'Window Cleaning'] },
-    { id: 'standard', name: 'Standard Wash',  desc: 'Full exterior + interior vacuum & dashboard wipe',       price: { sedan: 35, suv: 45, van: 55 }, dur: 60, popular: true,
+    { id: 'standard', name: 'Standard Wash',  desc: 'Full exterior + interior vacuum & dashboard wipe',       price: { sedan: 20, suv: 28, van: 35 }, dur: 60, popular: true,
       features: ['Exterior Hand Wash', 'Wheel Cleaning', 'Interior Vacuum', 'Dashboard Wipe-Down'] },
     { id: 'premium',  name: 'Premium Wash',   desc: 'Standard + wax, polish & tire dressing',                 price: { sedan: 65, suv: 85, van: 100 }, dur: 90,
       features: ['Full Standard Package', 'Wax & Polish', 'Tire Dressing', 'Air Freshener'] },
@@ -42,31 +42,15 @@ const PACKAGES = {
     { id: 'elite',    name: 'Interior Elite',      desc: 'Complete interior detail & UV sanitization',        price: { sedan: 120, suv: 155, van: 180 }, dur: 180,
       features: ['Full Premium Package', 'UV Sanitization', 'Headliner Clean', 'Trunk Detail'] },
   ],
-  polish: [
-    { id: 'basic',    name: 'Hand Wax',          desc: 'Hand-applied carnauba wax for shine & protection',    price: { sedan: 30, suv: 38, van: 45 }, dur: 60,
-      features: ['Hand Car Wash', 'Carnauba Wax', 'Tire Dressing'] },
-    { id: 'standard', name: 'Machine Polish',    desc: 'Machine polish to remove light scratches & swirls',   price: { sedan: 55, suv: 70, van: 85 }, dur: 120, popular: true,
-      features: ['Hand Wash', 'Clay Bar Treatment', 'Machine Polish', 'Wax Finish'] },
-    { id: 'premium',  name: 'Paint Correction',  desc: 'Multi-stage correction for deeper scratches',         price: { sedan: 90, suv: 115, van: 140 }, dur: 180,
-      features: ['Full Machine Polish', '2-Stage Paint Correction', 'Paint Sealant', 'Ceramic Spray'] },
-    { id: 'elite',    name: 'Ceramic Coating',   desc: 'Professional ceramic coat — 2-year protection',       price: { sedan: 140, suv: 175, van: 210 }, dur: 240,
-      features: ['Full Paint Correction', 'Professional Ceramic Coat', '2-Year Protection', 'Full Detail'] },
-  ],
   engine: [
     { id: 'basic',    name: 'Engine Rinse',   desc: 'Basic engine bay degreasing & rinse',                    price: { sedan: 20, suv: 25, van: 30 }, dur: 30,
       features: ['Degreaser Application', 'Pressure Rinse', 'Air Blow Dry'] },
-    { id: 'standard', name: 'Engine Clean',   desc: 'Thorough engine clean with protective dressing',         price: { sedan: 40, suv: 50, van: 60 }, dur: 60, popular: true,
-      features: ['Full Degreasing', 'Pressure Clean', 'Engine Dressing', 'Plastic Trim Polish'] },
-    { id: 'premium',  name: 'Engine Detail',  desc: 'Full engine detailing — every component cleaned',        price: { sedan: 65, suv: 80, van: 95 }, dur: 90,
-      features: ['Deep Engine Clean', 'Component Detailing', 'Rubber Protectant', 'Hose & Wire Cleaning'] },
-    { id: 'elite',    name: 'Engine Restore', desc: 'Complete engine restoration to showroom condition',       price: { sedan: 95, suv: 120, van: 145 }, dur: 120,
-      features: ['Full Engine Detail', 'Chrome Polish', 'Heat Shield Treatment', 'Before & After Photos'] },
   ],
 };
 
-const CAT_NAMES = { carwash: 'Car Wash', interior: 'Interior Detailing', polish: 'Polish & Protection', engine: 'Engine Cleaning' };
-const CAT_ICONS = { carwash: 'fa-car-side', interior: 'fa-couch', polish: 'fa-shield-halved', engine: 'fa-gears' };
-const ADDON_PRICES = { pethair: 15, stains: 10 };
+const CAT_NAMES = { carwash: 'Car Wash', interior: 'Interior Detailing', engine: 'Engine Cleaning' };
+const CAT_ICONS = { carwash: 'fa-car-side', interior: 'fa-couch', engine: 'fa-gears' };
+const ADDON_PRICES = { pethair: 10, stains: 10, dirtinterior: 5 };
 
 const SLOTS_WEEKDAY = ['8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM'];
 const SLOTS_SUNDAY  = ['8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM'];
@@ -181,6 +165,14 @@ document.querySelectorAll('.bw-vtype').forEach(btn => {
     document.querySelectorAll('.bw-vtype').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     state.vehicleType = btn.dataset.vtype;
+    const suvCard = document.getElementById('suv-seater-card');
+    if (suvCard) {
+      suvCard.style.display = state.vehicleType === 'suv' ? '' : 'none';
+      if (state.vehicleType !== 'suv') {
+        state.addons.suvseater = 0;
+        suvCard.querySelectorAll('.bw-yn').forEach(b => b.classList.remove('active'));
+      }
+    }
     updatePrice();
   });
 });
@@ -188,7 +180,10 @@ document.querySelectorAll('.bw-vtype').forEach(btn => {
 document.querySelectorAll('.bw-yn').forEach(btn => {
   btn.addEventListener('click', () => {
     const addon = btn.dataset.addon;
-    state.addons[addon] = btn.dataset.val === 'yes';
+    const val   = btn.dataset.val;
+    if (val === 'no')   state.addons[addon] = false;
+    else if (val === 'yes') state.addons[addon] = true;
+    else                state.addons[addon] = parseInt(val);
     btn.closest('.bw-addon-card').querySelectorAll('.bw-yn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     updatePrice();
@@ -197,18 +192,26 @@ document.querySelectorAll('.bw-yn').forEach(btn => {
 
 function updatePrice() {
   if (!state.category || !state.packageId) return;
-  const pkg  = PACKAGES[state.category].find(p => p.id === state.packageId);
-  const base = pkg.price[state.vehicleType];
+  const pkg      = PACKAGES[state.category].find(p => p.id === state.packageId);
+  const base     = pkg.price[state.vehicleType];
+  const suvExtra = state.addons.suvseater === 7 ? 20 : state.addons.suvseater === 5 ? 13 : 0;
   state.basePrice  = base;
-  state.totalPrice = base + (state.addons.pethair ? ADDON_PRICES.pethair : 0) + (state.addons.stains ? ADDON_PRICES.stains : 0);
+  state.totalPrice = base
+    + (state.addons.pethair      ? ADDON_PRICES.pethair      : 0)
+    + (state.addons.stains       ? ADDON_PRICES.stains       : 0)
+    + suvExtra
+    + (state.addons.dirtinterior ? ADDON_PRICES.dirtinterior : 0);
 
-  document.getElementById('pc-icon').className = 'fas ' + CAT_ICONS[state.category];
+  document.getElementById('pc-icon').className  = 'fas ' + CAT_ICONS[state.category];
   document.getElementById('pc-name').textContent = pkg.name;
   document.getElementById('pc-cat').textContent  = state.categoryName;
   document.getElementById('pc-base').textContent = '€' + base;
   document.getElementById('pc-total').textContent = '€' + state.totalPrice;
-  document.getElementById('row-pethair').style.display = state.addons.pethair ? 'flex' : 'none';
-  document.getElementById('row-stains').style.display  = state.addons.stains  ? 'flex' : 'none';
+  document.getElementById('row-pethair').style.display     = state.addons.pethair      ? 'flex' : 'none';
+  document.getElementById('row-stains').style.display      = state.addons.stains       ? 'flex' : 'none';
+  document.getElementById('row-suvseater').style.display   = state.addons.suvseater    ? 'flex' : 'none';
+  if (state.addons.suvseater) document.getElementById('row-suvseater-amt').textContent = '+€' + suvExtra;
+  document.getElementById('row-dirtinterior').style.display = state.addons.dirtinterior ? 'flex' : 'none';
 }
 
 // ===== STEP 4: CALENDAR =====
@@ -297,9 +300,12 @@ function renderSummary() {
     ? state.date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
     : '—';
 
+  const suvExtra = state.addons.suvseater === 7 ? 20 : state.addons.suvseater === 5 ? 13 : 0;
   const addonStr = [
-    state.addons.pethair ? 'Pet Hair Removal (+€15)' : null,
-    state.addons.stains  ? 'Stain Treatment (+€10)'  : null,
+    state.addons.pethair      ? 'Pet Hair Removal (+€10)'                              : null,
+    state.addons.stains       ? 'Stain Treatment (+€10)'                               : null,
+    state.addons.suvseater    ? `SUV ${state.addons.suvseater}-Seater (+€${suvExtra})` : null,
+    state.addons.dirtinterior ? 'Heavy Soiling (+€5)'                                  : null,
   ].filter(Boolean).join(', ') || 'None';
 
   const rows = [
@@ -356,8 +362,10 @@ async function submitBooking() {
     date:           state.dateStr,
     time_slot:      to24h(state.time),
     pet_hair_removal: state.addons.pethair,
-    bird_stains:    state.addons.stains,
-    license_plate:  state.plate,
+    bird_stains:      state.addons.stains,
+    suv_seater:       state.addons.suvseater || null,
+    dirty_interior:   state.addons.dirtinterior,
+    license_plate:    state.plate,
     notes:          state.notes,
     total_price:    state.totalPrice,
   };
@@ -398,7 +406,7 @@ function resetWizard() {
   Object.assign(state, {
     step: 1, category: null, categoryName: '', packageId: null, packageName: '',
     vehicleType: 'sedan', brand: '', model: '',
-    addons: { pethair: false, stains: false },
+    addons: { pethair: false, stains: false, suvseater: 0, dirtinterior: false },
     date: null, dateStr: '', time: null,
     fname: '', lname: '', phone: '', email: '', plate: '', notes: '',
     basePrice: 0, totalPrice: 0,
@@ -407,6 +415,8 @@ function resetWizard() {
   document.querySelectorAll('.bw-cat-card').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('.bw-yn-no').forEach(b => b.classList.add('active'));
   document.querySelectorAll('.bw-yn-yes').forEach(b => b.classList.remove('active'));
+  const suvCard = document.getElementById('suv-seater-card');
+  if (suvCard) suvCard.style.display = 'none';
   document.querySelectorAll('.bw-vtype').forEach((b, i) => b.classList.toggle('active', i === 0));
   goTo(1);
 }
