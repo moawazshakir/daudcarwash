@@ -288,18 +288,6 @@ function refreshBrands() {
   if (modelDropdown) modelDropdown.classList.add('bw-model-dropdown--disabled');
 
   renderBrandList(_brandListCache);
-
-  const nativeBrandSel = document.getElementById('bw-brand-select');
-  if (nativeBrandSel) {
-    nativeBrandSel.innerHTML = '<option value="">Select brand…</option>' +
-      _brandListCache.map(function(b) { return '<option value="' + b + '">' + b + '</option>'; }).join('');
-    nativeBrandSel.value = '';
-  }
-  const nativeModelSel = document.getElementById('bw-model-select');
-  if (nativeModelSel) {
-    nativeModelSel.innerHTML = '<option value="">Select a brand first…</option>';
-    nativeModelSel.disabled = true;
-  }
 }
 
 function renderBrandList(brands) {
@@ -331,6 +319,8 @@ function toggleBrandDropdown() {
   } else {
     closeModelDropdown();
     dropdown.classList.add('open');
+    var field = dropdown.parentElement;
+    if (field) field.style.zIndex = '200';
     const searchEl = document.getElementById('bw-brand-search');
     if (searchEl) setTimeout(function() { searchEl.focus(); }, 60);
   }
@@ -338,7 +328,11 @@ function toggleBrandDropdown() {
 
 function closeBrandDropdown() {
   const dropdown = document.getElementById('bw-brand-dropdown');
-  if (dropdown) dropdown.classList.remove('open');
+  if (dropdown) {
+    dropdown.classList.remove('open');
+    var field = dropdown.parentElement;
+    if (field) field.style.zIndex = '';
+  }
 }
 
 function selectBrand(brand) {
@@ -362,24 +356,6 @@ function selectBrand(brand) {
   const searchEl = document.getElementById('bw-brand-search');
   filterBrands(searchEl ? searchEl.value : '');
   closeBrandDropdown();
-
-  const nativeBrandSel = document.getElementById('bw-brand-select');
-  if (nativeBrandSel) nativeBrandSel.value = brand;
-  const nativeModelSel = document.getElementById('bw-model-select');
-  if (nativeModelSel) {
-    nativeModelSel.innerHTML = '<option value="">Select model…</option>' +
-      _modelListCache.map(function(m) { return '<option value="' + m + '">' + m + '</option>'; }).join('');
-    nativeModelSel.disabled = false;
-    nativeModelSel.value = '';
-  }
-}
-
-function handleNativeBrandChange(brand) {
-  if (brand) selectBrand(brand);
-}
-
-function handleNativeModelChange(model) {
-  state.model = model;
 }
 
 function renderModelList(models) {
@@ -412,6 +388,8 @@ function toggleModelDropdown() {
   } else {
     closeBrandDropdown();
     dropdown.classList.add('open');
+    var field = dropdown.parentElement;
+    if (field) field.style.zIndex = '200';
     const searchEl = document.getElementById('bw-model-search');
     if (searchEl) setTimeout(function() { searchEl.focus(); }, 60);
   }
@@ -419,7 +397,11 @@ function toggleModelDropdown() {
 
 function closeModelDropdown() {
   const dropdown = document.getElementById('bw-model-dropdown');
-  if (dropdown) dropdown.classList.remove('open');
+  if (dropdown) {
+    dropdown.classList.remove('open');
+    var field = dropdown.parentElement;
+    if (field) field.style.zIndex = '';
+  }
 }
 
 function selectModel(model) {
@@ -431,12 +413,14 @@ function selectModel(model) {
   closeModelDropdown();
 }
 
-document.addEventListener('click', function(e) {
+function _closeDropdownsIfOutside(e) {
   const brandDropdown = document.getElementById('bw-brand-dropdown');
   if (brandDropdown && !brandDropdown.contains(e.target)) closeBrandDropdown();
   const modelDropdown = document.getElementById('bw-model-dropdown');
   if (modelDropdown && !modelDropdown.contains(e.target)) closeModelDropdown();
-});
+}
+document.addEventListener('click', _closeDropdownsIfOutside);
+document.addEventListener('touchstart', _closeDropdownsIfOutside, { passive: true });
 
 function handleVtype(btn) {
   document.querySelectorAll('.bw-vtype').forEach(b => b.classList.remove('active'));

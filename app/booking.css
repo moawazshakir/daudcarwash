@@ -301,9 +301,6 @@ body {
 }
 .bw-field select:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
 
-/* Native select fallback — shown on mobile, hidden on desktop */
-.bw-native-select { display: none; }
-
 /* ===== CUSTOM BRAND DROPDOWN ===== */
 .bw-brand-dropdown { position: relative; width: 100%; }
 
@@ -687,10 +684,11 @@ body {
   .bw-title { font-size: 21px; }
   .bw-main  { margin-top: 24px; }
 
-  /* On mobile: use native selects, hide custom dropdowns */
-  .bw-brand-dropdown,
-  .bw-model-dropdown { display: none !important; }
-  .bw-native-select  { display: block; font-size: 16px; }
+  /* Custom dropdowns on mobile — font ≥ 16px prevents iOS auto-zoom */
+  .bw-brand-trigger, .bw-model-trigger { font-size: 16px; }
+  .bw-brand-search,  .bw-model-search  { font-size: 16px; }
+  .bw-brand-item,    .bw-model-item    { font-size: 16px; padding: 12px 14px; }
+  .bw-brand-list,    .bw-model-list    { max-height: 210px; }
 }
 @media (max-width: 480px) {
   .bw-cat-grid  { grid-template-columns: 1fr; gap: 10px; }
