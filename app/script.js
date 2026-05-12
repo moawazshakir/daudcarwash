@@ -208,7 +208,7 @@ function renderPricing(category) {
           </li>
         `).join('')}
       </ul>
-      <a href="#booking" class="btn-primary">Book This Package</a>
+      <a href="booking/?category=carwash&package=${card.name.toLowerCase()}" class="btn-primary">Book This Package</a>
     </div>
   `).join('');
 }

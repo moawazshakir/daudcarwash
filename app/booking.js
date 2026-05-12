@@ -696,3 +696,26 @@ function populateBrands() {
 // ===== INIT =====
 initCalendar();
 populateBrands();
+
+(function applyUrlPreset() {
+  const params  = new URLSearchParams(window.location.search);
+  const catParam = params.get('category');
+  const pkgParam = params.get('package');
+  if (!catParam || !pkgParam) return;
+  if (!PACKAGES[catParam]) return;
+  const pkg = PACKAGES[catParam].find(p => p.id === pkgParam);
+  if (!pkg) return;
+
+  const catCard = document.querySelector('.bw-cat-card[data-cat="' + catParam + '"]');
+  if (catCard) {
+    document.querySelectorAll('.bw-cat-card').forEach(c => c.classList.remove('active'));
+    catCard.classList.add('active');
+  }
+  state.category     = catParam;
+  state.categoryName = CAT_NAMES[catParam];
+  state.packageId    = pkgParam;
+  state.packageName  = pkg.name;
+  renderPackages();
+  updatePrice();
+  goTo(3);
+})();
