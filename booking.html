@@ -126,15 +126,41 @@
             <div class="bw-two-col">
               <div class="bw-field">
                 <label>Car Brand *</label>
-                <select id="bw-brand" autocomplete="off" onchange="handleBrandChange(this)">
-                  <option value="">Select brand…</option>
-                </select>
+                <div class="bw-brand-dropdown" id="bw-brand-dropdown">
+                  <button type="button" class="bw-brand-trigger" id="bw-brand-trigger" onclick="toggleBrandDropdown()">
+                    <span class="bw-brand-trigger-text" id="bw-brand-trigger-text">Select brand…</span>
+                    <i class="fas fa-chevron-down bw-brand-chevron"></i>
+                  </button>
+                  <div class="bw-brand-panel" id="bw-brand-panel">
+                    <div class="bw-brand-search-wrap">
+                      <i class="fas fa-search bw-brand-search-icon"></i>
+                      <input type="text" class="bw-brand-search" id="bw-brand-search"
+                             placeholder="Search brand…"
+                             oninput="filterBrands(this.value)"
+                             autocomplete="off">
+                    </div>
+                    <div class="bw-brand-list" id="bw-brand-list"></div>
+                  </div>
+                </div>
               </div>
               <div class="bw-field">
                 <label>Model *</label>
-                <select id="bw-model" disabled autocomplete="off" onchange="handleModelChange(this)">
-                  <option value="">Select a brand first…</option>
-                </select>
+                <div class="bw-model-dropdown bw-model-dropdown--disabled" id="bw-model-dropdown">
+                  <button type="button" class="bw-model-trigger" id="bw-model-trigger" onclick="toggleModelDropdown()">
+                    <span class="bw-model-trigger-text" id="bw-model-trigger-text">Select a brand first…</span>
+                    <i class="fas fa-chevron-down bw-model-chevron"></i>
+                  </button>
+                  <div class="bw-model-panel" id="bw-model-panel">
+                    <div class="bw-model-search-wrap">
+                      <i class="fas fa-search bw-model-search-icon"></i>
+                      <input type="text" class="bw-model-search" id="bw-model-search"
+                             placeholder="Search model…"
+                             oninput="filterModels(this.value)"
+                             autocomplete="off">
+                    </div>
+                    <div class="bw-model-list" id="bw-model-list"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

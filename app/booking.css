@@ -301,6 +301,138 @@ body {
 }
 .bw-field select:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
 
+/* ===== CUSTOM BRAND DROPDOWN ===== */
+.bw-brand-dropdown { position: relative; width: 100%; }
+
+.bw-brand-trigger {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px;
+  padding: 11px 14px;
+  border: 2px solid var(--border); border-radius: 10px;
+  background: var(--bg);
+  cursor: pointer; text-align: left;
+  font-family: 'Open Sans', sans-serif; font-size: 14px; font-weight: 600;
+  color: var(--text);
+  transition: var(--tr);
+  touch-action: manipulation; pointer-events: auto;
+}
+.bw-brand-trigger:hover { border-color: var(--blue); background: var(--blue-lt); color: var(--blue); }
+.bw-brand-dropdown.open .bw-brand-trigger { border-color: var(--blue); background: var(--blue-lt); color: var(--blue); border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+
+.bw-brand-trigger-text { flex: 1; }
+.bw-brand-chevron { font-size: 11px; transition: transform .2s; flex-shrink: 0; }
+.bw-brand-dropdown.open .bw-brand-chevron { transform: rotate(180deg); }
+
+.bw-brand-panel {
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  background: white;
+  border: 2px solid var(--blue); border-top: none;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  z-index: 9999; overflow: hidden; display: none;
+}
+.bw-brand-dropdown.open .bw-brand-panel { display: block; }
+
+.bw-brand-search-wrap {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  background: #f8fafc;
+}
+.bw-brand-search-icon { color: var(--muted); font-size: 13px; flex-shrink: 0; }
+.bw-brand-search {
+  border: none; background: transparent; flex: 1;
+  font-size: 14px; outline: none;
+  color: var(--text); font-family: 'Open Sans', sans-serif;
+}
+
+.bw-brand-list { max-height: 230px; overflow-y: auto; overscroll-behavior: contain; }
+
+.bw-brand-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer; font-size: 14px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background .12s, color .12s;
+  touch-action: manipulation; pointer-events: auto;
+}
+.bw-brand-item:last-child { border-bottom: none; }
+.bw-brand-item:hover { background: var(--blue-lt); color: var(--blue); }
+.bw-brand-item.active { background: var(--blue-lt); color: var(--blue); font-weight: 600; }
+
+.bw-brand-item-name { flex: 1; }
+.bw-brand-item-check { color: var(--blue); font-size: 12px; flex-shrink: 0; }
+.bw-brand-no-results { padding: 14px; text-align: center; color: var(--muted); font-size: 13px; }
+
+/* ===== CUSTOM MODEL DROPDOWN ===== */
+.bw-model-dropdown { position: relative; width: 100%; }
+
+.bw-model-trigger {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px;
+  padding: 11px 14px;
+  border: 2px solid var(--border); border-radius: 10px;
+  background: var(--bg);
+  cursor: pointer; text-align: left;
+  font-family: 'Open Sans', sans-serif; font-size: 14px; font-weight: 600;
+  color: var(--text);
+  transition: var(--tr);
+  touch-action: manipulation; pointer-events: auto;
+}
+.bw-model-dropdown--disabled .bw-model-trigger { opacity: 0.5; cursor: not-allowed; }
+.bw-model-trigger:hover:not(:disabled) { border-color: var(--blue); background: var(--blue-lt); color: var(--blue); }
+.bw-model-dropdown:not(.bw-model-dropdown--disabled) .bw-model-trigger:hover { border-color: var(--blue); background: var(--blue-lt); color: var(--blue); }
+.bw-model-dropdown.open .bw-model-trigger { border-color: var(--blue); background: var(--blue-lt); color: var(--blue); border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+
+.bw-model-trigger-text { flex: 1; }
+.bw-model-chevron { font-size: 11px; transition: transform .2s; flex-shrink: 0; }
+.bw-model-dropdown.open .bw-model-chevron { transform: rotate(180deg); }
+
+.bw-model-panel {
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  background: white;
+  border: 2px solid var(--blue); border-top: none;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  z-index: 9999; overflow: hidden; display: none;
+}
+.bw-model-dropdown.open .bw-model-panel { display: block; }
+
+.bw-model-search-wrap {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  background: #f8fafc;
+}
+.bw-model-search-icon { color: var(--muted); font-size: 13px; flex-shrink: 0; }
+.bw-model-search {
+  border: none; background: transparent; flex: 1;
+  font-size: 14px; outline: none;
+  color: var(--text); font-family: 'Open Sans', sans-serif;
+}
+
+.bw-model-list { max-height: 230px; overflow-y: auto; overscroll-behavior: contain; }
+
+.bw-model-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px;
+  cursor: pointer; font-size: 14px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background .12s, color .12s;
+  touch-action: manipulation; pointer-events: auto;
+}
+.bw-model-item:last-child { border-bottom: none; }
+.bw-model-item:hover { background: var(--blue-lt); color: var(--blue); }
+.bw-model-item.active { background: var(--blue-lt); color: var(--blue); font-weight: 600; }
+
+.bw-model-item-name { flex: 1; }
+.bw-model-item-check { color: var(--blue); font-size: 12px; flex-shrink: 0; }
+.bw-model-no-results { padding: 14px; text-align: center; color: var(--muted); font-size: 13px; }
+
 /* Guarantee all interactive elements are tappable — never inherit pointer-events:none */
 .bw-vtype, .bw-suv-seat, .bw-yn, .bw-cat-card,
 .bw-pkg-card, .bw-slot, .bw-cal-arrow, .bw-cal-day,
@@ -551,6 +683,18 @@ body {
 
   .bw-title { font-size: 21px; }
   .bw-main  { margin-top: 24px; }
+
+  /* Custom brand dropdown — mobile */
+  .bw-brand-trigger { font-size: 16px; }
+  .bw-brand-search  { font-size: 16px; }
+  .bw-brand-item    { font-size: 16px; padding: 12px 14px; }
+  .bw-brand-list    { max-height: 210px; }
+
+  /* Custom model dropdown — mobile */
+  .bw-model-trigger { font-size: 16px; }
+  .bw-model-search  { font-size: 16px; }
+  .bw-model-item    { font-size: 16px; padding: 12px 14px; }
+  .bw-model-list    { max-height: 210px; }
 }
 @media (max-width: 480px) {
   .bw-cat-grid  { grid-template-columns: 1fr; gap: 10px; }

@@ -153,7 +153,8 @@ const CAT_NAMES = { carwash: 'Car Wash', interior: 'Interior Detailing', engine:
 const CAT_ICONS = { carwash: 'fa-car-side', interior: 'fa-couch', engine: 'fa-gears' };
 const ADDON_PRICES = { pethair: 10, stains: 10, dirtinterior: 5 };
 
-const SLOTS_WEEKDAY = ['8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM'];
+
+const SLOTS_WEEKDAY = ['8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM'];
 const SLOTS_SUNDAY  = ['8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM'];
 const MONTH_NAMES   = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const DAY_NAMES     = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -194,8 +195,6 @@ function validate(step) {
     alert('Please select a package to continue.'); return false;
   }
   if (step === 3) {
-    state.brand = document.getElementById('bw-brand').value;
-    state.model = document.getElementById('bw-model').value;
     if (!state.brand) { alert('Please select your car brand.'); return false; }
     if (!state.model) { alert('Please select your car model.'); return false; }
     if (state.vehicleType === 'suv' && !state.addons.suvseater) {
@@ -263,21 +262,151 @@ function selectPkg(id) {
 }
 
 // ===== STEP 3: VEHICLE + ADDONS =====
+let _brandListCache = [];
+let _modelListCache = [];
+
 function refreshBrands() {
-  const data     = CAR_DATA[state.vehicleType] || {};
-  const brandSel = document.getElementById('bw-brand');
-  const modelSel = document.getElementById('bw-model');
-  if (!brandSel || !modelSel) return;
-  brandSel.innerHTML = '<option value="">Select brand…</option>';
-  Object.keys(data).sort().forEach(brand => {
-    const opt = document.createElement('option');
-    opt.value = brand; opt.textContent = brand;
-    brandSel.appendChild(opt);
-  });
-  modelSel.innerHTML = '<option value="">Select a brand first…</option>';
-  modelSel.disabled = true;
-  state.brand = ''; state.model = '';
+  const data = CAR_DATA[state.vehicleType] || {};
+  _brandListCache = Object.keys(data).sort();
+  state.brand = '';
+  state.model = '';
+
+  const triggerText = document.getElementById('bw-brand-trigger-text');
+  if (triggerText) triggerText.textContent = 'Select brand…';
+
+  const searchEl = document.getElementById('bw-brand-search');
+  if (searchEl) searchEl.value = '';
+
+  _modelListCache = [];
+  const modelTriggerText = document.getElementById('bw-model-trigger-text');
+  if (modelTriggerText) modelTriggerText.textContent = 'Select a brand first…';
+  const modelSearch = document.getElementById('bw-model-search');
+  if (modelSearch) modelSearch.value = '';
+  const modelList = document.getElementById('bw-model-list');
+  if (modelList) modelList.innerHTML = '';
+  const modelDropdown = document.getElementById('bw-model-dropdown');
+  if (modelDropdown) modelDropdown.classList.add('bw-model-dropdown--disabled');
+
+  renderBrandList(_brandListCache);
 }
+
+function renderBrandList(brands) {
+  const list = document.getElementById('bw-brand-list');
+  if (!list) return;
+  if (!brands.length) {
+    list.innerHTML = '<div class="bw-brand-no-results">No brands found</div>';
+    return;
+  }
+  list.innerHTML = brands.map(brand => {
+    const isActive = state.brand === brand;
+    return `<div class="bw-brand-item${isActive ? ' active' : ''}" data-brand="${brand}" onclick="selectBrand(this.dataset.brand)">
+      <span class="bw-brand-item-name">${brand}</span>
+      ${isActive ? '<i class="fas fa-check bw-brand-item-check"></i>' : ''}
+    </div>`;
+  }).join('');
+}
+
+function filterBrands(query) {
+  const q = query.toLowerCase().trim();
+  const filtered = q ? _brandListCache.filter(b => b.toLowerCase().includes(q)) : _brandListCache;
+  renderBrandList(filtered);
+}
+
+function toggleBrandDropdown() {
+  const dropdown = document.getElementById('bw-brand-dropdown');
+  if (dropdown.classList.contains('open')) {
+    closeBrandDropdown();
+  } else {
+    closeModelDropdown();
+    dropdown.classList.add('open');
+    const searchEl = document.getElementById('bw-brand-search');
+    if (searchEl) setTimeout(function() { searchEl.focus(); }, 60);
+  }
+}
+
+function closeBrandDropdown() {
+  const dropdown = document.getElementById('bw-brand-dropdown');
+  if (dropdown) dropdown.classList.remove('open');
+}
+
+function selectBrand(brand) {
+  state.brand = brand;
+  state.model = '';
+
+  const triggerText = document.getElementById('bw-brand-trigger-text');
+  if (triggerText) triggerText.textContent = brand;
+
+  _modelListCache = (CAR_DATA[state.vehicleType] || {})[brand] || [];
+
+  const modelTriggerText = document.getElementById('bw-model-trigger-text');
+  if (modelTriggerText) modelTriggerText.textContent = 'Select model…';
+  const modelSearch = document.getElementById('bw-model-search');
+  if (modelSearch) modelSearch.value = '';
+  const modelDropdown = document.getElementById('bw-model-dropdown');
+  if (modelDropdown) modelDropdown.classList.remove('bw-model-dropdown--disabled');
+
+  renderModelList(_modelListCache);
+
+  const searchEl = document.getElementById('bw-brand-search');
+  filterBrands(searchEl ? searchEl.value : '');
+  closeBrandDropdown();
+}
+
+function renderModelList(models) {
+  const list = document.getElementById('bw-model-list');
+  if (!list) return;
+  if (!models.length) {
+    list.innerHTML = '<div class="bw-model-no-results">No models found</div>';
+    return;
+  }
+  list.innerHTML = models.map(function(model) {
+    const isActive = state.model === model;
+    return '<div class="bw-model-item' + (isActive ? ' active' : '') + '" onclick="selectModel(\'' + model.replace(/'/g, "\\'") + '\')">' +
+      '<span class="bw-model-item-name">' + model + '</span>' +
+      (isActive ? '<i class="fas fa-check bw-model-item-check"></i>' : '') +
+      '</div>';
+  }).join('');
+}
+
+function filterModels(query) {
+  const q = query.toLowerCase().trim();
+  const filtered = q ? _modelListCache.filter(function(m) { return m.toLowerCase().includes(q); }) : _modelListCache;
+  renderModelList(filtered);
+}
+
+function toggleModelDropdown() {
+  const dropdown = document.getElementById('bw-model-dropdown');
+  if (!dropdown || dropdown.classList.contains('bw-model-dropdown--disabled')) return;
+  if (dropdown.classList.contains('open')) {
+    closeModelDropdown();
+  } else {
+    closeBrandDropdown();
+    dropdown.classList.add('open');
+    const searchEl = document.getElementById('bw-model-search');
+    if (searchEl) setTimeout(function() { searchEl.focus(); }, 60);
+  }
+}
+
+function closeModelDropdown() {
+  const dropdown = document.getElementById('bw-model-dropdown');
+  if (dropdown) dropdown.classList.remove('open');
+}
+
+function selectModel(model) {
+  state.model = model;
+  const triggerText = document.getElementById('bw-model-trigger-text');
+  if (triggerText) triggerText.textContent = model;
+  const searchEl = document.getElementById('bw-model-search');
+  filterModels(searchEl ? searchEl.value : '');
+  closeModelDropdown();
+}
+
+document.addEventListener('click', function(e) {
+  const brandDropdown = document.getElementById('bw-brand-dropdown');
+  if (brandDropdown && !brandDropdown.contains(e.target)) closeBrandDropdown();
+  const modelDropdown = document.getElementById('bw-model-dropdown');
+  if (modelDropdown && !modelDropdown.contains(e.target)) closeModelDropdown();
+});
 
 function handleVtype(btn) {
   document.querySelectorAll('.bw-vtype').forEach(b => b.classList.remove('active'));
@@ -544,31 +673,6 @@ function resetWizard() {
   document.querySelectorAll('.bw-vtype').forEach((b, i) => b.classList.toggle('active', i === 0));
   refreshBrands();
   goTo(1);
-}
-
-// ===== STEP 3: BRAND / MODEL DROPDOWNS =====
-function handleBrandChange(sel) {
-  const brand = sel.value;
-  state.brand = brand;
-  state.model = '';
-  const modelSel = document.getElementById('bw-model');
-  if (!brand) {
-    modelSel.innerHTML = '<option value="">Select a brand first…</option>';
-    modelSel.disabled = true;
-    return;
-  }
-  const models = (CAR_DATA[state.vehicleType] || {})[brand] || [];
-  modelSel.disabled = false;
-  modelSel.innerHTML = '<option value="">Select model…</option>';
-  models.forEach(model => {
-    const opt = document.createElement('option');
-    opt.value = model; opt.textContent = model;
-    modelSel.appendChild(opt);
-  });
-}
-
-function handleModelChange(sel) {
-  state.model = sel.value;
 }
 
 function populateBrands() {
