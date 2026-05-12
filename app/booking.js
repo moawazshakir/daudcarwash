@@ -288,6 +288,18 @@ function refreshBrands() {
   if (modelDropdown) modelDropdown.classList.add('bw-model-dropdown--disabled');
 
   renderBrandList(_brandListCache);
+
+  const nativeBrandSel = document.getElementById('bw-brand-select');
+  if (nativeBrandSel) {
+    nativeBrandSel.innerHTML = '<option value="">Select brand…</option>' +
+      _brandListCache.map(function(b) { return '<option value="' + b + '">' + b + '</option>'; }).join('');
+    nativeBrandSel.value = '';
+  }
+  const nativeModelSel = document.getElementById('bw-model-select');
+  if (nativeModelSel) {
+    nativeModelSel.innerHTML = '<option value="">Select a brand first…</option>';
+    nativeModelSel.disabled = true;
+  }
 }
 
 function renderBrandList(brands) {
@@ -350,6 +362,24 @@ function selectBrand(brand) {
   const searchEl = document.getElementById('bw-brand-search');
   filterBrands(searchEl ? searchEl.value : '');
   closeBrandDropdown();
+
+  const nativeBrandSel = document.getElementById('bw-brand-select');
+  if (nativeBrandSel) nativeBrandSel.value = brand;
+  const nativeModelSel = document.getElementById('bw-model-select');
+  if (nativeModelSel) {
+    nativeModelSel.innerHTML = '<option value="">Select model…</option>' +
+      _modelListCache.map(function(m) { return '<option value="' + m + '">' + m + '</option>'; }).join('');
+    nativeModelSel.disabled = false;
+    nativeModelSel.value = '';
+  }
+}
+
+function handleNativeBrandChange(brand) {
+  if (brand) selectBrand(brand);
+}
+
+function handleNativeModelChange(model) {
+  state.model = model;
 }
 
 function renderModelList(models) {
