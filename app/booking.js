@@ -547,33 +547,31 @@ function resetWizard() {
 }
 
 // ===== STEP 3: BRAND / MODEL DROPDOWNS =====
-function populateBrands() {
-  const brandSel = document.getElementById('bw-brand');
+function handleBrandChange(sel) {
+  const brand = sel.value;
+  state.brand = brand;
+  state.model = '';
   const modelSel = document.getElementById('bw-model');
-
-  brandSel.addEventListener('change', () => {
-    const brand = brandSel.value;
-    state.brand = brand;
-    state.model = '';
-    if (!brand) {
-      modelSel.innerHTML = '<option value="">Select a brand first…</option>';
-      modelSel.disabled = true;
-      return;
-    }
-    const models = (CAR_DATA[state.vehicleType] || {})[brand] || [];
-    modelSel.disabled = false;
-    modelSel.innerHTML = '<option value="">Select model…</option>';
-    models.forEach(model => {
-      const opt = document.createElement('option');
-      opt.value = model; opt.textContent = model;
-      modelSel.appendChild(opt);
-    });
+  if (!brand) {
+    modelSel.innerHTML = '<option value="">Select a brand first…</option>';
+    modelSel.disabled = true;
+    return;
+  }
+  const models = (CAR_DATA[state.vehicleType] || {})[brand] || [];
+  modelSel.disabled = false;
+  modelSel.innerHTML = '<option value="">Select model…</option>';
+  models.forEach(model => {
+    const opt = document.createElement('option');
+    opt.value = model; opt.textContent = model;
+    modelSel.appendChild(opt);
   });
+}
 
-  modelSel.addEventListener('change', () => {
-    state.model = modelSel.value;
-  });
+function handleModelChange(sel) {
+  state.model = sel.value;
+}
 
+function populateBrands() {
   refreshBrands();
 }
 

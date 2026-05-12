@@ -126,13 +126,13 @@
             <div class="bw-two-col">
               <div class="bw-field">
                 <label>Car Brand *</label>
-                <select id="bw-brand" autocomplete="off">
+                <select id="bw-brand" autocomplete="off" onchange="handleBrandChange(this)">
                   <option value="">Select brand…</option>
                 </select>
               </div>
               <div class="bw-field">
                 <label>Model *</label>
-                <select id="bw-model" disabled autocomplete="off">
+                <select id="bw-model" disabled autocomplete="off" onchange="handleModelChange(this)">
                   <option value="">Select a brand first…</option>
                 </select>
               </div>

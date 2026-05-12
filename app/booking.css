@@ -274,7 +274,7 @@ body {
 
 /* Form fields */
 .bw-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.bw-field { display: flex; flex-direction: column; gap: 6px; }
+.bw-field { display: flex; flex-direction: column; gap: 6px; position: relative; z-index: 1; overflow: visible; }
 .bw-field label { font-size: 12px; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: .5px; }
 .bw-optional { font-weight: 400; text-transform: none; color: var(--muted); font-size: 12px; letter-spacing: 0; }
 .bw-field input,
@@ -301,6 +301,13 @@ body {
 }
 .bw-field select:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
 
+/* Guarantee all interactive elements are tappable — never inherit pointer-events:none */
+.bw-vtype, .bw-suv-seat, .bw-yn, .bw-cat-card,
+.bw-pkg-card, .bw-slot, .bw-cal-arrow, .bw-cal-day,
+.bw-btn-next, .bw-btn-back, .bw-btn-confirm,
+.bw-ol-home, .bw-ol-again,
+.bw-field select, .bw-field input { pointer-events: auto; }
+
 /* Phone row */
 .bw-phone-row {
   display: flex; border: 2px solid var(--border); border-radius: 10px;
@@ -317,8 +324,8 @@ body {
 
 /* Add-on cards */
 .bw-addon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.bw-addon-card { border: 2px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--card); }
-.bw-addon-card img { width: 100%; height: 120px; object-fit: cover; display: block; }
+.bw-addon-card { border: 2px solid var(--border); border-radius: 12px; background: var(--card); overflow: visible; }
+.bw-addon-card img { width: 100%; height: 120px; object-fit: cover; display: block; border-radius: 10px 10px 0 0; pointer-events: none; }
 .bw-addon-body { padding: 14px; }
 .bw-addon-q { font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 12px; line-height: 1.4; }
 .bw-yn-row { display: flex; gap: 8px; }
@@ -526,7 +533,14 @@ body {
     appearance: auto;
     background-image: none;
     padding-right: 14px;
+    position: relative;
+    z-index: 9999;
   }
+
+  /* Ensure field containers and blocks don't clip dropdown list */
+  .bw-field { z-index: 50; overflow: visible; }
+  .bw-block  { overflow: visible; }
+  .bw-two-col { overflow: visible; }
 
   /* Prevent 300ms tap delay on interactive elements */
   .bw-vtype, .bw-suv-seat, .bw-yn, .bw-btn-next, .bw-btn-back,
