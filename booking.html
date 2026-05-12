@@ -119,11 +119,15 @@
             <div class="bw-two-col">
               <div class="bw-field">
                 <label>Car Brand *</label>
-                <input type="text" id="bw-brand" placeholder="e.g. Ferrari, BMW, Fiat">
+                <select id="bw-brand">
+                  <option value="">Select brand…</option>
+                </select>
               </div>
               <div class="bw-field">
                 <label>Model *</label>
-                <input type="text" id="bw-model" placeholder="e.g. 911, Series 3, Panda">
+                <select id="bw-model" disabled>
+                  <option value="">Select a brand first…</option>
+                </select>
               </div>
             </div>
           </div>

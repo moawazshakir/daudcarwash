@@ -5,6 +5,52 @@
 
 const N8N_WEBHOOK_URL = "https://glokararehman.app.n8n.cloud/webhook-test/book-appointment";
 
+// ===== CAR DATABASE (Italian market) =====
+const CAR_DATA = {
+  'Abarth':        ['124 Spider', '595', '695'],
+  'Alfa Romeo':    ['147', '156', '159', '166', '4C', 'Brera', 'Giulia', 'Giulietta', 'GTV', 'MiTo', 'Spider', 'Stelvio', 'Tonale'],
+  'Audi':          ['A1', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'e-tron', 'e-tron GT', 'Q2', 'Q3', 'Q3 Sportback', 'Q5', 'Q7', 'Q8', 'Q8 e-tron', 'R8', 'RS3', 'RS4', 'RS5', 'RS6', 'RS7', 'S3', 'S4', 'S5', 'SQ5', 'SQ7', 'SQ8', 'TT', 'TT RS'],
+  'BMW':           ['116i', '118i', '118d', '120d', '218i', '220d', '316i', '318i', '318d', '320i', '320d', '330i', '330d', '420i', '420d', '430i', '520i', '520d', '530i', '530d', '540i', '730d', '740i', '740d', '750i', 'i3', 'i4', 'i5', 'i7', 'iX', 'iX1', 'iX3', 'M2', 'M3', 'M4', 'M5', 'M8', 'X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'Z4'],
+  'BYD':           ['Atto 3', 'Dolphin', 'Han', 'Seal', 'Seal U', 'Sealion 6', 'Tang'],
+  'Citroën':       ['Ami', 'Berlingo', 'C1', 'C3', 'C3 Aircross', 'C4', 'C5 Aircross', 'C5 X', 'Jumpy', 'Ë-C4'],
+  'Cupra':         ['Ateca', 'Born', 'Formentor', 'Leon', 'Tavascan', 'Terramar'],
+  'Dacia':         ['Bigster', 'Duster', 'Jogger', 'Logan', 'Sandero', 'Spring'],
+  'DS':            ['DS 3', 'DS 3 Crossback', 'DS 4', 'DS 7', 'DS 7 Crossback', 'DS 9'],
+  'Ferrari':       ['296 GTB', '296 GTS', '458 Italia', '458 Spider', '488 GTB', '488 Pista', '488 Spider', 'California', 'California T', 'F8 Tributo', 'F8 Spider', 'GTC4Lusso', 'LaFerrari', 'Portofino', 'Portofino M', 'Purosangue', 'Roma', 'Roma Spider', 'SF90 Stradale', 'SF90 Spider'],
+  'Fiat':          ['500', '500C', '500e', '500L', '500X', 'Bravo', 'Doblò', 'Ducato', 'Fiorino', 'Freemont', 'Grande Punto', 'Multipla', 'Panda', 'Punto', 'Qubo', 'Scudo', 'Sedici', 'Stilo', 'Tipo'],
+  'Ford':          ['Bronco', 'EcoSport', 'Explorer', 'Fiesta', 'Focus', 'Galaxy', 'Kuga', 'Mondeo', 'Mustang', 'Mustang Mach-E', 'Puma', 'Ranger', 'S-Max', 'Transit', 'Transit Custom'],
+  'Honda':         ['Accord', 'CR-V', 'Civic', 'e', 'HR-V', 'Jazz', 'NSX', 'ZR-V'],
+  'Hyundai':       ['Bayon', 'i10', 'i20', 'i30', 'Ioniq 5', 'Ioniq 6', 'Ioniq 9', 'Kona', 'Kona Electric', 'Nexo', 'Santa Fe', 'Tucson'],
+  'Jaguar':        ['E-Pace', 'F-Pace', 'F-Type', 'I-Pace', 'XE', 'XF'],
+  'Jeep':          ['Avenger', 'Cherokee', 'Commander', 'Compass', 'Grand Cherokee', 'Renegade', 'Wrangler'],
+  'Kia':           ['Ceed', 'EV3', 'EV6', 'EV9', 'Niro', 'Niro EV', 'Picanto', 'ProCeed', 'Rio', 'Sorento', 'Soul', 'Sportage', 'Stinger', 'Stonic', 'XCeed'],
+  'Lamborghini':   ['Aventador', 'Countach', 'Diablo', 'Gallardo', 'Huracán', 'Murciélago', 'Revuelto', 'Sterrato', 'Urus'],
+  'Land Rover':    ['Defender', 'Discovery', 'Discovery Sport', 'Freelander', 'Range Rover', 'Range Rover Evoque', 'Range Rover Sport', 'Range Rover Velar'],
+  'Lancia':        ['Delta', 'Musa', 'Phedra', 'Thesis', 'Ypsilon'],
+  'Lexus':         ['ES', 'GX', 'IS', 'LC', 'LX', 'NX', 'RC', 'RX', 'RZ', 'UX'],
+  'Maserati':      ['Ghibli', 'GranCabrio', 'GranTurismo', 'Grecale', 'Levante', 'MC20', 'Quattroporte'],
+  'Mazda':         ['CX-3', 'CX-30', 'CX-5', 'CX-60', 'CX-80', 'Mazda2', 'Mazda3', 'Mazda6', 'MX-30', 'MX-5'],
+  'Mercedes-Benz': ['A 180', 'A 200', 'A 220', 'B 180', 'B 200', 'C 180', 'C 200', 'C 220d', 'C 300', 'CLA 180', 'CLA 200', 'CLS 350', 'E 200', 'E 220d', 'E 300', 'EQA 250', 'EQB 250', 'EQC 400', 'EQE 350', 'EQS 450', 'G 350d', 'G 500', 'GLA 180', 'GLA 200', 'GLB 200', 'GLC 220d', 'GLC 300', 'GLE 300d', 'GLE 350d', 'GLS 400d', 'S 350d', 'S 580', 'SL 43', 'SL 55', 'Sprinter', 'V 220d', 'Vito'],
+  'MG':            ['HS', 'MG3', 'MG4', 'MG5', 'ZS'],
+  'MINI':          ['Aceman', 'Clubman', 'Convertible', 'Countryman', 'Hatch 3-door', 'Hatch 5-door'],
+  'Mitsubishi':    ['ASX', 'Eclipse Cross', 'L200', 'Outlander', 'Space Star'],
+  'Nissan':        ['Ariya', 'Juke', 'Leaf', 'Micra', 'Navara', 'NV200', 'Qashqai', 'Townstar', 'X-Trail'],
+  'Opel':          ['Astra', 'Cascada', 'Combo', 'Corsa', 'Crossland', 'Grandland', 'Insignia', 'Mokka', 'Vivaro', 'Zafira'],
+  'Pagani':        ['Huayra', 'Utopia', 'Zonda'],
+  'Peugeot':       ['108', '208', '308', '408', '508', '2008', '3008', '5008', 'e-208', 'e-2008', 'Expert', 'Partner'],
+  'Porsche':       ['718 Boxster', '718 Cayman', '911 Carrera', '911 Targa', '911 Turbo', '911 GT3', 'Cayenne', 'Cayenne Coupe', 'Macan', 'Panamera', 'Taycan', 'Taycan Cross Turismo'],
+  'Renault':       ['Arkana', 'Austral', 'Captur', 'Clio', 'Espace', 'Kangoo', 'Koleos', 'Mégane', 'Rafale', 'Scenic', 'Symbioz', 'Trafic', 'Twingo', 'Zoé'],
+  'SEAT':          ['Arona', 'Ateca', 'Ibiza', 'Leon', 'Mii', 'Tarraco'],
+  'Škoda':         ['Enyaq', 'Fabia', 'Karoq', 'Kodiaq', 'Octavia', 'Scala', 'Superb'],
+  'Smart':         ['#1', '#3', 'EQ forfour', 'EQ fortwo'],
+  'Subaru':        ['BRZ', 'Forester', 'Impreza', 'Outback', 'WRX', 'XV'],
+  'Suzuki':        ['Across', 'Baleno', 'Ignis', 'Jimny', 'S-Cross', 'Swace', 'Swift', 'Vitara'],
+  'Tesla':         ['Cybertruck', 'Model 3', 'Model S', 'Model X', 'Model Y'],
+  'Toyota':        ['Aygo X', 'bZ4X', 'C-HR', 'Camry', 'Corolla', 'Corolla Cross', 'GR86', 'GR Yaris', 'GR Supra', 'Highlander', 'Land Cruiser', 'Prius', 'Proace', 'RAV4', 'Yaris', 'Yaris Cross'],
+  'Volkswagen':    ['Arteon', 'Caddy', 'Golf', 'Golf Plus', 'Golf Variant', 'ID.3', 'ID.4', 'ID.5', 'ID.7', 'Passat', 'Polo', 'Sharan', 'T-Cross', 'T-Roc', 'Tiguan', 'Tiguan Allspace', 'Touareg', 'Touran', 'Transporter', 'Up!'],
+  'Volvo':         ['C40', 'EX30', 'EX90', 'S60', 'S90', 'V60', 'V60 Cross Country', 'V90', 'V90 Cross Country', 'XC40', 'XC60', 'XC90'],
+};
+
 // ===== BOOKING STATE =====
 const state = {
   step: 1,
@@ -93,9 +139,10 @@ function validate(step) {
     alert('Please select a package to continue.'); return false;
   }
   if (step === 3) {
-    state.brand = document.getElementById('bw-brand').value.trim();
-    state.model = document.getElementById('bw-model').value.trim();
-    if (!state.brand || !state.model) { alert('Please enter your car brand and model.'); return false; }
+    state.brand = document.getElementById('bw-brand').value;
+    state.model = document.getElementById('bw-model').value;
+    if (!state.brand) { alert('Please select your car brand.'); return false; }
+    if (!state.model) { alert('Please select your car model.'); return false; }
   }
   if (step === 4 && !state.time) {
     alert('Please select a date and time to continue.'); return false;
@@ -418,8 +465,49 @@ function resetWizard() {
   const suvCard = document.getElementById('suv-seater-card');
   if (suvCard) suvCard.style.display = 'none';
   document.querySelectorAll('.bw-vtype').forEach((b, i) => b.classList.toggle('active', i === 0));
+  document.getElementById('bw-brand').value = '';
+  const modelSel = document.getElementById('bw-model');
+  modelSel.innerHTML = '<option value="">Select a brand first…</option>';
+  modelSel.disabled = true;
   goTo(1);
+}
+
+// ===== STEP 3: BRAND / MODEL DROPDOWNS =====
+function populateBrands() {
+  const brandSel = document.getElementById('bw-brand');
+  const modelSel = document.getElementById('bw-model');
+
+  Object.keys(CAR_DATA).sort().forEach(brand => {
+    const opt = document.createElement('option');
+    opt.value = brand;
+    opt.textContent = brand;
+    brandSel.appendChild(opt);
+  });
+
+  brandSel.addEventListener('change', () => {
+    const brand = brandSel.value;
+    state.brand = brand;
+    state.model = '';
+    if (!brand) {
+      modelSel.innerHTML = '<option value="">Select a brand first…</option>';
+      modelSel.disabled = true;
+      return;
+    }
+    modelSel.disabled = false;
+    modelSel.innerHTML = '<option value="">Select model…</option>';
+    CAR_DATA[brand].forEach(model => {
+      const opt = document.createElement('option');
+      opt.value = model;
+      opt.textContent = model;
+      modelSel.appendChild(opt);
+    });
+  });
+
+  modelSel.addEventListener('change', () => {
+    state.model = modelSel.value;
+  });
 }
 
 // ===== INIT =====
 initCalendar();
+populateBrands();

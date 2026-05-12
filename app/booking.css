@@ -264,7 +264,8 @@ body {
 .bw-field label { font-size: 12px; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: .5px; }
 .bw-optional { font-weight: 400; text-transform: none; color: var(--muted); font-size: 12px; letter-spacing: 0; }
 .bw-field input,
-.bw-field textarea {
+.bw-field textarea,
+.bw-field select {
   padding: 12px 14px;
   border: 2px solid var(--border); border-radius: 10px;
   font-family: 'Open Sans', sans-serif; font-size: 14px; color: var(--dark);
@@ -272,8 +273,18 @@ body {
   transition: border-color .2s;
 }
 .bw-field input:focus,
-.bw-field textarea:focus { border-color: var(--blue); background: white; }
+.bw-field textarea:focus,
+.bw-field select:focus { border-color: var(--blue); background: white; }
 .bw-field textarea { resize: vertical; }
+.bw-field select {
+  appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+}
+.bw-field select:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* Phone row */
 .bw-phone-row {
