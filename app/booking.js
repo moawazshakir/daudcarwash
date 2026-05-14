@@ -193,6 +193,9 @@ function validate(step) {
   if (step === 3) {
     if (!state.brand) { alert('Please select your car brand.'); return false; }
     if (!state.model) { alert('Please select your car model.'); return false; }
+    if (state.vehicleType === 'sedan' && !state.addons.sedanseater) {
+      alert('Please select the number of seats for your Sedan.'); return false;
+    }
     if (state.vehicleType === 'suv' && !state.addons.suvseater) {
       alert('Please select the number of seats for your SUV.'); return false;
     }
@@ -482,7 +485,7 @@ function updatePrice() {
   if (!state.category || !state.packageId) return;
   const pkg           = PACKAGES[state.category].find(p => p.id === state.packageId);
   const base          = pkg.price[state.vehicleType];
-  const suvExtra      = state.addons.suvseater === 7 ? 20 : state.addons.suvseater === 5 ? 13 : 0;
+  const suvExtra      = state.addons.suvseater === 7 ? 5 : 0;
   const sedanDiscount = state.addons.sedanseater === 2 ? -5 : 0;
   state.basePrice  = base;
   state.totalPrice = base
@@ -500,8 +503,8 @@ function updatePrice() {
   document.getElementById('row-pethair').style.display     = state.addons.pethair      ? 'flex' : 'none';
   document.getElementById('row-stains').style.display      = state.addons.stains       ? 'flex' : 'none';
   document.getElementById('row-sedanseater').style.display  = sedanDiscount !== 0       ? 'flex' : 'none';
-  document.getElementById('row-suvseater').style.display   = state.addons.suvseater    ? 'flex' : 'none';
-  if (state.addons.suvseater) document.getElementById('row-suvseater-amt').textContent = '+€' + suvExtra;
+  document.getElementById('row-suvseater').style.display   = suvExtra > 0              ? 'flex' : 'none';
+  if (suvExtra > 0) document.getElementById('row-suvseater-amt').textContent = '+€' + suvExtra;
   document.getElementById('row-dirtinterior').style.display = state.addons.dirtinterior ? 'flex' : 'none';
 }
 
@@ -591,14 +594,14 @@ function renderSummary() {
     ? state.date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
     : '—';
 
-  const suvExtra      = state.addons.suvseater === 7 ? 20 : state.addons.suvseater === 5 ? 13 : 0;
+  const suvExtra      = state.addons.suvseater === 7 ? 5 : 0;
   const sedanDiscount = state.addons.sedanseater === 2 ? 5 : 0;
   const addonStr = [
-    state.addons.pethair      ? 'Pet Hair Removal (+€10)'                                          : null,
-    state.addons.stains       ? 'Stain Treatment (+€10)'                                           : null,
+    state.addons.pethair      ? 'Pet Hair Removal (+€10)'                                                                      : null,
+    state.addons.stains       ? 'Stain Treatment (+€10)'                                                                       : null,
     state.addons.sedanseater  ? `Sedan ${state.addons.sedanseater}-Seater${sedanDiscount ? ' (-€' + sedanDiscount + ')' : ''}` : null,
-    state.addons.suvseater    ? `SUV ${state.addons.suvseater}-Seater (+€${suvExtra})`             : null,
-    state.addons.dirtinterior ? 'Heavy Soiling (+€5)'                                              : null,
+    state.addons.suvseater    ? `SUV ${state.addons.suvseater}-Seater${suvExtra ? ' (+€' + suvExtra + ')' : ''}`               : null,
+    state.addons.dirtinterior ? 'Heavy Soiling (+€5)'                                                                          : null,
   ].filter(Boolean).join(', ') || 'None';
 
   const rows = [
