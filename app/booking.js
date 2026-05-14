@@ -128,8 +128,8 @@ const PACKAGES = {
       features: ['Exterior Hand Wash', 'Wheel Cleaning', 'Window Cleaning', 'Interior Vacuum'] },
     { id: 'standard', name: 'Standard Wash',  desc: 'Full exterior + interior, wax, polish & engine clean',  price: { sedan: 25, suv: 35, van: 45 }, dur: 60, popular: true,
       features: ['Full Exterior Wash', 'Interior Vacuum', 'Dashboard Wipe-Down', 'Wax & Polish', 'Tire Dressing', 'Engine Bay Clean'] },
-    { id: 'premium',  name: 'Premium Wash',   desc: 'Standard + seat wash, roof clean, deep clean & mat wash', price: { sedan: 50, suv: 65, van: 80 }, dur: 90,
-      features: ['Full Standard Package', 'Seat Wash', 'Roof Clean', 'Deep Cleaning', 'Mat Wash'] },
+    { id: 'premium',  name: 'Premium Wash',   desc: 'Standard + deep internal cleaning',                       price: { sedan: 50, suv: 65, van: 80 }, dur: 90,
+      features: ['Full Standard Package', 'Deep Internal Cleaning'] },
   ],
   interior: [
     { id: 'basic',    name: 'Interior Refresh',    desc: 'Vacuum & quick wipe of all surfaces',               price: { sedan: 25, suv: 32, van: 38 }, dur: 40,

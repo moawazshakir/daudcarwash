@@ -45,11 +45,8 @@ const pricingData = {
         { text: "Dashboard Wipe-Down",   on: true  },
         { text: "Wax & Polish",          on: true  },
         { text: "Tire Dressing",         on: true  },
-        { text: "Engine Bay Clean",      on: true  },
-        { text: "Seat Wash",             on: true  },
-        { text: "Roof Clean",            on: true  },
-        { text: "Deep Cleaning",         on: true  },
-        { text: "Mat Wash",              on: true  },
+        { text: "Engine Bay Clean",        on: true  },
+        { text: "Deep Internal Cleaning",  on: true  },
       ]
     }
   ],
@@ -94,11 +91,8 @@ const pricingData = {
         { text: "Dashboard Wipe-Down",   on: true  },
         { text: "Wax & Polish",          on: true  },
         { text: "Tire Dressing",         on: true  },
-        { text: "Engine Bay Clean",      on: true  },
-        { text: "Seat Wash",             on: true  },
-        { text: "Roof Clean",            on: true  },
-        { text: "Deep Cleaning",         on: true  },
-        { text: "Mat Wash",              on: true  },
+        { text: "Engine Bay Clean",        on: true  },
+        { text: "Deep Internal Cleaning",  on: true  },
       ]
     }
   ],
@@ -144,10 +138,7 @@ const pricingData = {
         { text: "Wax & Polish",            on: true  },
         { text: "Tire Dressing",           on: true  },
         { text: "Engine Bay Clean",        on: true  },
-        { text: "Seat Wash",               on: true  },
-        { text: "Roof Clean",              on: true  },
-        { text: "Deep Cleaning",           on: true  },
-        { text: "Mat Wash",                on: true  },
+        { text: "Deep Internal Cleaning",  on: true  },
       ]
     }
   ]
