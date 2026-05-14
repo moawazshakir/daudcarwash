@@ -467,7 +467,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* =============================================
    SERVICES
    ============================================= */
-.services { background: var(--off); }
+.services { background: var(--off); overflow: hidden; }
 
 .services-grid {
   display: grid;
@@ -1292,7 +1292,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .p-card.popular   { transform: none; box-shadow: 0 8px 32px rgba(2,132,199,.2); }
   .p-card.popular:hover { transform: translateY(-4px); }
 
-  .services-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .services-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .service-card  { padding: 22px 16px; }
+  .service-icon  { margin-bottom: 14px; }
   .logo-img { height: 60px; }
 }
 
@@ -1314,8 +1316,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   .pricing-tabs { gap: 8px; }
   .tab-btn { padding: 10px 16px; font-size: 13px; }
-
-  .services-grid { grid-template-columns: 1fr; }
 }
 
 
