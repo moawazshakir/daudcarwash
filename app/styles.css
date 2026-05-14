@@ -39,6 +39,7 @@ html {
   overflow-x: hidden;
   width: 100%;
   max-width: 100%;
+  position: relative;
 }
 
 body {
@@ -49,6 +50,7 @@ body {
   overflow-x: hidden;
   width: 100%;
   max-width: 100%;
+  position: relative;
 }
 
 h1, h2, h3, h4, h5 {
@@ -789,6 +791,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .stats-section {
   padding: 72px 0;
   background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 60%, #0ea5e9 100%);
+  overflow: hidden;
 }
 
 .stats-grid {
@@ -798,11 +801,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   text-align: center;
 }
 
-.stat-block { color: white; }
+.stat-block { color: white; min-width: 0; }
 
 .stat-num {
   font-family: 'Montserrat', sans-serif;
-  font-size: 50px;
+  font-size: clamp(32px, 8vw, 50px);
   font-weight: 900;
   color: white;
   line-height: 1;
@@ -810,7 +813,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .stat-sfx {
   font-family: 'Montserrat', sans-serif;
-  font-size: 32px;
+  font-size: clamp(20px, 5vw, 32px);
   font-weight: 900;
   color: white;
 }
