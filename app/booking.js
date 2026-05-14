@@ -147,7 +147,7 @@ const PACKAGES = {
 
 const CAT_NAMES = { carwash: 'Car Wash', interior: 'Interior Detailing', engine: 'Engine Cleaning' };
 const CAT_ICONS = { carwash: 'fa-car-side', interior: 'fa-couch', engine: 'fa-gears' };
-const ADDON_PRICES = { pethair: 10, stains: 10, dirtinterior: 5 };
+const ADDON_PRICES = { pethair: 5, stains: 5, dirtinterior: 5 };
 
 
 const SLOTS_WEEKDAY = ['8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM'];
@@ -597,8 +597,8 @@ function renderSummary() {
   const suvExtra      = state.addons.suvseater === 7 ? 5 : 0;
   const sedanDiscount = state.addons.sedanseater === 2 ? 5 : 0;
   const addonStr = [
-    state.addons.pethair      ? 'Pet Hair Removal (+€10)'                                                                      : null,
-    state.addons.stains       ? 'Stain Treatment (+€10)'                                                                       : null,
+    state.addons.pethair      ? 'Pet Hair Removal (+€5)'                                                                       : null,
+    state.addons.stains       ? 'Stain Treatment (+€5)'                                                                        : null,
     state.addons.sedanseater  ? `Sedan ${state.addons.sedanseater}-Seater${sedanDiscount ? ' (-€' + sedanDiscount + ')' : ''}` : null,
     state.addons.suvseater    ? `SUV ${state.addons.suvseater}-Seater${suvExtra ? ' (+€' + suvExtra + ')' : ''}`               : null,
     state.addons.dirtinterior ? 'Heavy Soiling (+€5)'                                                                          : null,
