@@ -608,6 +608,37 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .p-card.popular:hover { transform: translateY(-12px); }
 
+@keyframes pkg-glow {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(14,165,233,.35), 0 8px 32px rgba(14,165,233,.15); }
+  50%       { box-shadow: 0 0 0 4px rgba(14,165,233,.65), 0 14px 44px rgba(14,165,233,.32); }
+}
+
+.p-card.recommended {
+  border-color: var(--blue);
+  transform: translateY(-6px);
+  animation: pkg-glow 2s ease-in-out infinite;
+}
+.p-card.popular.recommended { transform: translateY(-12px); }
+.p-card.recommended:hover   { transform: translateY(-10px); }
+
+.pricing-recommendation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(14,165,233,.07);
+  border: 1.5px solid rgba(14,165,233,.3);
+  border-radius: 10px;
+  padding: 12px 20px;
+  margin-bottom: 32px;
+  color: var(--blue-dark);
+  font-size: 14px;
+  font-weight: 500;
+  max-width: 1080px;
+  margin-inline: auto;
+  margin-bottom: 32px;
+}
+.pricing-recommendation i { color: var(--blue); font-size: 16px; flex-shrink: 0; }
+
 .p-badge {
   position: absolute;
   top: -14px;

@@ -171,6 +171,31 @@ function renderPricing(category) {
   `).join('');
 }
 
+// === SERVICE → PACKAGE RECOMMENDATION ===
+const servicePackageMap = {
+  exterior:   'basic',
+  interior:   'standard',
+  fullDetail: 'standard',
+  vip:        'premium'
+};
+
+let activeRecommended = null;
+
+function applyRecommendedPackage(pkgName) {
+  document.querySelectorAll('.p-card.recommended').forEach(c => c.classList.remove('recommended'));
+  document.querySelectorAll('.p-card').forEach(card => {
+    const nameEl = card.querySelector('.p-name');
+    if (nameEl && nameEl.textContent.trim().toLowerCase() === pkgName) {
+      card.classList.add('recommended');
+    }
+  });
+  const banner = document.getElementById('pricing-recommendation');
+  if (!banner) return;
+  const label = pkgName.charAt(0).toUpperCase() + pkgName.slice(1);
+  banner.innerHTML = `<i class="fas fa-circle-check"></i> <strong>${label} Package</strong> recommended for your selected service`;
+  banner.hidden = false;
+}
+
 renderPricing('sedan');
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -178,6 +203,16 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     renderPricing(btn.dataset.tab);
+    if (activeRecommended) applyRecommendedPackage(activeRecommended);
+  });
+});
+
+document.querySelectorAll('.card-link[data-service]').forEach(link => {
+  link.addEventListener('click', () => {
+    const pkg = servicePackageMap[link.dataset.service];
+    if (!pkg) return;
+    activeRecommended = pkg;
+    setTimeout(() => applyRecommendedPackage(pkg), 350);
   });
 });
 
