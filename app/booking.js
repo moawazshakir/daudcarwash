@@ -132,7 +132,7 @@ const PACKAGES = {
       features: ['Full Standard Package', 'Deep Internal Cleaning'] },
   ],
   interior: [
-    { id: 'premium',  name: 'Interior Premium',    desc: 'Full clean with conditioning & odor elimination',   price: { sedan: 85, suv: 110, van: 130 }, dur: 120,
+    { id: 'premium',  name: 'Interior Premium',    desc: 'Full clean with conditioning & odor elimination',   price: { sedan: 80, suv: 80, van: 80 }, dur: 120,
       features: ['Full Interior Deep Clean', 'Leather Conditioning', 'Odor Elimination', 'Fabric Protector'] },
   ],
   engine: [
