@@ -132,15 +132,11 @@ const PACKAGES = {
       features: ['Full Standard Package', 'Deep Internal Cleaning'] },
   ],
   interior: [
-    { id: 'basic',    name: 'Interior Refresh',    desc: 'Vacuum & quick wipe of all surfaces',               price: { sedan: 25, suv: 32, van: 38 }, dur: 40,
-      features: ['Full Vacuum', 'Surface Wipe-Down', 'Window Interior Clean'] },
-    { id: 'standard', name: 'Interior Deep Clean', desc: 'Thorough cleaning of all interior surfaces',        price: { sedan: 50, suv: 65, van: 78 }, dur: 90, popular: true,
-      features: ['Deep Vacuum', 'Seat Shampoo', 'Carpet Shampoo', 'Dashboard Polish'] },
     { id: 'premium',  name: 'Interior Premium',    desc: 'Full clean with conditioning & odor elimination',   price: { sedan: 85, suv: 110, van: 130 }, dur: 120,
       features: ['Full Interior Deep Clean', 'Leather Conditioning', 'Odor Elimination', 'Fabric Protector'] },
   ],
   engine: [
-    { id: 'basic',    name: 'Engine Rinse',   desc: 'Basic engine bay degreasing & rinse',                    price: { sedan: 20, suv: 25, van: 30 }, dur: 30,
+    { id: 'basic',    name: 'Engine Rinse',   desc: 'Basic engine bay degreasing & rinse',                    price: { sedan: 10, suv: 10, van: 10 }, dur: 20,
       features: ['Degreaser Application', 'Pressure Rinse', 'Air Blow Dry'] },
   ],
 };
