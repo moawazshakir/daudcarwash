@@ -2,7 +2,7 @@
    AUTOLAVAGGIO LA PALMA — script.js
    ============================================= */
 
-// === PRICING DATA (4 tiers) ===
+// === PRICING DATA (3 tiers) ===
 const pricingData = {
   sedan: [
     {
@@ -12,7 +12,56 @@ const pricingData = {
         { text: "Exterior Hand Wash",   on: true  },
         { text: "Wheel Cleaning",        on: true  },
         { text: "Window Cleaning",       on: true  },
-        { text: "Interior Vacuum",       on: false },
+        { text: "Interior Vacuum",       on: true  },
+        { text: "Dashboard Wipe-Down",   on: false },
+        { text: "Wax & Polish",          on: false },
+        { text: "Tire Dressing",         on: false },
+        { text: "Engine Bay Clean",      on: false },
+      ]
+    },
+    {
+      name: "Standard",
+      price: 25,
+      popular: true,
+      features: [
+        { text: "Exterior Hand Wash",   on: true  },
+        { text: "Wheel Cleaning",        on: true  },
+        { text: "Window Cleaning",       on: true  },
+        { text: "Interior Vacuum",       on: true  },
+        { text: "Dashboard Wipe-Down",   on: true  },
+        { text: "Wax & Polish",          on: true  },
+        { text: "Tire Dressing",         on: true  },
+        { text: "Engine Bay Clean",      on: true  },
+      ]
+    },
+    {
+      name: "Premium",
+      price: 50,
+      features: [
+        { text: "Exterior Hand Wash",   on: true  },
+        { text: "Wheel Cleaning",        on: true  },
+        { text: "Window Cleaning",       on: true  },
+        { text: "Interior Vacuum",       on: true  },
+        { text: "Dashboard Wipe-Down",   on: true  },
+        { text: "Wax & Polish",          on: true  },
+        { text: "Tire Dressing",         on: true  },
+        { text: "Engine Bay Clean",      on: true  },
+        { text: "Seat Wash",             on: true  },
+        { text: "Roof Clean",            on: true  },
+        { text: "Deep Cleaning",         on: true  },
+        { text: "Mat Wash",              on: true  },
+      ]
+    }
+  ],
+  suv: [
+    {
+      name: "Basic",
+      price: 20,
+      features: [
+        { text: "Exterior Hand Wash",   on: true  },
+        { text: "Wheel & Rim Cleaning", on: true  },
+        { text: "Window Cleaning",       on: true  },
+        { text: "Interior Vacuum",       on: true  },
         { text: "Dashboard Wipe-Down",   on: false },
         { text: "Wax & Polish",          on: false },
         { text: "Tire Dressing",         on: false },
@@ -25,13 +74,13 @@ const pricingData = {
       popular: true,
       features: [
         { text: "Exterior Hand Wash",   on: true  },
-        { text: "Wheel Cleaning",        on: true  },
+        { text: "Wheel & Rim Cleaning", on: true  },
         { text: "Window Cleaning",       on: true  },
         { text: "Interior Vacuum",       on: true  },
         { text: "Dashboard Wipe-Down",   on: true  },
-        { text: "Wax & Polish",          on: false },
-        { text: "Tire Dressing",         on: false },
-        { text: "Engine Bay Clean",      on: false },
+        { text: "Wax & Polish",          on: true  },
+        { text: "Tire Dressing",         on: true  },
+        { text: "Engine Bay Clean",      on: true  },
       ]
     },
     {
@@ -39,81 +88,6 @@ const pricingData = {
       price: 65,
       features: [
         { text: "Exterior Hand Wash",   on: true  },
-        { text: "Wheel Cleaning",        on: true  },
-        { text: "Window Cleaning",       on: true  },
-        { text: "Interior Vacuum",       on: true  },
-        { text: "Dashboard Wipe-Down",   on: true  },
-        { text: "Wax & Polish",          on: true  },
-        { text: "Tire Dressing",         on: true  },
-        { text: "Engine Bay Clean",      on: false },
-      ]
-    },
-    {
-      name: "Elite",
-      price: 99,
-      elite: true,
-      features: [
-        { text: "Exterior Hand Wash",   on: true  },
-        { text: "Wheel Cleaning",        on: true  },
-        { text: "Window Cleaning",       on: true  },
-        { text: "Interior Vacuum",       on: true  },
-        { text: "Dashboard Wipe-Down",   on: true  },
-        { text: "Wax & Polish",          on: true  },
-        { text: "Tire Dressing",         on: true  },
-        { text: "Engine Bay Clean",      on: true  },
-      ]
-    }
-  ],
-  suv: [
-    {
-      name: "Basic",
-      price: 22,
-      features: [
-        { text: "Exterior Hand Wash",   on: true  },
-        { text: "Wheel & Rim Cleaning", on: true  },
-        { text: "Window Cleaning",       on: true  },
-        { text: "Interior Vacuum",       on: false },
-        { text: "Dashboard Wipe-Down",   on: false },
-        { text: "Wax & Polish",          on: false },
-        { text: "Tire Dressing",         on: false },
-        { text: "Engine Bay Clean",      on: false },
-      ]
-    },
-    {
-      name: "Standard",
-      price: 45,
-      popular: true,
-      features: [
-        { text: "Exterior Hand Wash",   on: true  },
-        { text: "Wheel & Rim Cleaning", on: true  },
-        { text: "Window Cleaning",       on: true  },
-        { text: "Interior Vacuum",       on: true  },
-        { text: "Dashboard Wipe-Down",   on: true  },
-        { text: "Wax & Polish",          on: false },
-        { text: "Tire Dressing",         on: false },
-        { text: "Engine Bay Clean",      on: false },
-      ]
-    },
-    {
-      name: "Premium",
-      price: 85,
-      features: [
-        { text: "Exterior Hand Wash",   on: true  },
-        { text: "Wheel & Rim Cleaning", on: true  },
-        { text: "Window Cleaning",       on: true  },
-        { text: "Interior Vacuum",       on: true  },
-        { text: "Dashboard Wipe-Down",   on: true  },
-        { text: "Wax & Polish",          on: true  },
-        { text: "Tire Dressing",         on: true  },
-        { text: "Engine Bay Clean",      on: false },
-      ]
-    },
-    {
-      name: "Elite",
-      price: 130,
-      elite: true,
-      features: [
-        { text: "Exterior Hand Wash",   on: true  },
         { text: "Wheel & Rim Cleaning", on: true  },
         { text: "Window Cleaning",       on: true  },
         { text: "Interior Vacuum",       on: true  },
@@ -121,18 +95,22 @@ const pricingData = {
         { text: "Wax & Polish",          on: true  },
         { text: "Tire Dressing",         on: true  },
         { text: "Engine Bay Clean",      on: true  },
+        { text: "Seat Wash",             on: true  },
+        { text: "Roof Clean",            on: true  },
+        { text: "Deep Cleaning",         on: true  },
+        { text: "Mat Wash",              on: true  },
       ]
     }
   ],
   truck: [
     {
       name: "Basic",
-      price: 28,
+      price: 25,
       features: [
         { text: "Exterior Hand Wash",     on: true  },
         { text: "Wheel & Undercarriage",  on: true  },
         { text: "Window Cleaning",         on: true  },
-        { text: "Interior Vacuum",         on: false },
+        { text: "Interior Vacuum",         on: true  },
         { text: "Dashboard Wipe-Down",     on: false },
         { text: "Wax & Polish",            on: false },
         { text: "Tire Dressing",           on: false },
@@ -141,37 +119,8 @@ const pricingData = {
     },
     {
       name: "Standard",
-      price: 55,
+      price: 45,
       popular: true,
-      features: [
-        { text: "Exterior Hand Wash",     on: true  },
-        { text: "Wheel & Undercarriage",  on: true  },
-        { text: "Window Cleaning",         on: true  },
-        { text: "Interior Vacuum",         on: true  },
-        { text: "Dashboard Wipe-Down",     on: true  },
-        { text: "Wax & Polish",            on: false },
-        { text: "Tire Dressing",           on: false },
-        { text: "Engine Bay Clean",        on: false },
-      ]
-    },
-    {
-      name: "Premium",
-      price: 100,
-      features: [
-        { text: "Exterior Hand Wash",     on: true  },
-        { text: "Wheel & Undercarriage",  on: true  },
-        { text: "Window Cleaning",         on: true  },
-        { text: "Interior Vacuum",         on: true  },
-        { text: "Dashboard Wipe-Down",     on: true  },
-        { text: "Wax & Polish",            on: true  },
-        { text: "Tire Dressing",           on: true  },
-        { text: "Engine Bay Clean",        on: false },
-      ]
-    },
-    {
-      name: "Elite",
-      price: 155,
-      elite: true,
       features: [
         { text: "Exterior Hand Wash",     on: true  },
         { text: "Wheel & Undercarriage",  on: true  },
@@ -181,6 +130,24 @@ const pricingData = {
         { text: "Wax & Polish",            on: true  },
         { text: "Tire Dressing",           on: true  },
         { text: "Engine Bay Clean",        on: true  },
+      ]
+    },
+    {
+      name: "Premium",
+      price: 80,
+      features: [
+        { text: "Exterior Hand Wash",     on: true  },
+        { text: "Wheel & Undercarriage",  on: true  },
+        { text: "Window Cleaning",         on: true  },
+        { text: "Interior Vacuum",         on: true  },
+        { text: "Dashboard Wipe-Down",     on: true  },
+        { text: "Wax & Polish",            on: true  },
+        { text: "Tire Dressing",           on: true  },
+        { text: "Engine Bay Clean",        on: true  },
+        { text: "Seat Wash",               on: true  },
+        { text: "Roof Clean",              on: true  },
+        { text: "Deep Cleaning",           on: true  },
+        { text: "Mat Wash",                on: true  },
       ]
     }
   ]
@@ -196,7 +163,7 @@ function renderPricing(category) {
       ${card.elite   ? '<div class="p-badge elite-badge"><i class="fas fa-crown"></i> Elite</div>' : ''}
       <p class="p-name">${card.name}</p>
       <div class="p-price">
-        <sup>$</sup>
+        <sup>€</sup>
         <span class="amount">${card.price}</span>
       </div>
       <p class="p-period">per wash</p>
