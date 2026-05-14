@@ -34,7 +34,12 @@
   --tr: all .3s ease;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -42,6 +47,8 @@ body {
   background: var(--white);
   line-height: 1.65;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 h1, h2, h3, h4, h5 {
@@ -1281,6 +1288,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   .p-card.popular   { transform: none; box-shadow: 0 8px 32px rgba(2,132,199,.2); }
   .p-card.popular:hover { transform: translateY(-4px); }
+
+  .services-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .logo-img { height: 60px; }
 }
 
 @media (max-width: 560px) {
@@ -1301,6 +1311,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
   .pricing-tabs { gap: 8px; }
   .tab-btn { padding: 10px 16px; font-size: 13px; }
+
+  .services-grid { grid-template-columns: 1fr; }
 }
 
 
