@@ -112,6 +112,13 @@
               <button type="button" class="bw-vtype" data-vtype="suv" onclick="handleVtype(this)"><i class="fas fa-truck-monster"></i> SUV</button>
               <button type="button" class="bw-vtype" data-vtype="van" onclick="handleVtype(this)"><i class="fas fa-van-shuttle"></i> Van / Minivan</button>
             </div>
+            <div id="sedan-seater-inline" style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
+              <p class="bw-block-subtitle">How many seats does your Sedan have?</p>
+              <div class="bw-vtype-row">
+                <button type="button" class="bw-sedan-seat" data-seats="2" onclick="handleSedanSeat(this)"><i class="fas fa-users"></i> 2 Seats <span>-€5</span></button>
+                <button type="button" class="bw-sedan-seat" data-seats="5" onclick="handleSedanSeat(this)"><i class="fas fa-users"></i> 5 Seats</button>
+              </div>
+            </div>
             <div id="suv-seater-inline" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
               <p class="bw-block-subtitle">How many seats does your SUV have?</p>
               <div class="bw-vtype-row">
@@ -229,6 +236,10 @@
               <div class="bw-price-row bw-addon-row" id="row-stains" style="display:none">
                 <span>Stain treatment</span>
                 <span>+€10</span>
+              </div>
+              <div class="bw-price-row bw-addon-row" id="row-sedanseater" style="display:none">
+                <span>2-Seater Sedan discount</span>
+                <span style="color:#16a34a">-€5</span>
               </div>
               <div class="bw-price-row bw-addon-row" id="row-suvseater" style="display:none">
                 <span>SUV seater surcharge</span>

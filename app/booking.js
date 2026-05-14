@@ -113,7 +113,7 @@ const state = {
   packageId: null, packageName: '',
   vehicleType: 'sedan',
   brand: '', model: '',
-  addons: { pethair: false, stains: false, suvseater: 0, dirtinterior: false },
+  addons: { pethair: false, stains: false, sedanseater: 0, suvseater: 0, dirtinterior: false },
   calYear: null, calMonth: null,
   date: null, dateStr: '',
   time: null,
@@ -193,6 +193,9 @@ function validate(step) {
   if (step === 3) {
     if (!state.brand) { alert('Please select your car brand.'); return false; }
     if (!state.model) { alert('Please select your car model.'); return false; }
+    if (state.vehicleType === 'sedan' && !state.addons.sedanseater) {
+      alert('Please select the number of seats for your Sedan.'); return false;
+    }
     if (state.vehicleType === 'suv' && !state.addons.suvseater) {
       alert('Please select the number of seats for your SUV.'); return false;
     }
@@ -422,6 +425,15 @@ function handleVtype(btn) {
   document.querySelectorAll('.bw-vtype').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   state.vehicleType = btn.dataset.vtype;
+
+  const sedanInline = document.getElementById('sedan-seater-inline');
+  if (sedanInline) {
+    sedanInline.style.display = state.vehicleType === 'sedan' ? '' : 'none';
+    if (state.vehicleType !== 'sedan') {
+      state.addons.sedanseater = 0;
+      document.querySelectorAll('.bw-sedan-seat').forEach(b => b.classList.remove('active'));
+    }
+  }
   const suvInline = document.getElementById('suv-seater-inline');
   if (suvInline) {
     suvInline.style.display = state.vehicleType === 'suv' ? '' : 'none';
@@ -431,6 +443,13 @@ function handleVtype(btn) {
     }
   }
   refreshBrands();
+  updatePrice();
+}
+
+function handleSedanSeat(btn) {
+  document.querySelectorAll('.bw-sedan-seat').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.addons.sedanseater = parseInt(btn.dataset.seats);
   updatePrice();
 }
 
@@ -454,13 +473,15 @@ function handleAddon(btn) {
 
 function updatePrice() {
   if (!state.category || !state.packageId) return;
-  const pkg      = PACKAGES[state.category].find(p => p.id === state.packageId);
-  const base     = pkg.price[state.vehicleType];
-  const suvExtra = state.addons.suvseater === 7 ? 20 : state.addons.suvseater === 5 ? 13 : 0;
+  const pkg           = PACKAGES[state.category].find(p => p.id === state.packageId);
+  const base          = pkg.price[state.vehicleType];
+  const suvExtra      = state.addons.suvseater === 7 ? 20 : state.addons.suvseater === 5 ? 13 : 0;
+  const sedanDiscount = state.addons.sedanseater === 2 ? -5 : 0;
   state.basePrice  = base;
   state.totalPrice = base
     + (state.addons.pethair      ? ADDON_PRICES.pethair      : 0)
     + (state.addons.stains       ? ADDON_PRICES.stains       : 0)
+    + sedanDiscount
     + suvExtra
     + (state.addons.dirtinterior ? ADDON_PRICES.dirtinterior : 0);
 
@@ -471,6 +492,7 @@ function updatePrice() {
   document.getElementById('pc-total').textContent = '€' + state.totalPrice;
   document.getElementById('row-pethair').style.display     = state.addons.pethair      ? 'flex' : 'none';
   document.getElementById('row-stains').style.display      = state.addons.stains       ? 'flex' : 'none';
+  document.getElementById('row-sedanseater').style.display  = sedanDiscount !== 0       ? 'flex' : 'none';
   document.getElementById('row-suvseater').style.display   = state.addons.suvseater    ? 'flex' : 'none';
   if (state.addons.suvseater) document.getElementById('row-suvseater-amt').textContent = '+€' + suvExtra;
   document.getElementById('row-dirtinterior').style.display = state.addons.dirtinterior ? 'flex' : 'none';
@@ -562,12 +584,14 @@ function renderSummary() {
     ? state.date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
     : '—';
 
-  const suvExtra = state.addons.suvseater === 7 ? 20 : state.addons.suvseater === 5 ? 13 : 0;
+  const suvExtra      = state.addons.suvseater === 7 ? 20 : state.addons.suvseater === 5 ? 13 : 0;
+  const sedanDiscount = state.addons.sedanseater === 2 ? 5 : 0;
   const addonStr = [
-    state.addons.pethair      ? 'Pet Hair Removal (+€10)'                              : null,
-    state.addons.stains       ? 'Stain Treatment (+€10)'                               : null,
-    state.addons.suvseater    ? `SUV ${state.addons.suvseater}-Seater (+€${suvExtra})` : null,
-    state.addons.dirtinterior ? 'Heavy Soiling (+€5)'                                  : null,
+    state.addons.pethair      ? 'Pet Hair Removal (+€10)'                                          : null,
+    state.addons.stains       ? 'Stain Treatment (+€10)'                                           : null,
+    state.addons.sedanseater  ? `Sedan ${state.addons.sedanseater}-Seater${sedanDiscount ? ' (-€' + sedanDiscount + ')' : ''}` : null,
+    state.addons.suvseater    ? `SUV ${state.addons.suvseater}-Seater (+€${suvExtra})`             : null,
+    state.addons.dirtinterior ? 'Heavy Soiling (+€5)'                                              : null,
   ].filter(Boolean).join(', ') || 'None';
 
   const rows = [
@@ -625,6 +649,7 @@ async function submitBooking() {
     time_slot:      to24h(state.time),
     pet_hair_removal: state.addons.pethair,
     bird_stains:      state.addons.stains,
+    sedan_seater:     state.addons.sedanseater || null,
     suv_seater:       state.addons.suvseater || null,
     dirty_interior:   state.addons.dirtinterior,
     license_plate:    state.plate,
@@ -668,7 +693,7 @@ function resetWizard() {
   Object.assign(state, {
     step: 1, category: null, categoryName: '', packageId: null, packageName: '',
     vehicleType: 'sedan', brand: '', model: '',
-    addons: { pethair: false, stains: false, suvseater: 0, dirtinterior: false },
+    addons: { pethair: false, stains: false, sedanseater: 0, suvseater: 0, dirtinterior: false },
     date: null, dateStr: '', time: null,
     fname: '', lname: '', phone: '', email: '', plate: '', notes: '',
     basePrice: 0, totalPrice: 0,
@@ -677,6 +702,9 @@ function resetWizard() {
   document.querySelectorAll('.bw-cat-card').forEach(c => c.classList.remove('active'));
   document.querySelectorAll('.bw-yn-no').forEach(b => b.classList.add('active'));
   document.querySelectorAll('.bw-yn-yes').forEach(b => b.classList.remove('active'));
+  const sedanInline = document.getElementById('sedan-seater-inline');
+  if (sedanInline) sedanInline.style.display = '';
+  document.querySelectorAll('.bw-sedan-seat').forEach(b => b.classList.remove('active'));
   const suvInline = document.getElementById('suv-seater-inline');
   if (suvInline) suvInline.style.display = 'none';
   document.querySelectorAll('.bw-suv-seat').forEach(b => b.classList.remove('active'));
