@@ -366,6 +366,7 @@ body {
 .bw-brand-item-name { flex: 1; }
 .bw-brand-item-check { color: var(--blue); font-size: 12px; flex-shrink: 0; }
 .bw-brand-no-results { padding: 14px; text-align: center; color: var(--muted); font-size: 13px; }
+.bw-brand-other { border-top: 1px solid var(--border); margin-top: 4px; color: var(--blue) !important; font-style: italic; }
 
 /* ===== CUSTOM MODEL DROPDOWN ===== */
 .bw-model-dropdown { position: relative; width: 100%; }
@@ -433,6 +434,9 @@ body {
 .bw-model-item-name { flex: 1; }
 .bw-model-item-check { color: var(--blue); font-size: 12px; flex-shrink: 0; }
 .bw-model-no-results { padding: 14px; text-align: center; color: var(--muted); font-size: 13px; }
+.bw-model-other { border-top: 1px solid var(--border); margin-top: 4px; color: var(--blue) !important; font-style: italic; }
+.bw-custom-input { width: 100%; padding: 11px 14px; border: 2px solid var(--border); border-radius: 10px; background: var(--bg); font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 14px; color: var(--text); outline: none; transition: var(--tr); }
+.bw-custom-input:focus { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(2,132,199,.1); }
 
 /* Guarantee all interactive elements are tappable — never inherit pointer-events:none */
 .bw-vtype, .bw-sedan-seat, .bw-suv-seat, .bw-yn, .bw-cat-card,

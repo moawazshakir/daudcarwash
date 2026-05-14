@@ -170,6 +170,24 @@
                 </div>
               </div>
             </div>
+            <!-- Custom entry: both brand + model (when brand not in list) -->
+            <div id="bw-custom-full" style="display:none; margin-top:12px;" class="bw-two-col">
+              <div class="bw-field">
+                <label>Brand Name *</label>
+                <input type="text" id="bw-custom-brand-val" class="bw-custom-input" placeholder="e.g. Lada, Daihatsu…" autocomplete="off" oninput="state.brand=this.value.trim()">
+              </div>
+              <div class="bw-field">
+                <label>Model Name *</label>
+                <input type="text" id="bw-custom-model-full-val" class="bw-custom-input" placeholder="e.g. Granta, Terios…" autocomplete="off" oninput="state.model=this.value.trim()">
+              </div>
+            </div>
+            <!-- Custom entry: model only (when model not in list) -->
+            <div id="bw-custom-model-only" style="display:none; margin-top:12px; max-width:50%;">
+              <div class="bw-field">
+                <label>Model Name *</label>
+                <input type="text" id="bw-custom-model-val" class="bw-custom-input" placeholder="Type your model name…" autocomplete="off" oninput="state.model=this.value.trim()">
+              </div>
+            </div>
           </div>
 
           <div class="bw-block">
