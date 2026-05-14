@@ -144,9 +144,13 @@ const pricingData = {
   ]
 };
 
+const VTYPE_MAP = { sedan: 'sedan', suv: 'suv', truck: 'van' };
+
 function renderPricing(category) {
   const grid = document.getElementById('pricing-cards');
   if (!grid) return;
+
+  const vtype = VTYPE_MAP[category] || 'sedan';
 
   grid.innerHTML = pricingData[category].map(card => `
     <div class="p-card ${card.popular ? 'popular' : ''} ${card.elite ? 'elite' : ''}">
@@ -166,7 +170,7 @@ function renderPricing(category) {
           </li>
         `).join('')}
       </ul>
-      <a href="booking/?category=carwash&package=${card.name.toLowerCase()}" class="btn-primary">Book This Package</a>
+      <a href="booking/?vehicleType=${vtype}&packageType=${card.name.toLowerCase()}" class="btn-primary">Book This Package</a>
     </div>
   `).join('');
 }

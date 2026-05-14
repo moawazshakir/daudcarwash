@@ -856,24 +856,59 @@ initCalendar();
 populateBrands();
 
 (function applyUrlPreset() {
-  const params  = new URLSearchParams(window.location.search);
-  const catParam = params.get('category');
-  const pkgParam = params.get('package');
-  if (!catParam || !pkgParam) return;
-  if (!PACKAGES[catParam]) return;
-  const pkg = PACKAGES[catParam].find(p => p.id === pkgParam);
+  const params       = new URLSearchParams(window.location.search);
+  const vtypeParam   = params.get('vehicleType');
+  const pkgTypeParam = params.get('packageType');
+  const catParam     = params.get('category');
+  const pkgParam     = params.get('package');
+
+  // New-style: vehicleType + packageType (always carwash category)
+  // Old-style: category + package (backward compat)
+  const effectiveCat = catParam || (pkgTypeParam ? 'carwash' : null);
+  const effectivePkg = pkgTypeParam || pkgParam;
+  if (!effectiveCat || !effectivePkg) return;
+  if (!PACKAGES[effectiveCat]) return;
+  const pkg = PACKAGES[effectiveCat].find(p => p.id === effectivePkg);
   if (!pkg) return;
 
-  const catCard = document.querySelector('.bw-cat-card[data-cat="' + catParam + '"]');
+  const catCard = document.querySelector('.bw-cat-card[data-cat="' + effectiveCat + '"]');
   if (catCard) {
     document.querySelectorAll('.bw-cat-card').forEach(c => c.classList.remove('active'));
     catCard.classList.add('active');
   }
-  state.category     = catParam;
-  state.categoryName = CAT_NAMES[catParam];
-  state.packageId    = pkgParam;
+  state.category     = effectiveCat;
+  state.categoryName = CAT_NAMES[effectiveCat];
+  state.packageId    = effectivePkg;
   state.packageName  = pkg.name;
+
+  // Preset vehicle type when vehicleType param is present
+  if (vtypeParam) {
+    const vtype = vtypeParam === 'minivan' ? 'van' : vtypeParam;
+    if (['sedan', 'suv', 'van'].includes(vtype)) {
+      state.vehicleType = vtype;
+      document.querySelectorAll('.bw-vtype').forEach(b =>
+        b.classList.toggle('active', b.dataset.vtype === vtype)
+      );
+      const sedanInline = document.getElementById('sedan-seater-inline');
+      if (sedanInline) sedanInline.style.display = vtype === 'sedan' ? '' : 'none';
+      const suvInline = document.getElementById('suv-seater-inline');
+      if (suvInline) suvInline.style.display = vtype === 'suv' ? '' : 'none';
+      if (vtype !== 'sedan') {
+        state.addons.sedanseater = 0;
+        document.querySelectorAll('.bw-sedan-seat').forEach(b => b.classList.remove('active'));
+      }
+      if (vtype !== 'suv') {
+        state.addons.suvseater = 0;
+        document.querySelectorAll('.bw-suv-seat').forEach(b => b.classList.remove('active'));
+      }
+      refreshBrands();
+    }
+  }
+
   renderPackages();
+  document.querySelectorAll('.bw-pkg-card').forEach(c =>
+    c.classList.toggle('selected', c.dataset.id === effectivePkg)
+  );
   updatePrice();
   goTo(3);
 })();
