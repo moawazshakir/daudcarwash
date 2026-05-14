@@ -444,16 +444,26 @@ function handleVtype(btn) {
 }
 
 function handleSedanSeat(btn) {
-  document.querySelectorAll('.bw-sedan-seat').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  state.addons.sedanseater = parseInt(btn.dataset.seats);
+  if (btn.classList.contains('active')) {
+    btn.classList.remove('active');
+    state.addons.sedanseater = 0;
+  } else {
+    document.querySelectorAll('.bw-sedan-seat').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.addons.sedanseater = parseInt(btn.dataset.seats);
+  }
   updatePrice();
 }
 
 function handleSuvSeat(btn) {
-  document.querySelectorAll('.bw-suv-seat').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  state.addons.suvseater = parseInt(btn.dataset.seats);
+  if (btn.classList.contains('active')) {
+    btn.classList.remove('active');
+    state.addons.suvseater = 0;
+  } else {
+    document.querySelectorAll('.bw-suv-seat').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.addons.suvseater = parseInt(btn.dataset.seats);
+  }
   updatePrice();
 }
 
