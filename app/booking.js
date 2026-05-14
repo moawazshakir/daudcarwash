@@ -193,9 +193,6 @@ function validate(step) {
   if (step === 3) {
     if (!state.brand) { alert('Please select your car brand.'); return false; }
     if (!state.model) { alert('Please select your car model.'); return false; }
-    if (state.vehicleType === 'sedan' && !state.addons.sedanseater) {
-      alert('Please select the number of seats for your Sedan.'); return false;
-    }
     if (state.vehicleType === 'suv' && !state.addons.suvseater) {
       alert('Please select the number of seats for your SUV.'); return false;
     }
