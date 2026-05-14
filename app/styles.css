@@ -564,25 +564,26 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
-  align-items: start;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: stretch;
+  max-width: 1080px;
+  margin-inline: auto;
 }
 
-@media (max-width: 1100px) {
-  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 560px) {
-  .pricing-grid { grid-template-columns: 1fr; }
+@media (max-width: 900px) {
+  .pricing-grid { grid-template-columns: 1fr; max-width: 480px; }
 }
 
 .p-card {
   border-radius: var(--r);
-  padding: 40px 32px;
+  padding: 44px 36px 36px;
   border: 2px solid var(--gray-lite);
   background: white;
   transition: var(--tr);
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .p-card:hover {
@@ -593,10 +594,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .p-card.popular {
   border-color: var(--blue);
-  box-shadow: 0 8px 40px rgba(2,132,199,.2);
-  transform: scale(1.03);
+  box-shadow: 0 12px 48px rgba(2,132,199,.25);
+  transform: translateY(-8px);
 }
-.p-card.popular:hover { transform: scale(1.03) translateY(-4px); }
+.p-card.popular:hover { transform: translateY(-12px); }
 
 .p-badge {
   position: absolute;
@@ -656,6 +657,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .p-features {
+  flex: 1;
   margin-bottom: 32px;
 }
 
@@ -663,7 +665,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 0;
+  padding: 11px 0;
   font-size: 14px;
   border-bottom: 1px solid var(--gray-lite);
 }
@@ -674,7 +676,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .p-features li i.fa-xmark  { color: var(--gray-lite); }
 .p-features li.off { color: var(--gray); }
 
-.p-card .btn-primary { width: 100%; justify-content: center; }
+.p-card .btn-primary { width: 100%; justify-content: center; margin-top: auto; }
+
+/* Premium card accent */
+.pricing-grid .p-card:last-child {
+  background: linear-gradient(160deg, #f0f9ff 0%, #ffffff 55%);
+  border-color: #7dd3fc;
+}
+.pricing-grid .p-card:last-child::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--blue), #38bdf8);
+  border-radius: var(--r) var(--r) 0 0;
+}
+.pricing-grid .p-card:last-child:hover {
+  border-color: var(--blue);
+  box-shadow: 0 16px 48px rgba(2,132,199,.3);
+}
 
 /* =============================================
    WHY US
@@ -1259,7 +1279,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .footer-grid      { grid-template-columns: 1fr 1fr; gap: 28px; }
   .footer-brand     { grid-column: span 2; }
 
-  .p-card.popular   { transform: none; }
+  .p-card.popular   { transform: none; box-shadow: 0 8px 32px rgba(2,132,199,.2); }
   .p-card.popular:hover { transform: translateY(-4px); }
 }
 
@@ -1283,18 +1303,6 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .tab-btn { padding: 10px 16px; font-size: 13px; }
 }
 
-/* =============================================
-   ELITE PRICING CARD
-   ============================================= */
-.p-card.elite {
-  border-color: var(--gold);
-  background: linear-gradient(160deg, #fffbeb 0%, #fff 60%);
-}
-.p-card.elite:hover { border-color: var(--gold); box-shadow: 0 12px 40px rgba(202,138,4,.2); }
-
-.elite-badge {
-  background: linear-gradient(135deg, #ca8a04, #f59e0b) !important;
-}
 
 /* =============================================
    BOOKING SECTION
