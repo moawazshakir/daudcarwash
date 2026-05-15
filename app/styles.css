@@ -484,6 +484,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
   opacity: 0;
   transform: translateY(24px);
+  cursor: pointer;
 }
 
 .service-card.in-view {
@@ -593,6 +594,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   position: relative;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .p-card:hover {

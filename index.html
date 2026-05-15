@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="app/styles.css?v=6">
+  <link rel="stylesheet" href="app/styles.css?v=7">
   <link rel="icon" type="image/png" sizes="16x16" href="public/images/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="public/images/favicon.png">
   <link rel="icon" type="image/png" sizes="96x96" href="public/images/logo.png">
@@ -80,29 +80,29 @@
         <p class="section-sub">Choose from our professional car care categories, each tailored to a specific level of care your vehicle deserves.</p>
       </div>
       <div class="services-grid">
-        <div class="service-card reveal">
+        <div class="service-card reveal" data-service="exterior" role="button" tabindex="0" aria-label="View pricing for Exterior Wash">
           <div class="service-icon blue"><i class="fas fa-droplet"></i></div>
           <h3>Exterior Wash</h3>
           <p>High-pressure rinse, foam bath, hand wash, and streak-free dry for a brilliant exterior finish.</p>
-          <a href="#pricing" class="card-link" data-service="exterior">View Pricing <i class="fas fa-arrow-right"></i></a>
+          <span class="card-link" aria-hidden="true">View Pricing <i class="fas fa-arrow-right"></i></span>
         </div>
-        <div class="service-card reveal">
+        <div class="service-card reveal" data-service="interior" role="button" tabindex="0" aria-label="View pricing for Interior Cleaning">
           <div class="service-icon teal"><i class="fas fa-couch"></i></div>
           <h3>Interior Cleaning</h3>
           <p>Deep vacuum, dashboard wipe-down, seat cleaning, and interior detailing for a fresh, clean cabin.</p>
-          <a href="#pricing" class="card-link" data-service="interior">View Pricing <i class="fas fa-arrow-right"></i></a>
+          <span class="card-link" aria-hidden="true">View Pricing <i class="fas fa-arrow-right"></i></span>
         </div>
-        <div class="service-card reveal">
+        <div class="service-card reveal" data-service="fullDetail" role="button" tabindex="0" aria-label="View pricing for Full Detail">
           <div class="service-icon orange"><i class="fas fa-star"></i></div>
           <h3>Full Detail</h3>
           <p>Complete interior & exterior detail — wax, compound polish, and deep clean inside and out.</p>
-          <a href="#pricing" class="card-link" data-service="fullDetail">View Pricing <i class="fas fa-arrow-right"></i></a>
+          <span class="card-link" aria-hidden="true">View Pricing <i class="fas fa-arrow-right"></i></span>
         </div>
-        <div class="service-card reveal">
+        <div class="service-card reveal" data-service="vip" role="button" tabindex="0" aria-label="View pricing for VIP Package">
           <div class="service-icon gold"><i class="fas fa-gem"></i></div>
           <h3>VIP Package</h3>
           <p>Our all-inclusive premium service — every detail handled to absolute perfection, from bumper to bumper.</p>
-          <a href="#pricing" class="card-link" data-service="vip">View Pricing <i class="fas fa-arrow-right"></i></a>
+          <span class="card-link" aria-hidden="true">View Pricing <i class="fas fa-arrow-right"></i></span>
         </div>
       </div>
     </div>
@@ -466,6 +466,6 @@
     <img src="" alt="" class="lb-img" id="lb-img">
   </div>
 
-  <script src="app/script.js?v=4"></script>
+  <script src="app/script.js?v=5"></script>
 </body>
 </html>

@@ -152,8 +152,13 @@ function renderPricing(category) {
 
   const vtype = VTYPE_MAP[category] || 'sedan';
 
-  grid.innerHTML = pricingData[category].map(card => `
-    <div class="p-card ${card.popular ? 'popular' : ''} ${card.elite ? 'elite' : ''}">
+  grid.innerHTML = pricingData[category].map(card => {
+    const url = `booking/?vehicleType=${vtype}&packageType=${card.name.toLowerCase()}`;
+    return `
+    <div class="p-card ${card.popular ? 'popular' : ''} ${card.elite ? 'elite' : ''}"
+         role="button" tabindex="0" aria-label="Book ${card.name} Package — €${card.price} per wash"
+         onclick="window.location.href='${url}'"
+         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='${url}'}">
       ${card.popular ? '<div class="p-badge">Most Popular</div>' : ''}
       ${card.elite   ? '<div class="p-badge elite-badge"><i class="fas fa-crown"></i> Elite</div>' : ''}
       <p class="p-name">${card.name}</p>
@@ -170,9 +175,9 @@ function renderPricing(category) {
           </li>
         `).join('')}
       </ul>
-      <a href="booking/?vehicleType=${vtype}&packageType=${card.name.toLowerCase()}" class="btn-primary">Book This Package</a>
+      <a href="${url}" class="btn-primary" tabindex="-1" onclick="event.stopPropagation()">Book This Package</a>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 // === SERVICE → PACKAGE RECOMMENDATION ===
@@ -211,12 +216,26 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-document.querySelectorAll('.card-link[data-service]').forEach(link => {
-  link.addEventListener('click', () => {
-    const pkg = servicePackageMap[link.dataset.service];
+document.querySelectorAll('.service-card[data-service]').forEach(card => {
+  const handleServiceClick = () => {
+    const pkg = servicePackageMap[card.dataset.service];
     if (!pkg) return;
     activeRecommended = pkg;
+    const pricingSection = document.getElementById('pricing');
+    if (pricingSection) {
+      window.scrollTo({
+        top: pricingSection.getBoundingClientRect().top + window.scrollY - (navbar.offsetHeight + 8),
+        behavior: 'smooth'
+      });
+    }
     setTimeout(() => applyRecommendedPackage(pkg), 350);
+  };
+  card.addEventListener('click', handleServiceClick);
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleServiceClick();
+    }
   });
 });
 
