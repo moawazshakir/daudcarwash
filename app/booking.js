@@ -851,6 +851,14 @@ function populateBrands() {
   refreshBrands();
 }
 
+// ===== STEPPER CLICK-BACK =====
+document.querySelectorAll('.bw-step').forEach(el => {
+  el.addEventListener('click', () => {
+    const n = parseInt(el.dataset.step, 10);
+    if (n < state.step) goTo(n);
+  });
+});
+
 // ===== INIT =====
 initCalendar();
 populateBrands();

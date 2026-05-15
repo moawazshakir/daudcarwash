@@ -118,6 +118,9 @@ body {
 .bw-step.active .bw-step-label  { color: var(--blue); }
 .bw-step.done  .bw-step-circle  { background: var(--green); color: white; }
 .bw-step.done  .bw-step-label   { color: var(--green); }
+.bw-step.done  { cursor: pointer; }
+.bw-step.done:hover .bw-step-circle { filter: brightness(1.15); transform: scale(1.1); }
+.bw-step.done:hover .bw-step-label  { opacity: .8; }
 .bw-line {
   flex: 1;
   height: 2px;
