@@ -4,8 +4,13 @@
   "description": "Premium Car Wash Booking Website",
   "main": "index.html",
   "scripts": {
-    "start": "npx http-server .",
-    "build": "echo 'Static site - no build needed'"
+    "start": "npx http-server . -p 8080",
+    "dev": "npx http-server . -p 3000 --cors",
+    "build": "echo 'Static site — no build step needed'"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.47.0",
+    "googleapis": "^144.0.0"
   },
   "keywords": [],
   "author": "",
