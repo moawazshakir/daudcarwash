@@ -57,7 +57,7 @@ module.exports = async (req, res) => {
 
   if (checkErr) {
     console.error('Availability check error:', checkErr);
-    return res.status(500).json({ error: 'Server error during availability check.', debug: checkErr.message });
+    return res.status(500).json({ error: 'Server error during availability check.' });
   }
   if (existing) {
     return res.status(409).json({
