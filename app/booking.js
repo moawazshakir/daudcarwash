@@ -185,6 +185,7 @@ const state = {
   calYear: null, calMonth: null,
   date: null, dateStr: '',
   time: null,
+  slotsData: null,
   fname: '', lname: '', phone: '', email: '', plate: '', notes: '',
   basePrice: 0, totalPrice: 0,
 };
@@ -235,6 +236,8 @@ function goTo(n) {
   state.step = n;
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (n === 6) renderSummary();
+  // Re-fetch slot availability whenever the user returns to step 4
+  if (n === 4 && state.dateStr) fetchAndRenderSlots(state.dateStr);
 }
 
 function nextStep() {
@@ -685,25 +688,59 @@ function renderCalendar() {
   document.getElementById('cal-grid').innerHTML = html;
 }
 
-function selectDate(ds) {
+async function selectDate(ds) {
   state.date    = new Date(ds + 'T00:00:00');
   state.dateStr = ds;
   state.time    = null;
+  state.slotsData = null;
   document.getElementById('btn-s4-next').disabled = true;
   renderCalendar();
+  await fetchAndRenderSlots(ds);
+}
+
+async function fetchAndRenderSlots(ds) {
+  const date = new Date(ds + 'T00:00:00');
+  const day  = date.getDate();
+  const mon  = MONTH_NAMES[date.getMonth()];
+  const dow  = date.getDay();
+  const all  = dow === 0 ? SLOTS_SUNDAY : SLOTS_WEEKDAY;
+
+  document.getElementById('slots-title').textContent = 'Available times for: ' + mon + ' ' + day;
+  // Show skeleton while fetching
+  document.getElementById('slots-grid').innerHTML = all.map(() =>
+    '<div class="bw-slot-skeleton"></div>'
+  ).join('');
+
+  try {
+    const res = await fetch('/api/availability?date=' + ds);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    state.slotsData = await res.json();
+  } catch (_) {
+    // Graceful fallback: treat all non-past slots as available
+    state.slotsData = { availableSlots: all, bookedSlots: [], pastSlots: [] };
+  }
+
   renderSlots();
 }
 
 function renderSlots() {
-  const dow   = state.date.getDay();
-  const slots = dow === 0 ? SLOTS_SUNDAY : SLOTS_WEEKDAY;
-  const day   = state.date.getDate();
-  const mon   = MONTH_NAMES[state.date.getMonth()];
+  if (!state.date || !state.slotsData) return;
+  const dow = state.date.getDay();
+  const all = dow === 0 ? SLOTS_SUNDAY : SLOTS_WEEKDAY;
+  const { bookedSlots = [], pastSlots = [] } = state.slotsData;
 
-  document.getElementById('slots-title').textContent = 'Available times for: ' + mon + ' ' + day;
-  document.getElementById('slots-grid').innerHTML = slots.map(s => `
-    <button class="bw-slot${state.time === s ? ' selected' : ''}" onclick="selectSlot('${s}')">${s}</button>
-  `).join('');
+  document.getElementById('slots-grid').innerHTML = all.map(s => {
+    const isSelected = state.time === s;
+    if (bookedSlots.includes(s)) {
+      return `<button class="bw-slot booked" disabled aria-label="${s} — Booked">
+                <span>${s}</span><small>Booked</small>
+              </button>`;
+    }
+    if (pastSlots.includes(s)) {
+      return `<button class="bw-slot past" disabled aria-label="${s} — Unavailable">${s}</button>`;
+    }
+    return `<button class="bw-slot${isSelected ? ' selected' : ''}" onclick="selectSlot('${s}')">${s}</button>`;
+  }).join('');
 }
 
 function selectSlot(time) {
@@ -761,49 +798,52 @@ async function submitBooking() {
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing…';
   btn.disabled  = true;
 
-  const to24h = t => {
-    if (!t) return '';
-    const [time, mod] = t.split(' ');
-    let [h, m] = time.split(':');
-    h = parseInt(h);
-    if (mod === 'PM' && h !== 12) h += 12;
-    if (mod === 'AM' && h === 12) h = 0;
-    return h.toString().padStart(2,'0') + ':' + m;
-  };
-
   const payload = {
-    client_name:    state.fname + ' ' + state.lname,
-    email:          state.email,
-    phone:          '+39' + state.phone,
-    category:       state.categoryName,
-    plan:           state.packageName,
-    vehicle_type:   state.vehicleType,
-    vehicle_model:  state.brand + ' ' + state.model,
-    date:           state.dateStr,
-    time_slot:      to24h(state.time),
-    pet_hair_removal: state.addons.pethair,
-    bird_stains:      state.addons.stains,
-    sedan_seater:     state.addons.sedanseater || null,
-    suv_seater:       state.addons.suvseater || null,
-    dirty_interior:   state.addons.dirtinterior,
-    license_plate:    state.plate,
-    notes:          state.notes,
-    total_price:    state.totalPrice,
+    name:          state.fname + ' ' + state.lname,
+    phone:         '+39' + state.phone,
+    email:         state.email,
+    vehicleType:   state.vehicleType,
+    vehicleBrand:  state.brand,
+    vehicleModel:  state.model,
+    service:       state.categoryName,
+    packageType:   state.packageId,
+    date:          state.dateStr,
+    timeSlot:      state.time,
+    price:         state.totalPrice,
   };
 
   try {
-    await fetch(N8N_WEBHOOK_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload),
+    const res  = await fetch('/api/book', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload),
     });
+    const data = await res.json();
 
+    if (!res.ok) {
+      // Slot just got taken — refresh availability and prompt user to pick again
+      if (data.code === 'SLOT_TAKEN') {
+        err.textContent  = data.error;
+        err.style.display = 'block';
+        btn.innerHTML    = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
+        btn.disabled     = false;
+        // Refresh slots so the taken slot now shows as Booked
+        if (state.dateStr) {
+          state.slotsData = null;
+          await fetchAndRenderSlots(state.dateStr);
+        }
+        return;
+      }
+      throw new Error(data.error || 'Booking failed');
+    }
+
+    // ── Success ───────────────────────────────────────────────────────────
     const dateFmt = state.date
       ? state.date.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })
       : '—';
 
     document.getElementById('overlay-details').innerHTML = [
+      { icon: 'fa-hashtag',  val: data.bookingId },
       { icon: 'fa-user',     val: state.fname + ' ' + state.lname },
       { icon: 'fa-star',     val: state.categoryName + ' — ' + state.packageName },
       { icon: 'fa-car',      val: state.brand + ' ' + state.model },
@@ -815,10 +855,10 @@ async function submitBooking() {
     document.getElementById('bw-overlay').style.display = 'flex';
 
   } catch (e) {
-    err.textContent  = 'Booking failed: ' + e.message + '. Please try again or call us directly.';
+    err.textContent   = e.message + '. Please try again or call us directly.';
     err.style.display = 'block';
-    btn.innerHTML    = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
-    btn.disabled     = false;
+    btn.innerHTML     = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
+    btn.disabled      = false;
   }
 }
 
@@ -828,7 +868,7 @@ function resetWizard() {
     step: 1, category: null, categoryName: '', packageId: null, packageName: '',
     vehicleType: 'sedan', brand: '', model: '',
     addons: { pethair: false, stains: false, sedanseater: 0, suvseater: 0, dirtinterior: false },
-    date: null, dateStr: '', time: null,
+    date: null, dateStr: '', time: null, slotsData: null,
     fname: '', lname: '', phone: '', email: '', plate: '', notes: '',
     basePrice: 0, totalPrice: 0,
   });

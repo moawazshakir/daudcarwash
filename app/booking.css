@@ -531,6 +531,38 @@ body {
 .bw-slot:hover    { border-color: var(--blue); background: var(--blue-lt); color: var(--blue); }
 .bw-slot.selected { background: var(--blue); border-color: var(--blue); color: white; }
 
+/* Booked slot */
+.bw-slot.booked {
+  background: #f8fafc; border-color: #e2e8f0; color: #94a3b8;
+  cursor: not-allowed; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1px;
+  padding: 6px 4px;
+}
+.bw-slot.booked:hover { border-color: #e2e8f0; background: #f8fafc; color: #94a3b8; }
+.bw-slot.booked small {
+  font-size: 9px; font-weight: 700; color: #ef4444;
+  text-transform: uppercase; letter-spacing: .4px;
+}
+
+/* Past / unavailable slot */
+.bw-slot.past {
+  background: #f8fafc; border-color: #f1f5f9;
+  color: #cbd5e1; cursor: not-allowed; text-decoration: line-through;
+}
+.bw-slot.past:hover { border-color: #f1f5f9; background: #f8fafc; color: #cbd5e1; }
+
+/* Skeleton loader */
+.bw-slot-skeleton {
+  height: 42px; border-radius: 10px;
+  background: linear-gradient(90deg, #f0f4f8 25%, #e2e8f0 50%, #f0f4f8 75%);
+  background-size: 200% 100%;
+  animation: bw-skeleton 1.4s ease infinite;
+}
+@keyframes bw-skeleton {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* ===== STEP 5: FORM ===== */
 .bw-form-wrap {
   max-width: 660px; margin: 0 auto;
