@@ -1,5 +1,4 @@
 const { supabase }         = require('./lib/supabase');
-const { createCalendarEvent } = require('./lib/google-calendar');
 const { getSlotsForDate, isPastSlot } = require('./lib/slots');
 
 function setCors(res) {
@@ -105,6 +104,7 @@ module.exports = async (req, res) => {
   let calendarEventId = null;
   if (process.env.GOOGLE_REFRESH_TOKEN) {
     try {
+      const { createCalendarEvent } = require('./lib/google-calendar');
       calendarEventId = await createCalendarEvent({
         bookingId, name, phone, email,
         vehicleType, vehicleBrand, vehicleModel,

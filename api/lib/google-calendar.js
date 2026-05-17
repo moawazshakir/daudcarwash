@@ -1,4 +1,3 @@
-const { google } = require('googleapis');
 const { slotTo24h } = require('./slots');
 
 // Service duration in minutes, keyed by packageType
@@ -11,6 +10,7 @@ const DURATIONS = {
 };
 
 function getOAuthClient() {
+  const { google } = require('googleapis');
   return new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
@@ -32,6 +32,7 @@ function addMinutesToTime(timeStr, minutes) {
 }
 
 async function createCalendarEvent(booking) {
+  const { google } = require('googleapis');
   const auth     = getAuthenticatedClient();
   const calendar = google.calendar({ version: 'v3', auth });
 
