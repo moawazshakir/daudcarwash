@@ -5,8 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "npx http-server . -p 8080",
-    "dev": "npx http-server . -p 3000 --cors",
-    "build": "echo 'Static site — no build step needed'"
+    "dev": "npx http-server . -p 3000 --cors"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.0",
