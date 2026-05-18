@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="app/styles.css?v=10">
+  <link rel="stylesheet" href="app/styles.css?v=11">
   <link rel="icon" type="image/png" sizes="16x16" href="public/images/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="public/images/favicon.png">
   <link rel="icon" type="image/png" sizes="96x96" href="public/images/logo.png">
@@ -275,46 +275,8 @@
         <span class="section-label">What Clients Say</span>
         <h2>Customer <span class="accent">Reviews</span></h2>
       </div>
-      <div class="reviews-grid">
-        <div class="review-card">
-          <div class="review-stars">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="review-text">"The best car wash I've ever experienced. My car looks brand new after every single visit. I won't go anywhere else!"</p>
-          <div class="reviewer">
-            <img src="public/images/client images/client-1.jpg" alt="James Davis" class="reviewer-avatar">
-            <div>
-              <strong>James Davis</strong>
-              <span>Regular Customer</span>
-            </div>
-          </div>
-        </div>
-        <div class="review-card">
-          <div class="review-stars">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="review-text">"Professional staff and incredibly thorough interior cleaning. My seats have never looked this clean. Absolutely worth every penny."</p>
-          <div class="reviewer">
-            <img src="public/images/client images/client-2.jpg" alt="Sarah Mitchell" class="reviewer-avatar">
-            <div>
-              <strong>Sarah Mitchell</strong>
-              <span>Premium Member</span>
-            </div>
-          </div>
-        </div>
-        <div class="review-card">
-          <div class="review-stars">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="review-text">"I bring my entire fleet here. The turnaround is fast, the quality is consistent, and the team genuinely cares about their work."</p>
-          <div class="reviewer">
-            <img src="public/images/client images/client-3.jpg" alt="Robert King" class="reviewer-avatar">
-            <div>
-              <strong>Robert King</strong>
-              <span>Fleet Customer</span>
-            </div>
-          </div>
-        </div>
+      <div class="reviews-grid" id="reviews-grid">
+        <!-- Populated dynamically from /api/reviews -->
       </div>
     </div>
   </section>
@@ -442,6 +404,6 @@
     <img src="" alt="" class="lb-img" id="lb-img">
   </div>
 
-  <script src="app/script.js?v=6"></script>
+  <script src="app/script.js?v=7"></script>
 </body>
 </html>

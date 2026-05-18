@@ -36,37 +36,94 @@
     <!-- DASHBOARD PANEL -->
     <div class="glass-panel hidden" id="dashboard-panel" style="padding: 30px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-        <h2 style="margin: 0;">Bookings Dashboard</h2>
+        <h2 style="margin: 0;">Admin Dashboard</h2>
         <button class="btn-glow" style="width: auto; padding: 10px 20px;" onclick="window.location.href='../index.html'">
           <i class="fas fa-home"></i> View Site
         </button>
       </div>
-      
-      <div class="table-wrapper">
-        <table class="bookings-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Client Name</th>
-              <th>Contact</th>
-              <th>Vehicle</th>
-              <th>Service</th>
-              <th>Date & Time</th>
-              <th>Pet Hair</th>
-              <th>Flex Time</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="bookings-body">
-            <!-- Data will be populated via JS -->
-            <tr>
-              <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
-                <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 12px; display: block;"></i>
-                Connecting to Supabase...
-              </td>
-            </tr>
-          </tbody>
-        </table>
+
+      <!-- TAB NAV -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" id="tab-btn-bookings" onclick="switchTab('bookings')">
+          <i class="fas fa-calendar-check"></i> Bookings
+        </button>
+        <button class="admin-tab" id="tab-btn-reviews" onclick="switchTab('reviews')">
+          <i class="fas fa-star"></i> Reviews
+        </button>
+      </div>
+
+      <!-- BOOKINGS TAB -->
+      <div id="tab-bookings">
+        <div class="table-wrapper">
+          <table class="bookings-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Client Name</th>
+                <th>Contact</th>
+                <th>Vehicle</th>
+                <th>Service</th>
+                <th>Date & Time</th>
+                <th>Pet Hair</th>
+                <th>Flex Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="bookings-body">
+              <tr>
+                <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                  <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 12px; display: block;"></i>
+                  Connecting to Supabase...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- REVIEWS TAB -->
+      <div id="tab-reviews" style="display:none;">
+        <!-- Add Review Form -->
+        <div class="review-form-box">
+          <h3><i class="fas fa-plus-circle"></i> Add New Review</h3>
+          <div class="rv-row">
+            <div class="rv-field">
+              <label>Customer Name *</label>
+              <input type="text" id="rv-name" placeholder="e.g. John Smith">
+            </div>
+            <div class="rv-field">
+              <label>Role / Label</label>
+              <input type="text" id="rv-role" placeholder="e.g. Regular Customer">
+            </div>
+            <div class="rv-field">
+              <label>Rating</label>
+              <div class="star-select" id="rv-stars" data-rating="5">
+                <i class="fas fa-star" data-val="1"></i>
+                <i class="fas fa-star" data-val="2"></i>
+                <i class="fas fa-star" data-val="3"></i>
+                <i class="fas fa-star" data-val="4"></i>
+                <i class="fas fa-star" data-val="5"></i>
+              </div>
+            </div>
+          </div>
+          <div class="rv-field" style="margin-top:14px;">
+            <label>Review Text *</label>
+            <textarea id="rv-text" rows="3" placeholder="Write the customer's review here..."></textarea>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;margin-top:16px;">
+            <button class="btn-glow" style="width:auto;padding:10px 28px;" onclick="submitReview()">
+              <i class="fas fa-plus"></i> Add Review
+            </button>
+            <span id="rv-msg" style="font-size:14px;"></span>
+          </div>
+        </div>
+
+        <!-- Reviews List -->
+        <div id="admin-reviews-list" style="margin-top:24px;">
+          <div style="text-align:center;color:var(--text-muted);padding:24px;">
+            <i class="fas fa-spinner fa-spin"></i> Loading reviews...
+          </div>
+        </div>
       </div>
     </div>
   </div>

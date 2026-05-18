@@ -564,6 +564,45 @@ if (contactForm) {
 }
 
 
+// === REVIEWS (loaded from Supabase via /api/reviews) ===
+(async function loadReviews() {
+  const grid = document.getElementById('reviews-grid');
+  if (!grid) return;
+
+  grid.innerHTML = '<p style="text-align:center;color:#94a3b8;padding:40px;grid-column:1/-1;"><i class="fas fa-spinner fa-spin"></i></p>';
+
+  try {
+    const res = await fetch('/api/reviews');
+    if (!res.ok) throw new Error();
+    const reviews = await res.json();
+
+    if (!reviews.length) {
+      grid.innerHTML = '<p style="text-align:center;color:#64748b;padding:40px;grid-column:1/-1;">No reviews yet. Check back soon!</p>';
+      return;
+    }
+
+    grid.innerHTML = reviews.map(r => {
+      const stars = '<i class="fas fa-star"></i>'.repeat(Math.min(5, r.rating || 5));
+      const initials = r.reviewer_name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      return `
+        <div class="review-card">
+          <div class="review-stars">${stars}</div>
+          <p class="review-text">"${r.review_text}"</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar reviewer-initials">${initials}</div>
+            <div>
+              <strong>${r.reviewer_name}</strong>
+              <span>${r.reviewer_role}</span>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  } catch (e) {
+    grid.innerHTML = '';
+  }
+})();
+
+
 // === SMOOTH SCROLL ===
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', (e) => {

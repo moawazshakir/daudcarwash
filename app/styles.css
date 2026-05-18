@@ -1109,6 +1109,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   gap: 14px;
 }
 
+.reviewer-initials {
+  background: linear-gradient(135deg, var(--blue), #6366f1);
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 .reviewer-avatar {
   width: 48px;
   height: 48px;
