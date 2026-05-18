@@ -799,17 +799,20 @@ async function submitBooking() {
   btn.disabled  = true;
 
   const payload = {
-    name:          state.fname + ' ' + state.lname,
-    phone:         '+39' + state.phone,
-    email:         state.email,
-    vehicleType:   state.vehicleType,
-    vehicleBrand:  state.brand,
-    vehicleModel:  state.model,
-    service:       state.categoryName,
-    packageType:   state.packageId,
-    date:          state.dateStr,
-    timeSlot:      state.time,
-    price:         state.totalPrice,
+    name:             state.fname + ' ' + state.lname,
+    phone:            '+39' + state.phone,
+    email:            state.email,
+    vehicleType:      state.vehicleType,
+    vehicleBrand:     state.brand,
+    vehicleModel:     state.model,
+    service:          state.categoryName,
+    packageType:      state.packageId,
+    date:             state.dateStr,
+    timeSlot:         state.time,
+    price:            state.totalPrice,
+    hasPetHair:       !!state.addons.pethair,
+    hasStains:        !!state.addons.stains,
+    hasDirtyInterior: !!state.addons.dirtinterior,
   };
 
   try {

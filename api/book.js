@@ -16,6 +16,20 @@ function generateBookingId() {
 const REQUIRED = ['name','phone','email','vehicleType','vehicleBrand','vehicleModel',
                    'service','packageType','date','timeSlot','price'];
 
+async function triggerN8n(payload) {
+  const webhookUrl = process.env.N8N_WEBHOOK_URL;
+  if (!webhookUrl) return;
+  try {
+    await fetch(webhookUrl, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload),
+    });
+  } catch (e) {
+    console.error('n8n webhook error (non-fatal):', e.message);
+  }
+}
+
 module.exports = async (req, res) => {
   setCors(res);
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -31,6 +45,11 @@ module.exports = async (req, res) => {
 
   const { name, phone, email, vehicleType, vehicleBrand, vehicleModel,
           service, packageType, date, timeSlot, price } = body;
+
+  // ── Addon flags (optional, default false) ────────────────────────────────
+  const hasPetHair      = !!body.hasPetHair;
+  const hasStains       = !!body.hasStains;
+  const hasDirtyInterior = !!body.hasDirtyInterior;
 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     return res.status(400).json({ error: 'Invalid date format. Use YYYY-MM-DD.' });
@@ -72,24 +91,26 @@ module.exports = async (req, res) => {
   const { data: inserted, error: insertErr } = await supabase
     .from('bookings')
     .insert({
-      booking_id:    bookingId,
+      booking_id:         bookingId,
       name,
       phone,
       email,
-      vehicle_type:  vehicleType,
-      vehicle_brand: vehicleBrand,
-      vehicle_model: vehicleModel,
+      vehicle_type:       vehicleType,
+      vehicle_brand:      vehicleBrand,
+      vehicle_model:      vehicleModel,
       service,
-      package_type:  packageType,
-      booking_date:  date,
-      booking_time:  timeSlot,
-      price:         Number(price),
+      package_type:       packageType,
+      booking_date:       date,
+      booking_time:       timeSlot,
+      price:              Number(price),
+      has_pet_hair:       hasPetHair,
+      has_stains:         hasStains,
+      has_dirty_interior: hasDirtyInterior,
     })
     .select()
     .single();
 
   if (insertErr) {
-    // PostgreSQL unique_violation
     if (insertErr.code === '23505') {
       return res.status(409).json({
         error: 'Sorry, this time slot has just been booked. Please choose another time.',
@@ -99,6 +120,16 @@ module.exports = async (req, res) => {
     console.error('Supabase insert error:', insertErr);
     return res.status(500).json({ error: 'Booking failed. Please try again.' });
   }
+
+  // ── Fire n8n webhook (non-fatal) ──────────────────────────────────────────
+  triggerN8n({
+    bookingId, name, phone, email,
+    vehicleType, vehicleBrand, vehicleModel,
+    service, packageType,
+    date, timeSlot,
+    price: Number(price),
+    hasPetHair, hasStains, hasDirtyInterior,
+  });
 
   // ── Create Google Calendar event (non-fatal) ──────────────────────────────
   let calendarEventId = null;
