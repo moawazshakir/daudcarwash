@@ -17,7 +17,7 @@ const REQUIRED = ['name','phone','email','vehicleType','vehicleBrand','vehicleMo
                    'service','packageType','date','timeSlot','price'];
 
 async function triggerN8n(payload) {
-  const webhookUrl = process.env.N8N_WEBHOOK_URL;
+  const webhookUrl = process.env.N8N_BOOKING_WEBHOOK_URL;
   if (!webhookUrl) return;
   try {
     await fetch(webhookUrl, {
@@ -121,16 +121,6 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: 'Booking failed. Please try again.' });
   }
 
-  // ── Fire n8n webhook (non-fatal) ──────────────────────────────────────────
-  triggerN8n({
-    bookingId, name, phone, email,
-    vehicleType, vehicleBrand, vehicleModel,
-    service, packageType,
-    date, timeSlot,
-    price: Number(price),
-    hasPetHair, hasStains, hasDirtyInterior,
-  });
-
   // ── Create Google Calendar event (non-fatal) ──────────────────────────────
   let calendarEventId = null;
   if (process.env.GOOGLE_REFRESH_TOKEN) {
@@ -150,6 +140,24 @@ module.exports = async (req, res) => {
       console.error('Google Calendar error (non-fatal):', calErr.message);
     }
   }
+
+  // ── Fire n8n webhook AFTER calendar (gets full data incl. calendarEventId) ─
+  triggerN8n({
+    bookingId,
+    bookingTimestamp: new Date().toISOString(),
+    name, phone, email,
+    vehicleType, vehicleBrand, vehicleModel,
+    service, packageType,
+    date, timeSlot,
+    price: Number(price),
+    hasPetHair, hasStains, hasDirtyInterior,
+    calendarEventId: calendarEventId || null,
+    // business info for email templates in n8n
+    businessName:    'Autolavaggio La Palma',
+    businessEmail:   'Autolavaggio04012@gmail.com',
+    businessPhone:   '+39 351 373 5176',
+    businessAddress: 'Via Piave, Autolavaggio La Palma',
+  });
 
   return res.status(200).json({ success: true, bookingId, calendarEventId });
 };
