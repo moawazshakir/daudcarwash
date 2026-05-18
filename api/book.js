@@ -18,15 +18,19 @@ const REQUIRED = ['name','phone','email','vehicleType','vehicleBrand','vehicleMo
 
 async function triggerN8n(payload) {
   const webhookUrl = process.env.N8N_BOOKING_WEBHOOK_URL;
+  console.log('[n8n] webhook URL:', webhookUrl || 'NOT SET');
   if (!webhookUrl) return;
   try {
-    await fetch(webhookUrl, {
+    const resp = await fetch(webhookUrl, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(payload),
     });
+    console.log('[n8n] response status:', resp.status);
+    const text = await resp.text();
+    console.log('[n8n] response body:', text.slice(0, 300));
   } catch (e) {
-    console.error('n8n webhook error (non-fatal):', e.message);
+    console.error('[n8n] webhook error:', e.message);
   }
 }
 
