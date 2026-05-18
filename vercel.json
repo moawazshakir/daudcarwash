@@ -1,6 +1,7 @@
 {
   "version": 2,
   "routes": [
+    { "src": "/index.html", "headers": { "Location": "/" }, "status": 301 },
     { "src": "/api/(.*)", "dest": "/api/$1" },
     {
       "src": "/app/(.*\\.(css|js))",
