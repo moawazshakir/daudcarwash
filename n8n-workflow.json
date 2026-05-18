@@ -1,131 +1,164 @@
 {
-  "name": "Autolavaggio La Palma — Booking Workflow",
+  "name": "Autolavaggio La Palma — AI Booking Agent",
   "nodes": [
+
     {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "book-appointment",
-        "responseMode": "onReceived",
-        "options": {}
-      },
       "id": "node-001-webhook",
       "name": "Booking Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
-      "position": [260, 360]
-    },
-    {
+      "position": [200, 400],
       "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "PASTE_YOUR_GOOGLE_SHEET_ID_HERE",
-          "mode": "id"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "Bookings",
-          "mode": "name"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Booking ID":           "={{ $json.body.bookingId }}",
-            "Submitted At":         "={{ $json.body.bookingTimestamp }}",
-            "Name":                 "={{ $json.body.name }}",
-            "Email":                "={{ $json.body.email }}",
-            "Phone":                "={{ $json.body.phone }}",
-            "Vehicle Type":         "={{ $json.body.vehicleType }}",
-            "Brand":                "={{ $json.body.vehicleBrand }}",
-            "Model":                "={{ $json.body.vehicleModel }}",
-            "Service":              "={{ $json.body.service }}",
-            "Package":              "={{ $json.body.packageType }}",
-            "Appointment Date":     "={{ $json.body.date }}",
-            "Time Slot":            "={{ $json.body.timeSlot }}",
-            "Price (€)":            "={{ $json.body.price }}",
-            "Pet Hair Addon":       "={{ $json.body.hasPetHair ? 'Yes' : 'No' }}",
-            "Stains Addon":         "={{ $json.body.hasStains ? 'Yes' : 'No' }}",
-            "Dirty Interior Addon": "={{ $json.body.hasDirtyInterior ? 'Yes' : 'No' }}",
-            "Calendar Event ID":    "={{ $json.body.calendarEventId || '' }}",
-            "Status":               "Confirmed"
-          },
-          "schema": [
-            { "id": "Booking ID",           "displayName": "Booking ID",           "required": false, "defaultMatch": false, "canBeUsedToMatch": true,  "display": true, "type": "string" },
-            { "id": "Submitted At",         "displayName": "Submitted At",         "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Name",                 "displayName": "Name",                 "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Email",                "displayName": "Email",                "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Phone",                "displayName": "Phone",                "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Vehicle Type",         "displayName": "Vehicle Type",         "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Brand",                "displayName": "Brand",                "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Model",                "displayName": "Model",                "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Service",              "displayName": "Service",              "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Package",              "displayName": "Package",              "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Appointment Date",     "displayName": "Appointment Date",     "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Time Slot",            "displayName": "Time Slot",            "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Price (€)",            "displayName": "Price (€)",            "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "number" },
-            { "id": "Pet Hair Addon",       "displayName": "Pet Hair Addon",       "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Stains Addon",         "displayName": "Stains Addon",         "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Dirty Interior Addon", "displayName": "Dirty Interior Addon", "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Calendar Event ID",    "displayName": "Calendar Event ID",    "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" },
-            { "id": "Status",               "displayName": "Status",               "required": false, "defaultMatch": false, "canBeUsedToMatch": false, "display": true, "type": "string" }
-          ]
-        },
+        "httpMethod": "POST",
+        "path": "book-appointment",
+        "responseMode": "responseNode",
         "options": {}
-      },
-      "id": "node-002-sheets",
-      "name": "Save to Google Sheets",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4,
-      "position": [480, 360]
+      }
     },
+
     {
+      "id": "node-002-respond",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 400],
       "parameters": {
-        "sendTo": "={{ $('Booking Webhook').item.json.body.email }}",
-        "subject": "=✅ Booking Confirmed — {{ $('Booking Webhook').item.json.body.bookingId }} | Autolavaggio La Palma",
-        "emailType": "html",
-        "message": "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\"></head><body style=\"margin:0;padding:0;background:#f4f8ff;font-family:Arial,sans-serif;\"><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f4f8ff;padding:40px 20px;\"><tr><td><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:600px;margin:0 auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(7,27,52,0.10);\"><tr><td style=\"background:linear-gradient(135deg,#071B34 0%,#0D2545 100%);padding:40px;text-align:center;\"><h1 style=\"color:#ffffff;font-size:22px;font-weight:800;margin:0 0 6px;\">AUTOLAVAGGIO LA PALMA</h1><p style=\"color:rgba(255,255,255,0.50);font-size:11px;margin:0;letter-spacing:2px;text-transform:uppercase;\">Premium Car Wash &amp; Detailing</p></td></tr><tr><td style=\"padding:44px 40px 0;text-align:center;\"><div style=\"width:68px;height:68px;background:#dcfce7;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:32px;\">&#10003;</div><h2 style=\"color:#071B34;font-size:26px;font-weight:900;margin:0 0 10px;\">Booking Confirmed!</h2><p style=\"color:#8fa3b8;font-size:15px;margin:0 0 28px;\">Your appointment is successfully booked.</p><div style=\"display:inline-block;background:#f4f8ff;border:1.5px solid #dde6f0;border-radius:50px;padding:10px 28px;margin-bottom:36px;\"><p style=\"color:#8fa3b8;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin:0 0 4px;\">Booking ID</p><p style=\"color:#071B34;font-size:20px;font-weight:900;margin:0;letter-spacing:1px;\">{{ $('Booking Webhook').item.json.body.bookingId }}</p></div></td></tr><tr><td style=\"padding:0 40px 32px;\"><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-radius:12px;overflow:hidden;border:1.5px solid #dde6f0;\"><tr style=\"background:#f4f8ff;\"><td colspan=\"2\" style=\"padding:14px 20px;border-bottom:1px solid #dde6f0;\"><span style=\"color:#071B34;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;\">Appointment Details</span></td></tr><tr><td style=\"padding:14px 20px;border-bottom:1px solid #f4f8ff;color:#8fa3b8;font-size:12px;font-weight:700;width:38%;\">&#128197; Date</td><td style=\"padding:14px 20px;border-bottom:1px solid #f4f8ff;color:#071B34;font-size:14px;font-weight:600;\">{{ $('Booking Webhook').item.json.body.date }}</td></tr><tr style=\"background:#fafcff;\"><td style=\"padding:14px 20px;border-bottom:1px solid #f4f8ff;color:#8fa3b8;font-size:12px;font-weight:700;\">&#128336; Time</td><td style=\"padding:14px 20px;border-bottom:1px solid #f4f8ff;color:#071B34;font-size:14px;font-weight:600;\">{{ $('Booking Webhook').item.json.body.timeSlot }}</td></tr><tr><td style=\"padding:14px 20px;border-bottom:1px solid #f4f8ff;color:#8fa3b8;font-size:12px;font-weight:700;\">&#128663; Vehicle</td><td style=\"padding:14px 20px;border-bottom:1px solid #f4f8ff;color:#071B34;font-size:14px;font-weight:600;\">{{ $('Booking Webhook').item.json.body.vehicleBrand }} {{ $('Booking Webhook').item.json.body.vehicleModel }}</td></tr><tr style=\"background:#fafcff;\"><td style=\"padding:14px 20px;border-bottom:1px solid #f4f8ff;color:#8fa3b8;font-size:12px;font-weight:700;\">&#10024; Service</td><td style=\"padding:14px 20px;border-bottom:1px solid #f4f8ff;color:#071B34;font-size:14px;font-weight:600;\">{{ $('Booking Webhook').item.json.body.service }}</td></tr><tr><td style=\"padding:14px 20px;border-bottom:1px solid #f4f8ff;color:#8fa3b8;font-size:12px;font-weight:700;\">&#128230; Package</td><td style=\"padding:14px 20px;border-bottom:1px solid #f4f8ff;color:#071B34;font-size:14px;font-weight:600;\">{{ $('Booking Webhook').item.json.body.packageType }}</td></tr><tr style=\"background:#f4f8ff;\"><td style=\"padding:16px 20px;color:#8fa3b8;font-size:12px;font-weight:700;\">&#128176; Total</td><td style=\"padding:16px 20px;color:#27B6FF;font-size:20px;font-weight:900;\">&#8364;{{ $('Booking Webhook').item.json.body.price }}</td></tr></table></td></tr><tr><td style=\"padding:0 40px 32px;\"><div style=\"background:#f4f8ff;border-radius:12px;padding:22px;text-align:center;border:1px solid #dde6f0;\"><p style=\"color:#8fa3b8;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin:0 0 8px;\">&#128205; Our Location</p><p style=\"color:#071B34;font-size:14px;font-weight:700;margin:0 0 6px;\">Via Piave, Autolavaggio La Palma</p><p style=\"color:#8fa3b8;font-size:13px;margin:0 0 4px;\">Mon–Sat: 8:30 AM – 6:00 PM &nbsp;·&nbsp; Sunday: 8:30 AM – 12:00 PM</p></div></td></tr><tr><td style=\"padding:0 40px 36px;text-align:center;\"><p style=\"color:#8fa3b8;font-size:14px;margin:0 0 12px;\">Questions? We’re happy to help.</p><a href=\"tel:+393513735176\" style=\"color:#27B6FF;font-size:16px;font-weight:700;text-decoration:none;\">+39 351 373 5176</a></td></tr><tr><td style=\"background:#071B34;padding:24px 40px;text-align:center;\"><p style=\"color:rgba(255,255,255,0.30);font-size:12px;margin:0;\">&copy; 2025 Autolavaggio La Palma &middot; All rights reserved</p></td></tr></table></td></tr></table></body></html>",
-        "options": {
-          "fromName": "Autolavaggio La Palma"
-        }
-      },
-      "id": "node-003-email-client",
-      "name": "Email — Client Confirmation",
-      "type": "n8n-nodes-base.gmail",
-      "typeVersion": 2,
-      "position": [700, 260]
+        "respondWith": "json",
+        "responseBody": "={{ $json.output }}"
+      }
     },
+
     {
+      "id": "node-003-agent",
+      "name": "Booking Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [560, 400],
       "parameters": {
-        "sendTo": "Autolavaggio04012@gmail.com",
-        "subject": "=🔔 New Booking — {{ $('Booking Webhook').item.json.body.date }} at {{ $('Booking Webhook').item.json.body.timeSlot }} | {{ $('Booking Webhook').item.json.body.name }}",
-        "emailType": "html",
-        "message": "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"></head><body style=\"margin:0;padding:0;background:#f4f8ff;font-family:Arial,sans-serif;\"><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#f4f8ff;padding:40px 20px;\"><tr><td><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:600px;margin:0 auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(7,27,52,0.10);\"><tr><td style=\"background:linear-gradient(135deg,#071B34 0%,#0D2545 100%);padding:32px 40px;text-align:center;\"><p style=\"color:#27B6FF;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin:0 0 8px;\">New Booking Alert</p><h1 style=\"color:#ffffff;font-size:20px;font-weight:900;margin:0;\">&#128276; New Appointment Received</h1></td></tr><tr><td style=\"background:#27B6FF;padding:18px 40px;\"><table width=\"100%\"><tr><td style=\"color:#ffffff;font-size:17px;font-weight:900;\">{{ $('Booking Webhook').item.json.body.date }} at {{ $('Booking Webhook').item.json.body.timeSlot }}</td><td style=\"text-align:right;color:rgba(255,255,255,0.90);font-size:15px;font-weight:700;\">&#8364;{{ $('Booking Webhook').item.json.body.price }}</td></tr></table></td></tr><tr><td style=\"padding:28px 40px 0;text-align:center;\"><div style=\"display:inline-block;background:#f4f8ff;border:1.5px solid #dde6f0;border-radius:50px;padding:10px 28px;\"><span style=\"color:#8fa3b8;font-size:10px;font-weight:700;letter-spacing:2px;\">BOOKING ID: </span><span style=\"color:#071B34;font-size:15px;font-weight:900;letter-spacing:1px;\">{{ $('Booking Webhook').item.json.body.bookingId }}</span></div></td></tr><tr><td style=\"padding:24px 40px 0;\"><p style=\"color:#071B34;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin:0 0 12px;\">&#128100; Customer</p><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-radius:12px;overflow:hidden;border:1.5px solid #dde6f0;\"><tr><td style=\"padding:12px 16px;border-bottom:1px solid #f4f8ff;color:#8fa3b8;font-size:12px;font-weight:700;width:35%;\">Name</td><td style=\"padding:12px 16px;border-bottom:1px solid #f4f8ff;color:#071B34;font-size:14px;font-weight:600;\">{{ $('Booking Webhook').item.json.body.name }}</td></tr><tr style=\"background:#fafcff;\"><td style=\"padding:12px 16px;border-bottom:1px solid #f4f8ff;color:#8fa3b8;font-size:12px;font-weight:700;\">Phone</td><td style=\"padding:12px 16px;border-bottom:1px solid #f4f8ff;color:#071B34;font-size:14px;font-weight:600;\">{{ $('Booking Webhook').item.json.body.phone }}</td></tr><tr><td style=\"padding:12px 16px;color:#8fa3b8;font-size:12px;font-weight:700;\">Email</td><td style=\"padding:12px 16px;color:#071B34;font-size:14px;font-weight:600;\">{{ $('Booking Webhook').item.json.body.email }}</td></tr></table></td></tr><tr><td style=\"padding:20px 40px 0;\"><p style=\"color:#071B34;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin:0 0 12px;\">&#128663; Vehicle &amp; Service</p><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-radius:12px;overflow:hidden;border:1.5px solid #dde6f0;\"><tr><td style=\"padding:12px 16px;border-bottom:1px solid #f4f8ff;color:#8fa3b8;font-size:12px;font-weight:700;width:35%;\">Vehicle</td><td style=\"padding:12px 16px;border-bottom:1px solid #f4f8ff;color:#071B34;font-size:14px;font-weight:600;\">{{ $('Booking Webhook').item.json.body.vehicleType }} — {{ $('Booking Webhook').item.json.body.vehicleBrand }} {{ $('Booking Webhook').item.json.body.vehicleModel }}</td></tr><tr style=\"background:#fafcff;\"><td style=\"padding:12px 16px;border-bottom:1px solid #f4f8ff;color:#8fa3b8;font-size:12px;font-weight:700;\">Service</td><td style=\"padding:12px 16px;border-bottom:1px solid #f4f8ff;color:#071B34;font-size:14px;font-weight:600;\">{{ $('Booking Webhook').item.json.body.service }}</td></tr><tr><td style=\"padding:12px 16px;border-bottom:1px solid #f4f8ff;color:#8fa3b8;font-size:12px;font-weight:700;\">Package</td><td style=\"padding:12px 16px;border-bottom:1px solid #f4f8ff;color:#071B34;font-size:14px;font-weight:600;\">{{ $('Booking Webhook').item.json.body.packageType }}</td></tr><tr style=\"background:#fafcff;\"><td style=\"padding:12px 16px;color:#8fa3b8;font-size:12px;font-weight:700;\">Addons</td><td style=\"padding:12px 16px;color:#071B34;font-size:13px;font-weight:600;\">Pet Hair: {{ $('Booking Webhook').item.json.body.hasPetHair ? '✅ Yes' : '❌ No' }} &nbsp;·&nbsp; Stains: {{ $('Booking Webhook').item.json.body.hasStains ? '✅ Yes' : '❌ No' }} &nbsp;·&nbsp; Dirty Interior: {{ $('Booking Webhook').item.json.body.hasDirtyInterior ? '✅ Yes' : '❌ No' }}</td></tr></table></td></tr><tr><td style=\"padding:32px 40px;text-align:center;\"><p style=\"color:#8fa3b8;font-size:12px;margin:0;\">Autolavaggio La Palma — Internal Staff Notification</p></td></tr></table></td></tr></table></body></html>",
+        "agent": "toolsAgent",
+        "text": "=Process this car wash booking request:\n\n{{ JSON.stringify($json.body, null, 2) }}\n\nFollow your system instructions exactly. Start with CheckSlotAvailability.",
+        "systemMessage": "You are the BOOKING AGENT for an autolavaggio car wash in Rome, Italy.\n\nCRITICAL INSTRUCTION FOR EMAILS:\n==================================\nWHEN YOU CALL SendClientEmail OR SendCarWasherEmail:\nYOU MUST WRITE THE COMPLETE EMAIL AS HTML.\nNOT AS PLAIN TEXT.\nEVERY EMAIL MUST START WITH: <html><body>\nEVERY EMAIL MUST END WITH: </body></html>\nUSE <table> FOR BOOKING DETAILS.\nUSE <h3> FOR SECTION HEADERS.\nDO NOT WRITE PARAGRAPHS OF TEXT.\n\n==================================================\n=== PLAN NORMALIZATION ===\n\nBasic: \"Basic\", \"Exterior Wash\", \"Exterior Washing\", \"Exterior Hand Wash\", \"Basic Wash\" => \"Basic\", price=15\nStandard: \"Standard\", \"Interior Clean\", \"Interior Cleaning\", \"Interior Wash\", \"Standard Wash\" => \"Standard\", price=35\nPremium: \"Premium\", \"Full Detail\", \"Full Detail Washing\", \"Full Detailing\", \"Detail Wash\" => \"Premium\", price=65\nElite: \"Elite\", \"Elite Wash\", \"Elite Package\" => \"Elite\", price=99\n\n==================================================\n=== VEHICLE TYPE NORMALIZATION ===\n\n\"Sedan / Coupe\" => \"Sedan/Coupe\"\n\"SUV / Crossover\" => \"SUV/Crossover\"\n\"Truck / Van\" => \"Truck/Van\"\n\n==================================================\n=== WORKING HOURS (Europe/Rome) ===\n\nMonday to Saturday: 08:00, 08:30, 09:00, 09:30, 10:00, 10:30, 11:00, 11:30, 12:00, 12:30, 13:00, 13:30, 14:00, 14:30, 15:00, 15:30, 16:00, 16:30, 17:00, 17:30, 18:00\nSunday: 08:30, 09:00, 09:30, 10:00, 10:30, 11:00, 11:30, 12:00, 12:30\n\n==================================================\n=== VALIDATION ===\n\nCheck all fields present, email valid, vehicle_type correct, plan correct, date YYYY-MM-DD not past, time_slot allowed.\nIf validation fails: { \"success\": false, \"stage\": \"validation\", \"error\": \"specific error\" }\n\n==================================================\n=== STEP 1: CheckSlotAvailability ===\n\nCALL FIRST before anything else.\nSend: date, time_slot, email\nIf same email + same date + same time_slot with Status=BOOKED exists: return duplicate error.\nIf BOOKED count >= 2: return fully booked error.\nIf 0 or 1 BOOKED rows: continue.\n\n==================================================\n=== BOOKING DETAILS ===\n\nbooking_id = \"BK-\" + unix milliseconds timestamp\nstatus = \"BOOKED\"\nlast_action = \"BOOKED\"\ncreated_at = current Rome time YYYY-MM-DD HH:mm\nupdated_at = current Rome time YYYY-MM-DD HH:mm\noriginal_date = \"\"\noriginal_time_slot = \"\"\ncancel_reason = \"\"\n\n==================================================\n=== STEP 2: CreateCalendarEvent ===\n\nTitle: Car Wash - [client_name] - [normalized_plan]\nDescription: Include booking_id, client_name, phone, email, vehicle_type, vehicle_model, normalized_plan, price, pet_hair_removal, flexible_timing\nCapture: calendar_event_id\n\n==================================================\n=== STEP 3: AppendBookingRow ===\n\nSend ALL fields: Booking_ID, Client_Name, Phone, Email, Vehicle_Type, Vehicle_Model, Plan, Price, Date, Time_Slot, Status, Last_Action, Pet_Hair_Removal, Flexible_Timing, Original_Date, Original_Time_Slot, Created_At, Updated_At, Calendar_Event_ID, Cancel_Reason\nCALL EXACTLY ONCE.\n\n==================================================\n=== STEP 4: SendClientEmail ===\n\nWRITE COMPLETE HTML EMAIL with <html><body> tags.\nInclude booking details in a <table>. Use <h3> for headers.\nSubstitute all values from booking data.\n\n==================================================\n=== STEP 5: SendCarWasherEmail ===\n\nWRITE COMPLETE HTML EMAIL with <html><body> tags.\nSend all booking details including client contact info and addons.\nUse <table> for details. Use <h3> for headers.\n\n==================================================\n=== FINAL RESPONSE ===\n\nReturn JSON ONLY.\nSuccess: { \"success\": true, \"booking_id\": \"BK-...\", \"calendar_event_id\": \"...\", \"date\": \"YYYY-MM-DD\", \"time_slot\": \"HH:MM\", \"plan\": \"Basic\", \"price\": 15, \"message\": \"Booking confirmed successfully\" }\nError: { \"success\": false, \"stage\": \"validation | duplicate_check | availability | sheet | email\", \"error\": \"specific error\" }\n\n==================================================\n=== ABSOLUTE RULES ===\n\n1. Never skip CheckSlotAvailability\n2. Never create booking before checking slot\n3. Never append twice\n4. ALWAYS WRITE EMAILS AS HTML WITH <html> AND <body> TAGS\n5. ALWAYS USE <table> FOR BOOKING DETAILS (NOT PARAGRAPH TEXT)\n6. ALWAYS USE <h3> FOR SECTION HEADERS\n7. NEVER WRITE EMAIL AS PLAIN TEXT PARAGRAPH\n8. Always attempt both emails\n9. Always return JSON only\n10. Never output plain text for emails",
         "options": {
-          "fromName": "Autolavaggio Bookings System"
+          "maxIterations": 12,
+          "returnIntermediateSteps": false
         }
-      },
-      "id": "node-004-email-staff",
-      "name": "Email — Staff Notification",
-      "type": "n8n-nodes-base.gmail",
-      "typeVersion": 2,
-      "position": [700, 460]
+      }
+    },
+
+    {
+      "id": "node-004-llm",
+      "name": "Claude Sonnet",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [360, 620],
+      "parameters": {
+        "model": "claude-sonnet-4-5-20251001",
+        "options": {
+          "maxTokens": 4096,
+          "temperature": 0
+        }
+      }
+    },
+
+    {
+      "id": "node-005-check-slot",
+      "name": "CheckSlotAvailability",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [480, 620],
+      "parameters": {
+        "name": "CheckSlotAvailability",
+        "description": "Checks if a booking slot is available in Google Sheets. Input JSON must include: date (YYYY-MM-DD), time_slot (HH:MM), email (string). Returns: { available: boolean, bookingCount: number, isDuplicate: boolean }",
+        "language": "javaScript",
+        "jsCode": "// Parse input from AI agent\nconst raw = $input.all()[0].json.input || $input.all()[0].json.query || '{}';\nconst { date, time_slot, email } = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\nconst SHEET_ID = process.env.BOOKING_SHEET_ID;\nconst ACCESS_TOKEN = process.env.GOOGLE_ACCESS_TOKEN;\n\nif (!SHEET_ID || !ACCESS_TOKEN) {\n  throw new Error('BOOKING_SHEET_ID and GOOGLE_ACCESS_TOKEN must be set in n8n environment variables');\n}\n\n// Fetch all rows from Bookings sheet\nconst res = await fetch(\n  `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Bookings!A:T`,\n  { headers: { Authorization: `Bearer ${ACCESS_TOKEN}` } }\n);\nconst data = await res.json();\n\nif (!data.values || data.values.length < 2) {\n  return JSON.stringify({ available: true, bookingCount: 0, isDuplicate: false });\n}\n\nconst headers = data.values[0];\nconst rows    = data.values.slice(1);\n\nconst dateIdx   = headers.indexOf('Date');\nconst timeIdx   = headers.indexOf('Time_Slot');\nconst statusIdx = headers.indexOf('Status');\nconst emailIdx  = headers.indexOf('Email');\n\nconst bookedRows = rows.filter(\n  r => r[dateIdx] === date && r[timeIdx] === time_slot && r[statusIdx] === 'BOOKED'\n);\n\nconst isDuplicate  = bookedRows.some(r => r[emailIdx] === email);\nconst bookingCount = bookedRows.length;\n\nreturn JSON.stringify({\n  available:    bookingCount < 2,\n  bookingCount,\n  isDuplicate\n});"
+      }
+    },
+
+    {
+      "id": "node-006-create-calendar",
+      "name": "CreateCalendarEvent",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [560, 620],
+      "parameters": {
+        "name": "CreateCalendarEvent",
+        "description": "Creates a Google Calendar event for the booking. Input JSON must include: bookingId, client_name, phone, email, vehicle_type, vehicle_model, plan, price, date (YYYY-MM-DD), time_slot (HH:MM), pet_hair_removal, flexible_timing. Returns: { calendarEventId: string }",
+        "language": "javaScript",
+        "jsCode": "const raw = $input.all()[0].json.input || $input.all()[0].json.query || '{}';\nconst p = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\nconst ACCESS_TOKEN = process.env.GOOGLE_ACCESS_TOKEN;\nconst CALENDAR_ID  = process.env.GOOGLE_CALENDAR_ID || 'primary';\n\nif (!ACCESS_TOKEN) throw new Error('GOOGLE_ACCESS_TOKEN must be set in n8n environment variables');\n\n// Calculate duration by plan\nconst durations = { Basic: 30, Standard: 60, Premium: 90, Elite: 120 };\nconst duration  = durations[p.plan] || 60;\n\nconst [h, m]  = p.time_slot.split(':').map(Number);\nconst endTotal = h * 60 + m + duration;\nconst endH     = String(Math.floor(endTotal / 60)).padStart(2, '0');\nconst endM     = String(endTotal % 60).padStart(2, '0');\n\nconst start = `${p.date}T${p.time_slot}:00`;\nconst end   = `${p.date}T${endH}:${endM}:00`;\n\nconst event = {\n  summary: `Car Wash - ${p.client_name} - ${p.plan}`,\n  description: [\n    `Booking ID: ${p.bookingId}`,\n    `Client: ${p.client_name}`,\n    `Phone: ${p.phone}`,\n    `Email: ${p.email}`,\n    `Vehicle: ${p.vehicle_type} - ${p.vehicle_model}`,\n    `Plan: ${p.plan}`,\n    `Price: €${p.price}`,\n    `Pet Hair Removal: ${p.pet_hair_removal}`,\n    `Flexible Timing: ${p.flexible_timing}`,\n  ].join('\\n'),\n  start: { dateTime: `${start}+01:00`, timeZone: 'Europe/Rome' },\n  end:   { dateTime: `${end}+01:00`,   timeZone: 'Europe/Rome' },\n};\n\nconst res = await fetch(\n  `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events`,\n  {\n    method:  'POST',\n    headers: { Authorization: `Bearer ${ACCESS_TOKEN}`, 'Content-Type': 'application/json' },\n    body:    JSON.stringify(event),\n  }\n);\nconst created = await res.json();\n\nif (!created.id) throw new Error(`Calendar API error: ${JSON.stringify(created)}`);\n\nreturn JSON.stringify({ calendarEventId: created.id, calendarLink: created.htmlLink });"
+      }
+    },
+
+    {
+      "id": "node-007-append-row",
+      "name": "AppendBookingRow",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [640, 620],
+      "parameters": {
+        "name": "AppendBookingRow",
+        "description": "Appends one booking row to the Google Sheet. Input JSON must include ALL fields: Booking_ID, Client_Name, Phone, Email, Vehicle_Type, Vehicle_Model, Plan, Price, Date, Time_Slot, Status, Last_Action, Pet_Hair_Removal, Flexible_Timing, Original_Date, Original_Time_Slot, Created_At, Updated_At, Calendar_Event_ID, Cancel_Reason. CALL EXACTLY ONCE per booking.",
+        "language": "javaScript",
+        "jsCode": "const raw = $input.all()[0].json.input || $input.all()[0].json.query || '{}';\nconst p = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\nconst SHEET_ID    = process.env.BOOKING_SHEET_ID;\nconst ACCESS_TOKEN = process.env.GOOGLE_ACCESS_TOKEN;\n\nif (!SHEET_ID || !ACCESS_TOKEN) throw new Error('BOOKING_SHEET_ID and GOOGLE_ACCESS_TOKEN must be set');\n\n// Row must match sheet column order exactly\nconst row = [\n  p.Booking_ID         || '',\n  p.Client_Name        || '',\n  p.Phone              || '',\n  p.Email              || '',\n  p.Vehicle_Type       || '',\n  p.Vehicle_Model      || '',\n  p.Plan               || '',\n  p.Price              || '',\n  p.Date               || '',\n  p.Time_Slot          || '',\n  p.Status             || 'BOOKED',\n  p.Last_Action        || 'BOOKED',\n  p.Pet_Hair_Removal   || 'false',\n  p.Flexible_Timing    || 'false',\n  p.Original_Date      || '',\n  p.Original_Time_Slot || '',\n  p.Created_At         || '',\n  p.Updated_At         || '',\n  p.Calendar_Event_ID  || '',\n  p.Cancel_Reason      || '',\n];\n\nconst res = await fetch(\n  `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Bookings!A1:T1:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,\n  {\n    method:  'POST',\n    headers: { Authorization: `Bearer ${ACCESS_TOKEN}`, 'Content-Type': 'application/json' },\n    body:    JSON.stringify({ values: [row] }),\n  }\n);\nconst result = await res.json();\n\nif (result.error) throw new Error(`Sheets API error: ${JSON.stringify(result.error)}`);\n\nreturn JSON.stringify({ success: true, updatedRange: result.updates?.updatedRange });"
+      }
+    },
+
+    {
+      "id": "node-008-email-client",
+      "name": "SendClientEmail",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [720, 620],
+      "parameters": {
+        "name": "SendClientEmail",
+        "description": "Sends a booking confirmation HTML email to the client. Input JSON must include: to_email (string), subject (string), html_body (complete HTML string starting with <html><body> and ending with </body></html>). Returns: { success: boolean }",
+        "language": "javaScript",
+        "jsCode": "const raw = $input.all()[0].json.input || $input.all()[0].json.query || '{}';\nconst { to_email, subject, html_body } = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\nconst ACCESS_TOKEN  = process.env.GOOGLE_ACCESS_TOKEN;\nconst FROM_EMAIL    = process.env.CARWASHER_EMAIL || 'Autolavaggio04012@gmail.com';\n\nif (!ACCESS_TOKEN) throw new Error('GOOGLE_ACCESS_TOKEN must be set in n8n environment variables');\nif (!to_email || !subject || !html_body) throw new Error('to_email, subject, and html_body are all required');\nif (!html_body.trim().startsWith('<html')) throw new Error('html_body must be complete HTML starting with <html>');\n\n// Build RFC 2822 email message\nconst message = [\n  `From: Autolavaggio La Palma <${FROM_EMAIL}>`,\n  `To: ${to_email}`,\n  `Subject: ${subject}`,\n  'MIME-Version: 1.0',\n  'Content-Type: text/html; charset=UTF-8',\n  '',\n  html_body,\n].join('\\r\\n');\n\n// Base64url encode\nconst encoded = btoa(unescape(encodeURIComponent(message)))\n  .replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/, '');\n\nconst res = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {\n  method:  'POST',\n  headers: { Authorization: `Bearer ${ACCESS_TOKEN}`, 'Content-Type': 'application/json' },\n  body:    JSON.stringify({ raw: encoded }),\n});\nconst result = await res.json();\n\nif (result.error) throw new Error(`Gmail API error: ${JSON.stringify(result.error)}`);\n\nreturn JSON.stringify({ success: true, messageId: result.id });"
+      }
+    },
+
+    {
+      "id": "node-009-email-staff",
+      "name": "SendCarWasherEmail",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [800, 620],
+      "parameters": {
+        "name": "SendCarWasherEmail",
+        "description": "Sends a new booking alert HTML email to the car wash staff (Autolavaggio04012@gmail.com). Input JSON must include: subject (string), html_body (complete HTML string starting with <html><body> and ending with </body></html>). Returns: { success: boolean }",
+        "language": "javaScript",
+        "jsCode": "const raw = $input.all()[0].json.input || $input.all()[0].json.query || '{}';\nconst { subject, html_body } = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\nconst ACCESS_TOKEN   = process.env.GOOGLE_ACCESS_TOKEN;\nconst STAFF_EMAIL    = process.env.CARWASHER_EMAIL || 'Autolavaggio04012@gmail.com';\n\nif (!ACCESS_TOKEN) throw new Error('GOOGLE_ACCESS_TOKEN must be set in n8n environment variables');\nif (!subject || !html_body) throw new Error('subject and html_body are required');\nif (!html_body.trim().startsWith('<html')) throw new Error('html_body must be complete HTML starting with <html>');\n\nconst message = [\n  `From: Autolavaggio Bookings <${STAFF_EMAIL}>`,\n  `To: ${STAFF_EMAIL}`,\n  `Subject: ${subject}`,\n  'MIME-Version: 1.0',\n  'Content-Type: text/html; charset=UTF-8',\n  '',\n  html_body,\n].join('\\r\\n');\n\nconst encoded = btoa(unescape(encodeURIComponent(message)))\n  .replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/, '');\n\nconst res = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {\n  method:  'POST',\n  headers: { Authorization: `Bearer ${ACCESS_TOKEN}`, 'Content-Type': 'application/json' },\n  body:    JSON.stringify({ raw: encoded }),\n});\nconst result = await res.json();\n\nif (result.error) throw new Error(`Gmail API error: ${JSON.stringify(result.error)}`);\n\nreturn JSON.stringify({ success: true, messageId: result.id });"
+      }
     }
+
   ],
+
   "connections": {
     "Booking Webhook": {
-      "main": [
-        [{ "node": "Save to Google Sheets", "type": "main", "index": 0 }]
-      ]
+      "main": [[{ "node": "Booking Agent", "type": "main", "index": 0 }]]
     },
-    "Save to Google Sheets": {
-      "main": [
-        [
-          { "node": "Email — Client Confirmation", "type": "main", "index": 0 },
-          { "node": "Email — Staff Notification",  "type": "main", "index": 0 }
-        ]
-      ]
+    "Booking Agent": {
+      "main": [[{ "node": "Respond to Webhook", "type": "main", "index": 0 }]]
+    },
+    "Claude Sonnet": {
+      "ai_languageModel": [[{ "node": "Booking Agent", "type": "ai_languageModel", "index": 0 }]]
+    },
+    "CheckSlotAvailability": {
+      "ai_tool": [[{ "node": "Booking Agent", "type": "ai_tool", "index": 0 }]]
+    },
+    "CreateCalendarEvent": {
+      "ai_tool": [[{ "node": "Booking Agent", "type": "ai_tool", "index": 0 }]]
+    },
+    "AppendBookingRow": {
+      "ai_tool": [[{ "node": "Booking Agent", "type": "ai_tool", "index": 0 }]]
+    },
+    "SendClientEmail": {
+      "ai_tool": [[{ "node": "Booking Agent", "type": "ai_tool", "index": 0 }]]
+    },
+    "SendCarWasherEmail": {
+      "ai_tool": [[{ "node": "Booking Agent", "type": "ai_tool", "index": 0 }]]
     }
   },
+
   "active": false,
   "settings": {
     "executionOrder": "v1"
