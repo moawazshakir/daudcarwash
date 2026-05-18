@@ -1691,14 +1691,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* =============================================
    VIDEO SECTION LAYOUT
    ============================================= */
-.video-layout {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: 32px;
-  align-items: start;
+.video-center {
+  max-width: 860px;
+  margin: 0 auto;
 }
 
-.video-main .video-frame {
+.video-center .video-frame {
   border-radius: var(--r-lg);
   overflow: hidden;
   box-shadow: var(--sh-lg);
@@ -1945,7 +1943,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .booking-card     { grid-template-columns: 1fr; }
   .booking-left     { padding: 36px 28px; border-radius: var(--r-lg) var(--r-lg) 0 0; }
   .bk-form          { padding: 36px 28px; }
-  .video-layout     { grid-template-columns: 1fr; }
+  .video-center     { max-width: 100%; }
   .bk-services      { grid-template-columns: repeat(2, 1fr); }
 }
 
