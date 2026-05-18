@@ -146,7 +146,7 @@ module.exports = async (req, res) => {
   }
 
   // ── Fire n8n webhook AFTER calendar (gets full data incl. calendarEventId) ─
-  triggerN8n({
+  await triggerN8n({
     bookingId,
     bookingTimestamp: new Date().toISOString(),
     name, phone, email,
