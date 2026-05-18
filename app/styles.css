@@ -1054,9 +1054,34 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    TESTIMONIALS
    ============================================= */
 .reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
   gap: 28px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 16px;
+  cursor: grab;
+}
+
+.reviews-grid:active { cursor: grabbing; }
+
+.reviews-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.reviews-grid::-webkit-scrollbar-track {
+  background: #e8edf3;
+  border-radius: 10px;
+}
+
+.reviews-grid::-webkit-scrollbar-thumb {
+  background: var(--blue);
+  border-radius: 10px;
+}
+
+.reviews-grid .review-card {
+  flex: 0 0 340px;
+  scroll-snap-align: start;
 }
 
 .review-card {

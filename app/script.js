@@ -581,7 +581,7 @@ if (contactForm) {
       return;
     }
 
-    grid.innerHTML = reviews.map(r => {
+    grid.innerHTML = reviews.map((r, i) => {
       const stars = '<i class="fas fa-star"></i>'.repeat(Math.min(5, r.rating || 5));
       const initials = r.reviewer_name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
       return `
@@ -597,9 +597,29 @@ if (contactForm) {
           </div>
         </div>`;
     }).join('');
+    document.dispatchEvent(new Event('reviews-loaded'));
   } catch (e) {
     grid.innerHTML = '';
   }
+})();
+
+
+// === REVIEWS DRAG SCROLL ===
+(function () {
+  function initDragScroll(el) {
+    let isDown = false, startX, scrollLeft;
+    el.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft; });
+    el.addEventListener('mouseleave', () => { isDown = false; });
+    el.addEventListener('mouseup', () => { isDown = false; });
+    el.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      e.preventDefault();
+      el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX);
+    });
+  }
+  const grid = document.getElementById('reviews-grid');
+  if (grid) initDragScroll(grid);
+  else document.addEventListener('reviews-loaded', () => { const g = document.getElementById('reviews-grid'); if (g) initDragScroll(g); });
 })();
 
 
