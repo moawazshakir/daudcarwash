@@ -9,14 +9,14 @@ const pricingData = {
       name: "Basic",
       price: 15,
       features: [
-        { text: "Exterior Hand Wash",   on: true  },
-        { text: "Wheel Cleaning",        on: true  },
-        { text: "Window Cleaning",       on: true  },
-        { text: "Interior Vacuum",       on: true  },
-        { text: "Dashboard Wipe-Down",   on: false },
-        { text: "Wax & Polish",          on: false },
-        { text: "Tire Dressing",         on: false },
-        { text: "Engine Bay Clean",      on: false },
+        { text: "Lavaggio Esterno a Mano",   on: true  },
+        { text: "Pulizia Cerchi",        on: true  },
+        { text: "Pulizia Vetri",       on: true  },
+        { text: "Aspirazione Interna",       on: true  },
+        { text: "Pulizia Cruscotto",   on: false },
+        { text: "Ceratura e Lucidatura",          on: false },
+        { text: "Trattamento Pneumatici",         on: false },
+        { text: "Pulizia Vano Motore",      on: false },
       ]
     },
     {
@@ -24,29 +24,29 @@ const pricingData = {
       price: 25,
       popular: true,
       features: [
-        { text: "Exterior Hand Wash",   on: true  },
-        { text: "Wheel Cleaning",        on: true  },
-        { text: "Window Cleaning",       on: true  },
-        { text: "Interior Vacuum",       on: true  },
-        { text: "Dashboard Wipe-Down",   on: true  },
-        { text: "Wax & Polish",          on: true  },
-        { text: "Tire Dressing",         on: true  },
-        { text: "Engine Bay Clean",      on: true  },
+        { text: "Lavaggio Esterno a Mano",   on: true  },
+        { text: "Pulizia Cerchi",        on: true  },
+        { text: "Pulizia Vetri",       on: true  },
+        { text: "Aspirazione Interna",       on: true  },
+        { text: "Pulizia Cruscotto",   on: true  },
+        { text: "Ceratura e Lucidatura",          on: true  },
+        { text: "Trattamento Pneumatici",         on: true  },
+        { text: "Pulizia Vano Motore",      on: true  },
       ]
     },
     {
       name: "Premium",
       price: 50,
       features: [
-        { text: "Exterior Hand Wash",   on: true  },
-        { text: "Wheel Cleaning",        on: true  },
-        { text: "Window Cleaning",       on: true  },
-        { text: "Interior Vacuum",       on: true  },
-        { text: "Dashboard Wipe-Down",   on: true  },
-        { text: "Wax & Polish",          on: true  },
-        { text: "Tire Dressing",         on: true  },
-        { text: "Engine Bay Clean",        on: true  },
-        { text: "Deep Internal Cleaning",  on: true  },
+        { text: "Lavaggio Esterno a Mano",   on: true  },
+        { text: "Pulizia Cerchi",        on: true  },
+        { text: "Pulizia Vetri",       on: true  },
+        { text: "Aspirazione Interna",       on: true  },
+        { text: "Pulizia Cruscotto",   on: true  },
+        { text: "Ceratura e Lucidatura",          on: true  },
+        { text: "Trattamento Pneumatici",         on: true  },
+        { text: "Pulizia Vano Motore",        on: true  },
+        { text: "Pulizia Interna Profonda",  on: true  },
       ]
     }
   ],
@@ -55,14 +55,14 @@ const pricingData = {
       name: "Basic",
       price: 20,
       features: [
-        { text: "Exterior Hand Wash",   on: true  },
-        { text: "Wheel & Rim Cleaning", on: true  },
-        { text: "Window Cleaning",       on: true  },
-        { text: "Interior Vacuum",       on: true  },
-        { text: "Dashboard Wipe-Down",   on: false },
-        { text: "Wax & Polish",          on: false },
-        { text: "Tire Dressing",         on: false },
-        { text: "Engine Bay Clean",      on: false },
+        { text: "Lavaggio Esterno a Mano",   on: true  },
+        { text: "Pulizia Cerchi e Bordi", on: true  },
+        { text: "Pulizia Vetri",       on: true  },
+        { text: "Aspirazione Interna",       on: true  },
+        { text: "Pulizia Cruscotto",   on: false },
+        { text: "Ceratura e Lucidatura",          on: false },
+        { text: "Trattamento Pneumatici",         on: false },
+        { text: "Pulizia Vano Motore",      on: false },
       ]
     },
     {
@@ -70,29 +70,29 @@ const pricingData = {
       price: 35,
       popular: true,
       features: [
-        { text: "Exterior Hand Wash",   on: true  },
-        { text: "Wheel & Rim Cleaning", on: true  },
-        { text: "Window Cleaning",       on: true  },
-        { text: "Interior Vacuum",       on: true  },
-        { text: "Dashboard Wipe-Down",   on: true  },
-        { text: "Wax & Polish",          on: true  },
-        { text: "Tire Dressing",         on: true  },
-        { text: "Engine Bay Clean",      on: true  },
+        { text: "Lavaggio Esterno a Mano",   on: true  },
+        { text: "Pulizia Cerchi e Bordi", on: true  },
+        { text: "Pulizia Vetri",       on: true  },
+        { text: "Aspirazione Interna",       on: true  },
+        { text: "Pulizia Cruscotto",   on: true  },
+        { text: "Ceratura e Lucidatura",          on: true  },
+        { text: "Trattamento Pneumatici",         on: true  },
+        { text: "Pulizia Vano Motore",      on: true  },
       ]
     },
     {
       name: "Premium",
       price: 65,
       features: [
-        { text: "Exterior Hand Wash",   on: true  },
-        { text: "Wheel & Rim Cleaning", on: true  },
-        { text: "Window Cleaning",       on: true  },
-        { text: "Interior Vacuum",       on: true  },
-        { text: "Dashboard Wipe-Down",   on: true  },
-        { text: "Wax & Polish",          on: true  },
-        { text: "Tire Dressing",         on: true  },
-        { text: "Engine Bay Clean",        on: true  },
-        { text: "Deep Internal Cleaning",  on: true  },
+        { text: "Lavaggio Esterno a Mano",   on: true  },
+        { text: "Pulizia Cerchi e Bordi", on: true  },
+        { text: "Pulizia Vetri",       on: true  },
+        { text: "Aspirazione Interna",       on: true  },
+        { text: "Pulizia Cruscotto",   on: true  },
+        { text: "Ceratura e Lucidatura",          on: true  },
+        { text: "Trattamento Pneumatici",         on: true  },
+        { text: "Pulizia Vano Motore",        on: true  },
+        { text: "Pulizia Interna Profonda",  on: true  },
       ]
     }
   ],
@@ -102,13 +102,13 @@ const pricingData = {
       price: 25,
       features: [
         { text: "Exterior Hand Wash",     on: true  },
-        { text: "Wheel & Undercarriage",  on: true  },
-        { text: "Window Cleaning",         on: true  },
-        { text: "Interior Vacuum",         on: true  },
-        { text: "Dashboard Wipe-Down",     on: false },
-        { text: "Wax & Polish",            on: false },
-        { text: "Tire Dressing",           on: false },
-        { text: "Engine Bay Clean",        on: false },
+        { text: "Cerchi e Sottoscocca",  on: true  },
+        { text: "Pulizia Vetri",         on: true  },
+        { text: "Aspirazione Interna",         on: true  },
+        { text: "Pulizia Cruscotto",     on: false },
+        { text: "Ceratura e Lucidatura",            on: false },
+        { text: "Trattamento Pneumatici",           on: false },
+        { text: "Pulizia Vano Motore",        on: false },
       ]
     },
     {
@@ -117,13 +117,13 @@ const pricingData = {
       popular: true,
       features: [
         { text: "Exterior Hand Wash",     on: true  },
-        { text: "Wheel & Undercarriage",  on: true  },
-        { text: "Window Cleaning",         on: true  },
-        { text: "Interior Vacuum",         on: true  },
-        { text: "Dashboard Wipe-Down",     on: true  },
-        { text: "Wax & Polish",            on: true  },
-        { text: "Tire Dressing",           on: true  },
-        { text: "Engine Bay Clean",        on: true  },
+        { text: "Cerchi e Sottoscocca",  on: true  },
+        { text: "Pulizia Vetri",         on: true  },
+        { text: "Aspirazione Interna",         on: true  },
+        { text: "Pulizia Cruscotto",     on: true  },
+        { text: "Ceratura e Lucidatura",            on: true  },
+        { text: "Trattamento Pneumatici",           on: true  },
+        { text: "Pulizia Vano Motore",        on: true  },
       ]
     },
     {
@@ -131,14 +131,14 @@ const pricingData = {
       price: 80,
       features: [
         { text: "Exterior Hand Wash",     on: true  },
-        { text: "Wheel & Undercarriage",  on: true  },
-        { text: "Window Cleaning",         on: true  },
-        { text: "Interior Vacuum",         on: true  },
-        { text: "Dashboard Wipe-Down",     on: true  },
-        { text: "Wax & Polish",            on: true  },
-        { text: "Tire Dressing",           on: true  },
-        { text: "Engine Bay Clean",        on: true  },
-        { text: "Deep Internal Cleaning",  on: true  },
+        { text: "Cerchi e Sottoscocca",  on: true  },
+        { text: "Pulizia Vetri",         on: true  },
+        { text: "Aspirazione Interna",         on: true  },
+        { text: "Pulizia Cruscotto",     on: true  },
+        { text: "Ceratura e Lucidatura",            on: true  },
+        { text: "Trattamento Pneumatici",           on: true  },
+        { text: "Pulizia Vano Motore",        on: true  },
+        { text: "Pulizia Interna Profonda",  on: true  },
       ]
     }
   ]
@@ -156,17 +156,17 @@ function renderPricing(category) {
     const url = `booking/?vehicleType=${vtype}&packageType=${card.name.toLowerCase()}`;
     return `
     <div class="p-card ${card.popular ? 'popular' : ''} ${card.elite ? 'elite' : ''}"
-         role="button" tabindex="0" aria-label="Book ${card.name} Package — €${card.price} per wash"
+         role="button" tabindex="0" aria-label="Prenota Pacchetto ${card.name} — €${card.price} per lavaggio"
          onclick="window.location.href='${url}'"
          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='${url}'}">
-      ${card.popular ? '<div class="p-badge">Most Popular</div>' : ''}
+      ${card.popular ? '<div class="p-badge">Più Scelto</div>' : ''}
       ${card.elite   ? '<div class="p-badge elite-badge"><i class="fas fa-crown"></i> Elite</div>' : ''}
       <p class="p-name">${card.name}</p>
       <div class="p-price">
         <sup>€</sup>
         <span class="amount">${card.price}</span>
       </div>
-      <p class="p-period">per wash</p>
+      <p class="p-period">per lavaggio</p>
       <ul class="p-features">
         ${card.features.map(f => `
           <li class="${f.on ? '' : 'off'}">
@@ -175,7 +175,7 @@ function renderPricing(category) {
           </li>
         `).join('')}
       </ul>
-      <a href="${url}" class="btn-primary" tabindex="-1" onclick="event.stopPropagation()">Book This Package</a>
+      <a href="${url}" class="btn-primary" tabindex="-1" onclick="event.stopPropagation()">Prenota Questo Pacchetto</a>
     </div>
   `}).join('');
 }
@@ -201,7 +201,7 @@ function applyRecommendedPackage(pkgName) {
   const banner = document.getElementById('pricing-recommendation');
   if (!banner) return;
   const label = pkgName.charAt(0).toUpperCase() + pkgName.slice(1);
-  banner.innerHTML = `<i class="fas fa-circle-check"></i> <strong>${label} Package</strong> recommended for your selected service`;
+  banner.innerHTML = `<i class="fas fa-circle-check"></i> <strong>Pacchetto ${label}</strong> consigliato per il servizio selezionato`;
   banner.hidden = false;
 }
 
@@ -378,7 +378,7 @@ function renderTimeSlots(dateString) {
   const select = document.getElementById('bk-time-select');
   if (!select) return;
 
-  select.innerHTML = '<option value="" disabled selected>Select a time…</option>';
+  select.innerHTML = '<option value="" disabled selected>Seleziona un orario…</option>';
   if (!dateString) return;
 
   const slots = getAvailableTimeSlots(dateString);
@@ -548,13 +548,13 @@ const submitBtn   = document.getElementById('submit-btn');
 if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Invio in corso…';
     submitBtn.disabled  = true;
     setTimeout(() => {
-      submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+      submitBtn.innerHTML = '<i class="fas fa-check"></i> Messaggio Inviato!';
       submitBtn.style.background = '#16a34a';
       setTimeout(() => {
-        submitBtn.innerHTML    = '<i class="fas fa-paper-plane"></i> Send Message';
+        submitBtn.innerHTML    = '<i class="fas fa-paper-plane"></i> Invia Messaggio';
         submitBtn.style.background = '';
         submitBtn.disabled     = false;
         contactForm.reset();
@@ -577,7 +577,7 @@ if (contactForm) {
     const reviews = await res.json();
 
     if (!reviews.length) {
-      grid.innerHTML = '<p style="text-align:center;color:#64748b;padding:40px;grid-column:1/-1;">No reviews yet. Check back soon!</p>';
+      grid.innerHTML = '<p style="text-align:center;color:#64748b;padding:40px;grid-column:1/-1;">Nessuna recensione ancora. Torna presto!</p>';
       return;
     }
 

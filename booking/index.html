@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Appointment — Autolavaggio La Palma</title>
+  <title>Prenota Appuntamento — Autolavaggio La Palma</title>
   <link rel="icon" href="../public/images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,10 +18,9 @@
     <div class="bw-header-inner">
       <a href="../index.html" class="bw-logo">
         <img src="../public/images/logo.png" alt="Autolavaggio La Palma">
-
       </a>
       <a href="../index.html" class="bw-back-link">
-        <i class="fas fa-arrow-left"></i> Back to Main Site
+        <i class="fas fa-arrow-left"></i> Torna al Sito
       </a>
     </div>
   </header>
@@ -31,32 +30,32 @@
     <div class="bw-progress-inner">
       <div class="bw-step active" data-step="1">
         <div class="bw-step-circle">1</div>
-        <div class="bw-step-label">Category</div>
+        <div class="bw-step-label">Categoria</div>
       </div>
       <div class="bw-line" id="line-1"></div>
       <div class="bw-step" data-step="2">
         <div class="bw-step-circle">2</div>
-        <div class="bw-step-label">Service</div>
+        <div class="bw-step-label">Servizio</div>
       </div>
       <div class="bw-line" id="line-2"></div>
       <div class="bw-step" data-step="3">
         <div class="bw-step-circle">3</div>
-        <div class="bw-step-label">Vehicle</div>
+        <div class="bw-step-label">Veicolo</div>
       </div>
       <div class="bw-line" id="line-3"></div>
       <div class="bw-step" data-step="4">
         <div class="bw-step-circle">4</div>
-        <div class="bw-step-label">Date &amp; Time</div>
+        <div class="bw-step-label">Data &amp; Ora</div>
       </div>
       <div class="bw-line" id="line-4"></div>
       <div class="bw-step" data-step="5">
         <div class="bw-step-circle">5</div>
-        <div class="bw-step-label">Your Details</div>
+        <div class="bw-step-label">I Tuoi Dati</div>
       </div>
       <div class="bw-line" id="line-5"></div>
       <div class="bw-step" data-step="6">
         <div class="bw-step-circle">6</div>
-        <div class="bw-step-label">Summary</div>
+        <div class="bw-step-label">Riepilogo</div>
       </div>
     </div>
   </div>
@@ -64,85 +63,85 @@
   <!-- ===== MAIN ===== -->
   <main class="bw-main">
 
-    <!-- STEP 1: CATEGORY -->
+    <!-- STEP 1: CATEGORIA -->
     <section class="bw-panel active" id="panel-1">
-      <h2 class="bw-title">Choose a Service Category</h2>
-      <p class="bw-sub">Select the type of service you need for your vehicle</p>
+      <h2 class="bw-title">Scegli una Categoria</h2>
+      <p class="bw-sub">Seleziona il tipo di servizio che vuoi per la tua auto</p>
       <div class="bw-cat-grid">
         <button type="button" class="bw-cat-card" data-cat="carwash" onclick="selectCat(this)">
           <div class="bw-cat-icon"><i class="fas fa-car-side"></i></div>
-          <strong>Car Wash</strong>
-          <span>Complete exterior &amp; interior cleaning</span>
+          <strong>Lavaggio Auto</strong>
+          <span>Pulizia completa esterna e interna</span>
         </button>
         <button type="button" class="bw-cat-card" data-cat="interior" onclick="selectCat(this)">
           <div class="bw-cat-icon"><i class="fas fa-couch"></i></div>
-          <strong>Interior Detailing</strong>
-          <span>Deep clean seats, carpets &amp; dashboard</span>
+          <strong>Detailing Interno</strong>
+          <span>Pulizia profonda sedili, tappeti e cruscotto</span>
         </button>
         <button type="button" class="bw-cat-card" data-cat="engine" onclick="selectCat(this)">
           <div class="bw-cat-icon"><i class="fas fa-gears"></i></div>
-          <strong>Engine Cleaning</strong>
-          <span>Safe &amp; detailed engine bay cleaning</span>
+          <strong>Pulizia Motore</strong>
+          <span>Pulizia sicura e accurata del vano motore</span>
         </button>
       </div>
     </section>
 
-    <!-- STEP 2: SERVICE / PACKAGE -->
+    <!-- STEP 2: SERVIZIO / PACCHETTO -->
     <section class="bw-panel" id="panel-2">
-      <h2 class="bw-title" id="s2-title">Services for: Car Wash</h2>
-      <p class="bw-sub">Choose the package that best suits your needs</p>
+      <h2 class="bw-title" id="s2-title">Servizi per: Lavaggio Auto</h2>
+      <p class="bw-sub">Scegli il pacchetto più adatto alle tue esigenze</p>
       <div class="bw-pkg-list" id="pkg-list"></div>
       <div class="bw-nav">
-        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Indietro</button>
       </div>
     </section>
 
-    <!-- STEP 3: VEHICLE + ADD-ONS -->
+    <!-- STEP 3: VEICOLO + SERVIZI AGGIUNTIVI -->
     <section class="bw-panel" id="panel-3">
-      <h2 class="bw-title">Configure Your Visit</h2>
+      <h2 class="bw-title">Configura la Tua Visita</h2>
       <div class="bw-s3-layout">
 
-        <!-- Left column -->
+        <!-- Colonna sinistra -->
         <div class="bw-s3-left">
 
           <div class="bw-block">
-            <h3 class="bw-block-title">Vehicle Type</h3>
+            <h3 class="bw-block-title">Tipo di Veicolo</h3>
             <div class="bw-vtype-row">
-              <button type="button" class="bw-vtype active" data-vtype="sedan" onclick="handleVtype(this)"><i class="fas fa-car"></i> Sedan</button>
+              <button type="button" class="bw-vtype active" data-vtype="sedan" onclick="handleVtype(this)"><i class="fas fa-car"></i> Berlina</button>
               <button type="button" class="bw-vtype" data-vtype="suv" onclick="handleVtype(this)"><i class="fas fa-truck-monster"></i> SUV</button>
-              <button type="button" class="bw-vtype" data-vtype="van" onclick="handleVtype(this)"><i class="fas fa-van-shuttle"></i> Van / Minivan</button>
+              <button type="button" class="bw-vtype" data-vtype="van" onclick="handleVtype(this)"><i class="fas fa-van-shuttle"></i> Furgone / Minivan</button>
             </div>
             <div id="sedan-seater-inline" style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
-              <p class="bw-block-subtitle">How many seats does your Sedan have?</p>
+              <p class="bw-block-subtitle">Quanti posti ha la tua Berlina?</p>
               <div class="bw-vtype-row">
-                <button type="button" class="bw-sedan-seat" data-seats="2" onclick="handleSedanSeat(this)"><i class="fas fa-users"></i> 2 Seats <span>-€5</span></button>
-                <button type="button" class="bw-sedan-seat" data-seats="5" onclick="handleSedanSeat(this)"><i class="fas fa-users"></i> 5 Seats</button>
+                <button type="button" class="bw-sedan-seat" data-seats="2" onclick="handleSedanSeat(this)"><i class="fas fa-users"></i> 2 Posti <span>-€5</span></button>
+                <button type="button" class="bw-sedan-seat" data-seats="5" onclick="handleSedanSeat(this)"><i class="fas fa-users"></i> 5 Posti</button>
               </div>
             </div>
             <div id="suv-seater-inline" style="display:none; margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
-              <p class="bw-block-subtitle">How many seats does your SUV have?</p>
+              <p class="bw-block-subtitle">Quanti posti ha il tuo SUV?</p>
               <div class="bw-vtype-row">
-                <button type="button" class="bw-suv-seat" data-seats="5" onclick="handleSuvSeat(this)"><i class="fas fa-users"></i> 5 Seats</button>
-                <button type="button" class="bw-suv-seat" data-seats="7" onclick="handleSuvSeat(this)"><i class="fas fa-users"></i> 7 Seats <span>+€5</span></button>
+                <button type="button" class="bw-suv-seat" data-seats="5" onclick="handleSuvSeat(this)"><i class="fas fa-users"></i> 5 Posti</button>
+                <button type="button" class="bw-suv-seat" data-seats="7" onclick="handleSuvSeat(this)"><i class="fas fa-users"></i> 7 Posti <span>+€5</span></button>
               </div>
             </div>
           </div>
 
           <div class="bw-block">
-            <h3 class="bw-block-title">Vehicle Details</h3>
+            <h3 class="bw-block-title">Dettagli Veicolo</h3>
             <div class="bw-two-col">
               <div class="bw-field">
-                <label>Car Brand *</label>
+                <label>Marca Auto *</label>
                 <div class="bw-brand-dropdown" id="bw-brand-dropdown">
                   <button type="button" class="bw-brand-trigger" id="bw-brand-trigger" onclick="toggleBrandDropdown()">
-                    <span class="bw-brand-trigger-text" id="bw-brand-trigger-text">Select brand…</span>
+                    <span class="bw-brand-trigger-text" id="bw-brand-trigger-text">Seleziona marca…</span>
                     <i class="fas fa-chevron-down bw-brand-chevron"></i>
                   </button>
                   <div class="bw-brand-panel" id="bw-brand-panel">
                     <div class="bw-brand-search-wrap">
                       <i class="fas fa-search bw-brand-search-icon"></i>
                       <input type="text" class="bw-brand-search" id="bw-brand-search"
-                             placeholder="Search brand…"
+                             placeholder="Cerca marca…"
                              oninput="filterBrands(this.value)"
                              autocomplete="off">
                     </div>
@@ -151,17 +150,17 @@
                 </div>
               </div>
               <div class="bw-field">
-                <label>Model *</label>
+                <label>Modello *</label>
                 <div class="bw-model-dropdown bw-model-dropdown--disabled" id="bw-model-dropdown">
                   <button type="button" class="bw-model-trigger" id="bw-model-trigger" onclick="toggleModelDropdown()">
-                    <span class="bw-model-trigger-text" id="bw-model-trigger-text">Select a brand first…</span>
+                    <span class="bw-model-trigger-text" id="bw-model-trigger-text">Prima seleziona la marca…</span>
                     <i class="fas fa-chevron-down bw-model-chevron"></i>
                   </button>
                   <div class="bw-model-panel" id="bw-model-panel">
                     <div class="bw-model-search-wrap">
                       <i class="fas fa-search bw-model-search-icon"></i>
                       <input type="text" class="bw-model-search" id="bw-model-search"
-                             placeholder="Search model…"
+                             placeholder="Cerca modello…"
                              oninput="filterModels(this.value)"
                              autocomplete="off">
                     </div>
@@ -170,58 +169,56 @@
                 </div>
               </div>
             </div>
-            <!-- Custom entry: both brand + model (when brand not in list) -->
             <div id="bw-custom-full" style="display:none; margin-top:12px;" class="bw-two-col">
               <div class="bw-field">
-                <label>Brand Name *</label>
-                <input type="text" id="bw-custom-brand-val" class="bw-custom-input" placeholder="e.g. Lada, Daihatsu…" autocomplete="off" oninput="state.brand=this.value.trim()">
+                <label>Nome Marca *</label>
+                <input type="text" id="bw-custom-brand-val" class="bw-custom-input" placeholder="es. Lada, Daihatsu…" autocomplete="off" oninput="state.brand=this.value.trim()">
               </div>
               <div class="bw-field">
-                <label>Model Name *</label>
-                <input type="text" id="bw-custom-model-full-val" class="bw-custom-input" placeholder="e.g. Granta, Terios…" autocomplete="off" oninput="state.model=this.value.trim()">
+                <label>Nome Modello *</label>
+                <input type="text" id="bw-custom-model-full-val" class="bw-custom-input" placeholder="es. Granta, Terios…" autocomplete="off" oninput="state.model=this.value.trim()">
               </div>
             </div>
-            <!-- Custom entry: model only (when model not in list) -->
             <div id="bw-custom-model-only" style="display:none; margin-top:12px; max-width:50%;">
               <div class="bw-field">
-                <label>Model Name *</label>
-                <input type="text" id="bw-custom-model-val" class="bw-custom-input" placeholder="Type your model name…" autocomplete="off" oninput="state.model=this.value.trim()">
+                <label>Nome Modello *</label>
+                <input type="text" id="bw-custom-model-val" class="bw-custom-input" placeholder="Scrivi il nome del modello…" autocomplete="off" oninput="state.model=this.value.trim()">
               </div>
             </div>
           </div>
 
           <div class="bw-block">
-            <h3 class="bw-block-title">Additional Services</h3>
+            <h3 class="bw-block-title">Servizi Aggiuntivi</h3>
             <div class="bw-addon-grid">
 
               <div class="bw-addon-card">
-                <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400&auto=format&fit=crop&q=80" alt="Pet hair on car seat">
+                <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400&auto=format&fit=crop&q=80" alt="Peli di animali sul sedile">
                 <div class="bw-addon-body">
-                  <p class="bw-addon-q">Is there animal / pet hair on the seats?</p>
+                  <p class="bw-addon-q">Ci sono peli di animali sui sedili?</p>
                   <div class="bw-yn-row">
-                    <button type="button" class="bw-yn bw-yn-yes" data-addon="pethair" data-val="yes" onclick="handleAddon(this)">YES <span>+€5</span></button>
+                    <button type="button" class="bw-yn bw-yn-yes" data-addon="pethair" data-val="yes" onclick="handleAddon(this)">SÌ <span>+€5</span></button>
                     <button type="button" class="bw-yn bw-yn-no active" data-addon="pethair" data-val="no" onclick="handleAddon(this)">NO</button>
                   </div>
                 </div>
               </div>
 
               <div class="bw-addon-card">
-                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&auto=format&fit=crop&q=80" alt="Bird stains on car">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&auto=format&fit=crop&q=80" alt="Escrementi di uccelli sulla carrozzeria">
                 <div class="bw-addon-body">
-                  <p class="bw-addon-q">Are there bird droppings or resin stains on the exterior?</p>
+                  <p class="bw-addon-q">Ci sono escrementi di uccelli o macchie di resina sulla carrozzeria?</p>
                   <div class="bw-yn-row">
-                    <button type="button" class="bw-yn bw-yn-yes" data-addon="stains" data-val="yes" onclick="handleAddon(this)">YES <span>+€5</span></button>
+                    <button type="button" class="bw-yn bw-yn-yes" data-addon="stains" data-val="yes" onclick="handleAddon(this)">SÌ <span>+€5</span></button>
                     <button type="button" class="bw-yn bw-yn-no active" data-addon="stains" data-val="no" onclick="handleAddon(this)">NO</button>
                   </div>
                 </div>
               </div>
 
               <div class="bw-addon-card">
-                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&auto=format&fit=crop&q=80" alt="Dirty car interior">
+                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&auto=format&fit=crop&q=80" alt="Interno auto molto sporco">
                 <div class="bw-addon-body">
-                  <p class="bw-addon-q">Is the interior heavily soiled or very dirty?</p>
+                  <p class="bw-addon-q">L'interno è molto sporco o rovinato?</p>
                   <div class="bw-yn-row">
-                    <button type="button" class="bw-yn bw-yn-yes" data-addon="dirtinterior" data-val="yes" onclick="handleAddon(this)">YES <span>+€5</span></button>
+                    <button type="button" class="bw-yn bw-yn-yes" data-addon="dirtinterior" data-val="yes" onclick="handleAddon(this)">SÌ <span>+€5</span></button>
                     <button type="button" class="bw-yn bw-yn-no active" data-addon="dirtinterior" data-val="no" onclick="handleAddon(this)">NO</button>
                   </div>
                 </div>
@@ -232,7 +229,7 @@
 
         </div>
 
-        <!-- Right: Price sidebar -->
+        <!-- Destra: riepilogo prezzo -->
         <div class="bw-s3-right">
           <div class="bw-price-card" id="price-card">
             <div class="bw-price-header">
@@ -244,32 +241,32 @@
             </div>
             <div class="bw-price-rows">
               <div class="bw-price-row">
-                <span>Base price</span>
+                <span>Prezzo base</span>
                 <span id="pc-base">€0</span>
               </div>
               <div class="bw-price-row bw-addon-row" id="row-pethair" style="display:none">
-                <span>Pet hair removal</span>
+                <span>Rimozione peli animali</span>
                 <span>+€5</span>
               </div>
               <div class="bw-price-row bw-addon-row" id="row-stains" style="display:none">
-                <span>Stain treatment</span>
+                <span>Trattamento macchie</span>
                 <span>+€5</span>
               </div>
               <div class="bw-price-row bw-addon-row" id="row-sedanseater" style="display:none">
-                <span>2-Seater Sedan discount</span>
+                <span>Sconto Berlina 2 Posti</span>
                 <span style="color:#16a34a">-€5</span>
               </div>
               <div class="bw-price-row bw-addon-row" id="row-suvseater" style="display:none">
-                <span>SUV seater surcharge</span>
+                <span>Supplemento SUV 7 Posti</span>
                 <span id="row-suvseater-amt">+€0</span>
               </div>
               <div class="bw-price-row bw-addon-row" id="row-dirtinterior" style="display:none">
-                <span>Heavy soiling surcharge</span>
+                <span>Supplemento sporco intenso</span>
                 <span>+€5</span>
               </div>
             </div>
             <div class="bw-price-total">
-              <span>Total</span>
+              <span>Totale</span>
               <strong id="pc-total">€0</strong>
             </div>
           </div>
@@ -277,58 +274,58 @@
 
       </div>
       <div class="bw-nav">
-        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
-        <button type="button" class="bw-btn-next" onclick="nextStep()">Continue <i class="fas fa-arrow-right"></i></button>
+        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Indietro</button>
+        <button type="button" class="bw-btn-next" onclick="nextStep()">Continua <i class="fas fa-arrow-right"></i></button>
       </div>
     </section>
 
-    <!-- STEP 4: DATE & TIME -->
+    <!-- STEP 4: DATA & ORA -->
     <section class="bw-panel" id="panel-4">
-      <h2 class="bw-title">Select Date &amp; Time</h2>
+      <h2 class="bw-title">Scegli Data &amp; Orario</h2>
       <div class="bw-dt-layout">
 
-        <!-- Calendar -->
+        <!-- Calendario -->
         <div class="bw-cal-wrap">
           <div class="bw-cal-nav">
             <button type="button" class="bw-cal-arrow" onclick="calPrev()"><i class="fas fa-chevron-left"></i></button>
-            <span class="bw-cal-month" id="cal-month">May 2026</span>
+            <span class="bw-cal-month" id="cal-month">Maggio 2026</span>
             <button type="button" class="bw-cal-arrow" onclick="calNext()"><i class="fas fa-chevron-right"></i></button>
           </div>
           <div class="bw-cal-grid" id="cal-grid">
-            <!-- Rendered by JS -->
+            <!-- Generato da JS -->
           </div>
         </div>
 
-        <!-- Time slots -->
+        <!-- Orari disponibili -->
         <div class="bw-slots-wrap">
-          <h3 class="bw-slots-title" id="slots-title">Select a date to see available times</h3>
+          <h3 class="bw-slots-title" id="slots-title">Seleziona una data per vedere gli orari disponibili</h3>
           <div class="bw-slots-grid" id="slots-grid"></div>
         </div>
 
       </div>
       <div class="bw-nav">
-        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
-        <button type="button" class="bw-btn-next" id="btn-s4-next" onclick="nextStep()" disabled>Continue <i class="fas fa-arrow-right"></i></button>
+        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Indietro</button>
+        <button type="button" class="bw-btn-next" id="btn-s4-next" onclick="nextStep()" disabled>Continua <i class="fas fa-arrow-right"></i></button>
       </div>
     </section>
 
-    <!-- STEP 5: PERSONAL DETAILS -->
+    <!-- STEP 5: DATI PERSONALI -->
     <section class="bw-panel" id="panel-5">
-      <h2 class="bw-title">Your Details</h2>
+      <h2 class="bw-title">I Tuoi Dati</h2>
       <div class="bw-form-wrap">
         <div class="bw-two-col">
           <div class="bw-field">
-            <label>First Name *</label>
+            <label>Nome *</label>
             <input type="text" id="bw-fname" placeholder="Marco">
           </div>
           <div class="bw-field">
-            <label>Last Name *</label>
+            <label>Cognome *</label>
             <input type="text" id="bw-lname" placeholder="Rossi">
           </div>
         </div>
         <div class="bw-two-col">
           <div class="bw-field">
-            <label>Phone Number *</label>
+            <label>Numero di Telefono *</label>
             <div class="bw-phone-row">
               <div class="bw-phone-prefix">
                 <img src="https://flagcdn.com/16x12/it.png" alt="IT" style="margin-right:4px"> +39
@@ -338,47 +335,47 @@
           </div>
           <div class="bw-field">
             <label>Email *</label>
-            <input type="email" id="bw-email" placeholder="marco@example.com">
+            <input type="email" id="bw-email" placeholder="marco@esempio.com">
           </div>
         </div>
         <div class="bw-field">
-          <label>License Plate <span class="bw-optional">(optional)</span></label>
+          <label>Targa <span class="bw-optional">(opzionale)</span></label>
           <input type="text" id="bw-plate" placeholder="AB 123 CD">
         </div>
         <div class="bw-field">
-          <label>Notes <span class="bw-optional">(optional)</span></label>
-          <textarea id="bw-notes" rows="3" placeholder="Any special requests or additional information…"></textarea>
+          <label>Note <span class="bw-optional">(opzionale)</span></label>
+          <textarea id="bw-notes" rows="3" placeholder="Richieste particolari o informazioni aggiuntive…"></textarea>
         </div>
       </div>
       <div class="bw-nav">
-        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
-        <button type="button" class="bw-btn-next" onclick="nextStep()">Go to Summary <i class="fas fa-arrow-right"></i></button>
+        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Indietro</button>
+        <button type="button" class="bw-btn-next" onclick="nextStep()">Vai al Riepilogo <i class="fas fa-arrow-right"></i></button>
       </div>
     </section>
 
-    <!-- STEP 6: SUMMARY -->
+    <!-- STEP 6: RIEPILOGO -->
     <section class="bw-panel" id="panel-6">
-      <h2 class="bw-title">Booking Summary</h2>
-      <p class="bw-sub">Review your details before confirming</p>
+      <h2 class="bw-title">Riepilogo Prenotazione</h2>
+      <p class="bw-sub">Controlla i tuoi dati prima di confermare</p>
       <div class="bw-summary-wrap">
         <div class="bw-summary-list" id="summary-list"></div>
         <div class="bw-summary-total">
-          <span>Total Amount</span>
+          <span>Importo Totale</span>
           <strong id="summary-total">€0</strong>
         </div>
         <button type="button" class="bw-btn-confirm" id="btn-confirm" onclick="submitBooking()">
-          <i class="fas fa-calendar-check"></i> Confirm Appointment
+          <i class="fas fa-calendar-check"></i> Conferma Appuntamento
         </button>
         <div id="bw-err" style="display:none;color:#dc2626;text-align:center;margin-top:14px;font-size:14px;font-weight:600;"></div>
       </div>
       <div class="bw-nav" style="margin-top:24px;">
-        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Back</button>
+        <button type="button" class="bw-btn-back" onclick="prevStep()"><i class="fas fa-arrow-left"></i> Indietro</button>
       </div>
     </section>
 
   </main>
 
-  <!-- ===== CONFIRMATION OVERLAY ===== -->
+  <!-- ===== OVERLAY CONFERMA ===== -->
   <div class="bw-overlay" id="bw-overlay" style="display:none;">
     <div class="bw-overlay-card">
       <div class="bw-check-wrap">
@@ -387,12 +384,12 @@
           <path class="bw-check-tick" fill="none" d="M14 27l8 8 16-16"/>
         </svg>
       </div>
-      <h2 class="bw-overlay-title">Appointment Confirmed!</h2>
-      <p class="bw-overlay-sub">Your booking has been received. We'll contact you shortly to confirm.</p>
+      <h2 class="bw-overlay-title">Appuntamento Confermato!</h2>
+      <p class="bw-overlay-sub">La tua prenotazione è stata ricevuta. Ti contatteremo presto per confermare.</p>
       <div class="bw-overlay-details" id="overlay-details"></div>
       <div class="bw-overlay-actions">
-        <a href="../index.html" class="bw-ol-home"><i class="fas fa-house"></i> Back to Home</a>
-        <button type="button" class="bw-ol-again" onclick="resetWizard()"><i class="fas fa-calendar-plus"></i> Book Another</button>
+        <a href="../index.html" class="bw-ol-home"><i class="fas fa-house"></i> Torna alla Home</a>
+        <button type="button" class="bw-ol-again" onclick="resetWizard()"><i class="fas fa-calendar-plus"></i> Prenota di Nuovo</button>
       </div>
     </div>
   </div>

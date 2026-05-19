@@ -193,31 +193,31 @@ const state = {
 // ===== PRICING DATA =====
 const PACKAGES = {
   carwash: [
-    { id: 'basic',    name: 'Basic Wash',     desc: 'Exterior hand wash, wheel, window & interior vacuum',    price: { sedan: 15, suv: 20, van: 25 }, dur: 30,
-      features: ['Exterior Hand Wash', 'Wheel Cleaning', 'Window Cleaning', 'Interior Vacuum'] },
-    { id: 'standard', name: 'Standard Wash',  desc: 'Full exterior + interior, wax, polish & engine clean',  price: { sedan: 25, suv: 35, van: 45 }, dur: 60, popular: true,
-      features: ['Full Exterior Wash', 'Interior Vacuum', 'Dashboard Wipe-Down', 'Wax & Polish', 'Tire Dressing', 'Engine Bay Clean'] },
-    { id: 'premium',  name: 'Premium Wash',   desc: 'Standard + deep internal cleaning',                     price: { sedan: 50, suv: 65, van: 80 }, dur: 90,
-      features: ['Full Standard Package', 'Deep Internal Cleaning'] },
+    { id: 'basic',    name: 'Lavaggio Base',     desc: 'Lavaggio a mano, cerchi, vetri e aspirazione interni',    price: { sedan: 15, suv: 20, van: 25 }, dur: 30,
+      features: ['Lavaggio a Mano Esterno', 'Pulizia Cerchi', 'Pulizia Vetri', 'Aspirazione Interni'] },
+    { id: 'standard', name: 'Lavaggio Standard',  desc: 'Esterno completo + interno, cera, lucidatura e pulizia motore',  price: { sedan: 25, suv: 35, van: 45 }, dur: 60, popular: true,
+      features: ['Lavaggio Esterno Completo', 'Aspirazione Interni', 'Pulizia Cruscotto', 'Cera e Lucidatura', 'Trattamento Gomme', 'Pulizia Vano Motore'] },
+    { id: 'premium',  name: 'Lavaggio Premium',   desc: 'Standard + pulizia profonda degli interni',                     price: { sedan: 50, suv: 65, van: 80 }, dur: 90,
+      features: ['Pacchetto Standard Completo', 'Pulizia Profonda Interni'] },
   ],
   interior: [
-    { id: 'premium',  name: 'Interior Premium', desc: 'Full clean with conditioning & odor elimination',     price: { sedan: 80, suv: 80, van: 80 }, dur: 120,
-      features: ['Full Interior Deep Clean', 'Leather Conditioning', 'Odor Elimination', 'Fabric Protector'] },
+    { id: 'premium',  name: 'Detailing Interni Premium', desc: 'Pulizia completa con trattamento e eliminazione odori',     price: { sedan: 80, suv: 80, van: 80 }, dur: 120,
+      features: ['Pulizia Profonda Completa Interni', 'Trattamento Pelle', 'Eliminazione Odori', 'Protezione Tessuti'] },
   ],
   engine: [
-    { id: 'basic',    name: 'Engine Rinse',   desc: 'Basic engine bay degreasing & rinse',                   price: { sedan: 10, suv: 10, van: 10 }, dur: 20,
-      features: ['Degreaser Application', 'Pressure Rinse', 'Air Blow Dry'] },
+    { id: 'basic',    name: 'Risciacquo Motore',   desc: 'Sgrassatura base e risciacquo vano motore',                   price: { sedan: 10, suv: 10, van: 10 }, dur: 20,
+      features: ['Applicazione Sgrassatore', 'Risciacquo a Pressione', 'Asciugatura ad Aria'] },
   ],
 };
 
-const CAT_NAMES = { carwash: 'Car Wash', interior: 'Interior Detailing', engine: 'Engine Cleaning' };
+const CAT_NAMES = { carwash: 'Autolavaggio', interior: 'Detailing Interni', engine: 'Pulizia Motore' };
 const CAT_ICONS = { carwash: 'fa-car-side', interior: 'fa-couch', engine: 'fa-gears' };
 const ADDON_PRICES = { pethair: 5, stains: 5, dirtinterior: 5 };
 
 const SLOTS_WEEKDAY = ['8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM'];
 const SLOTS_SUNDAY  = ['8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM'];
-const MONTH_NAMES   = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const DAY_NAMES     = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTH_NAMES   = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+const DAY_NAMES     = ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
 
 // ===== STEP NAVIGATION =====
 function goTo(n) {
@@ -251,31 +251,31 @@ function prevStep() {
 
 function validate(step) {
   if (step === 1 && !state.category) {
-    alert('Please select a service category to continue.'); return false;
+    alert('Seleziona una categoria di servizio per continuare.'); return false;
   }
   if (step === 2 && !state.packageId) {
-    alert('Please select a package to continue.'); return false;
+    alert('Seleziona un pacchetto per continuare.'); return false;
   }
   if (step === 3) {
-    if (!state.brand) { alert('Please select your car brand.'); return false; }
-    if (!state.model) { alert('Please select your car model.'); return false; }
+    if (!state.brand) { alert('Seleziona la marca della tua auto.'); return false; }
+    if (!state.model) { alert('Seleziona il modello della tua auto.'); return false; }
     if (state.vehicleType === 'sedan' && !state.addons.sedanseater) {
-      alert('Please select the number of seats for your Sedan.'); return false;
+      alert('Seleziona il numero di posti per la tua Berlina.'); return false;
     }
     if (state.vehicleType === 'suv' && !state.addons.suvseater) {
-      alert('Please select the number of seats for your SUV.'); return false;
+      alert('Seleziona il numero di posti per il tuo SUV.'); return false;
     }
   }
   if (step === 4 && !state.time) {
-    alert('Please select a date and time to continue.'); return false;
+    alert('Seleziona una data e un orario per continuare.'); return false;
   }
   if (step === 5) {
     state.fname = document.getElementById('bw-fname').value.trim();
     state.lname = document.getElementById('bw-lname').value.trim();
     state.phone = document.getElementById('bw-phone').value.trim();
     state.email = document.getElementById('bw-email').value.trim();
-    if (!state.fname || !state.lname || !state.phone) { alert('Please fill in your name and phone number.'); return false; }
-    if (!state.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)) { alert('Please enter a valid email address.'); return false; }
+    if (!state.fname || !state.lname || !state.phone) { alert('Inserisci il tuo nome e il numero di telefono.'); return false; }
+    if (!state.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)) { alert('Inserisci un indirizzo email valido.'); return false; }
     state.plate = document.getElementById('bw-plate').value.trim();
     state.notes = document.getElementById('bw-notes').value.trim();
   }
@@ -295,11 +295,11 @@ function selectCat(card) {
 
 // ===== STEP 2: PACKAGES =====
 function renderPackages() {
-  document.getElementById('s2-title').textContent = 'Services for: ' + state.categoryName;
+  document.getElementById('s2-title').textContent = 'Servizi per: ' + state.categoryName;
   const pkgs = PACKAGES[state.category] || [];
   document.getElementById('pkg-list').innerHTML = pkgs.map(p => `
     <div class="bw-pkg-card${p.popular ? ' popular' : ''}" data-id="${p.id}" onclick="selectPkg('${p.id}')">
-      ${p.popular ? '<div class="bw-pkg-badge">Most Popular</div>' : ''}
+      ${p.popular ? '<div class="bw-pkg-badge">Più Scelto</div>' : ''}
       <div class="bw-pkg-inner">
         <div class="bw-pkg-left">
           <div class="bw-pkg-name">${p.name}</div>
@@ -309,7 +309,7 @@ function renderPackages() {
           </ul>
         </div>
         <div class="bw-pkg-right">
-          <span class="bw-pkg-from">from</span>
+          <span class="bw-pkg-from">da</span>
           <div class="bw-pkg-price">€${p.price.sedan}</div>
           <div class="bw-pkg-dur"><i class="fas fa-clock"></i>${p.dur} min</div>
         </div>
@@ -352,14 +352,14 @@ function refreshBrands() {
   state.model = '';
 
   const triggerText = document.getElementById('bw-brand-trigger-text');
-  if (triggerText) triggerText.textContent = 'Select brand…';
+  if (triggerText) triggerText.textContent = 'Seleziona marca…';
 
   const searchEl = document.getElementById('bw-brand-search');
   if (searchEl) searchEl.value = '';
 
   _modelListCache = [];
   const modelTriggerText = document.getElementById('bw-model-trigger-text');
-  if (modelTriggerText) modelTriggerText.textContent = 'Select a brand first…';
+  if (modelTriggerText) modelTriggerText.textContent = 'Prima seleziona la marca…';
   const modelSearch = document.getElementById('bw-model-search');
   if (modelSearch) modelSearch.value = '';
   const modelList = document.getElementById('bw-model-list');
@@ -385,10 +385,10 @@ function renderBrandList(brands) {
   const otherActive = state.brand === '__other__';
   const otherItem = `<div class="bw-brand-item bw-brand-other${otherActive ? ' active' : ''}" onclick="selectBrand('__other__')">
     <i class="fas fa-pen" style="font-size:11px;margin-right:6px;opacity:.7;"></i>
-    <span class="bw-brand-item-name">My brand isn't listed…</span>
+    <span class="bw-brand-item-name">La mia marca non è nella lista…</span>
   </div>`;
 
-  list.innerHTML = (items || '<div class="bw-brand-no-results">No brands found</div>') + otherItem;
+  list.innerHTML = (items || '<div class="bw-brand-no-results">Nessuna marca trovata</div>') + otherItem;
 }
 
 function filterBrands(query) {
@@ -425,7 +425,7 @@ function selectBrand(brand) {
     state.brand = '__other__';
     state.model = '';
     const triggerText = document.getElementById('bw-brand-trigger-text');
-    if (triggerText) triggerText.textContent = 'Not listed (entering manually)';
+    if (triggerText) triggerText.textContent = 'Non in lista (inserimento manuale)';
     const modelDd = document.getElementById('bw-model-dropdown');
     if (modelDd) modelDd.style.display = 'none';
     document.getElementById('bw-custom-full').style.display = '';
@@ -455,7 +455,7 @@ function selectBrand(brand) {
   _modelListCache = (CAR_DATA[state.vehicleType] || {})[brand] || [];
 
   const modelTriggerText = document.getElementById('bw-model-trigger-text');
-  if (modelTriggerText) modelTriggerText.textContent = 'Select model…';
+  if (modelTriggerText) modelTriggerText.textContent = 'Seleziona modello…';
   const modelSearch = document.getElementById('bw-model-search');
   if (modelSearch) modelSearch.value = '';
   if (modelDd) modelDd.classList.remove('bw-model-dropdown--disabled');
@@ -481,10 +481,10 @@ function renderModelList(models) {
   const otherActive = state.model === '__other__';
   const otherItem = '<div class="bw-model-item bw-model-other' + (otherActive ? ' active' : '') + '" onclick="selectModel(\'__other__\')">' +
     '<i class="fas fa-pen" style="font-size:11px;margin-right:6px;opacity:.7;"></i>' +
-    '<span class="bw-model-item-name">My model isn\'t listed…</span>' +
+    '<span class="bw-model-item-name">Il mio modello non è nella lista…</span>' +
     '</div>';
 
-  list.innerHTML = (items || '<div class="bw-model-no-results">No models found</div>') + otherItem;
+  list.innerHTML = (items || '<div class="bw-model-no-results">Nessun modello trovato</div>') + otherItem;
 }
 
 function filterModels(query) {
@@ -521,7 +521,7 @@ function selectModel(model) {
   if (model === '__other__') {
     state.model = '';
     const modelTriggerText = document.getElementById('bw-model-trigger-text');
-    if (modelTriggerText) modelTriggerText.textContent = 'Not listed (entering manually)';
+    if (modelTriggerText) modelTriggerText.textContent = 'Non in lista (inserimento manuale)';
     document.getElementById('bw-custom-model-only').style.display = '';
     const inp = document.getElementById('bw-custom-model-val');
     if (inp) { inp.value = ''; state.model = ''; setTimeout(function() { inp.focus(); }, 60); }
@@ -705,7 +705,7 @@ async function fetchAndRenderSlots(ds) {
   const dow  = date.getDay();
   const all  = dow === 0 ? SLOTS_SUNDAY : SLOTS_WEEKDAY;
 
-  document.getElementById('slots-title').textContent = 'Available times for: ' + mon + ' ' + day;
+  document.getElementById('slots-title').textContent = 'Orari disponibili per: ' + day + ' ' + mon;
   // Show skeleton while fetching
   document.getElementById('slots-grid').innerHTML = all.map(() =>
     '<div class="bw-slot-skeleton"></div>'
@@ -732,8 +732,8 @@ function renderSlots() {
   document.getElementById('slots-grid').innerHTML = all.map(s => {
     const isSelected = state.time === s;
     if (bookedSlots.includes(s)) {
-      return `<button class="bw-slot booked" disabled aria-label="${s} — Booked">
-                <span>${s}</span><small>Booked</small>
+      return `<button class="bw-slot booked" disabled aria-label="${s} — Prenotato">
+                <span>${s}</span><small>Prenotato</small>
               </button>`;
     }
     if (pastSlots.includes(s)) {
@@ -752,32 +752,32 @@ function selectSlot(time) {
 // ===== STEP 6: SUMMARY =====
 function renderSummary() {
   const dateFmt = state.date
-    ? state.date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+    ? state.date.toLocaleDateString('it-IT', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
     : '—';
 
   const suvExtra      = state.addons.suvseater === 7 ? 5 : 0;
   const sedanDiscount = state.addons.sedanseater === 2 ? 5 : 0;
   const addonStr = [
-    state.addons.pethair      ? 'Pet Hair Removal (+€5)'                                                                  : null,
-    state.addons.stains       ? 'Stain Treatment (+€5)'                                                                   : null,
-    state.addons.sedanseater  ? `Sedan ${state.addons.sedanseater}-Seater${sedanDiscount ? ' (-€' + sedanDiscount + ')' : ''}` : null,
-    state.addons.suvseater    ? `SUV ${state.addons.suvseater}-Seater${suvExtra ? ' (+€' + suvExtra + ')' : ''}`          : null,
-    state.addons.dirtinterior ? 'Heavy Soiling (+€5)'                                                                     : null,
-  ].filter(Boolean).join(', ') || 'None';
+    state.addons.pethair      ? 'Rimozione peli animali (+€5)'                                                                  : null,
+    state.addons.stains       ? 'Trattamento macchie (+€5)'                                                                     : null,
+    state.addons.sedanseater  ? `Berlina ${state.addons.sedanseater} posti${sedanDiscount ? ' (-€' + sedanDiscount + ')' : ''}` : null,
+    state.addons.suvseater    ? `SUV ${state.addons.suvseater} posti${suvExtra ? ' (+€' + suvExtra + ')' : ''}`                 : null,
+    state.addons.dirtinterior ? 'Sporco intenso (+€5)'                                                                          : null,
+  ].filter(Boolean).join(', ') || 'Nessuno';
 
   const rows = [
-    { icon: 'fa-tag',         label: 'Category',  value: state.categoryName },
-    { icon: 'fa-star',        label: 'Package',   value: state.packageName },
-    { icon: 'fa-car',         label: 'Vehicle',   value: state.vehicleType.charAt(0).toUpperCase() + state.vehicleType.slice(1) + ' — ' + state.brand + ' ' + state.model },
-    { icon: 'fa-plus-circle', label: 'Add-ons',   value: addonStr },
-    { icon: 'fa-calendar',    label: 'Date',      value: dateFmt },
-    { icon: 'fa-clock',       label: 'Time',      value: state.time || '—' },
-    { icon: 'fa-user',        label: 'Name',      value: state.fname + ' ' + state.lname },
-    { icon: 'fa-phone',       label: 'Phone',     value: '+39 ' + state.phone },
+    { icon: 'fa-tag',         label: 'Categoria', value: state.categoryName },
+    { icon: 'fa-star',        label: 'Pacchetto', value: state.packageName },
+    { icon: 'fa-car',         label: 'Veicolo',   value: state.vehicleType.charAt(0).toUpperCase() + state.vehicleType.slice(1) + ' — ' + state.brand + ' ' + state.model },
+    { icon: 'fa-plus-circle', label: 'Extra',     value: addonStr },
+    { icon: 'fa-calendar',    label: 'Data',      value: dateFmt },
+    { icon: 'fa-clock',       label: 'Orario',    value: state.time || '—' },
+    { icon: 'fa-user',        label: 'Nome',      value: state.fname + ' ' + state.lname },
+    { icon: 'fa-phone',       label: 'Telefono',  value: '+39 ' + state.phone },
     { icon: 'fa-envelope',    label: 'Email',     value: state.email || '—' },
   ];
-  if (state.plate) rows.push({ icon: 'fa-id-card',     label: 'Plate',  value: state.plate });
-  if (state.notes) rows.push({ icon: 'fa-note-sticky', label: 'Notes',  value: state.notes });
+  if (state.plate) rows.push({ icon: 'fa-id-card',     label: 'Targa', value: state.plate });
+  if (state.notes) rows.push({ icon: 'fa-note-sticky', label: 'Note',  value: state.notes });
 
   document.getElementById('summary-list').innerHTML = rows.map(r => `
     <div class="bw-summary-row">
@@ -795,7 +795,7 @@ async function submitBooking() {
   const btn = document.getElementById('btn-confirm');
   const err = document.getElementById('bw-err');
   err.style.display = 'none';
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing…';
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Elaborazione…';
   btn.disabled  = true;
 
   const payload = {
@@ -828,7 +828,7 @@ async function submitBooking() {
       if (data.code === 'SLOT_TAKEN') {
         err.textContent  = data.error;
         err.style.display = 'block';
-        btn.innerHTML    = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
+        btn.innerHTML    = '<i class="fas fa-calendar-check"></i> Conferma Appuntamento';
         btn.disabled     = false;
         // Refresh slots so the taken slot now shows as Booked
         if (state.dateStr) {
@@ -842,7 +842,7 @@ async function submitBooking() {
 
     // ── Success ───────────────────────────────────────────────────────────
     const dateFmt = state.date
-      ? state.date.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' })
+      ? state.date.toLocaleDateString('it-IT', { weekday:'long', month:'long', day:'numeric', year:'numeric' })
       : '—';
 
     document.getElementById('overlay-details').innerHTML = [
@@ -852,13 +852,13 @@ async function submitBooking() {
       { icon: 'fa-car',      val: state.brand + ' ' + state.model },
       { icon: 'fa-calendar', val: dateFmt },
       { icon: 'fa-clock',    val: state.time },
-      { icon: 'fa-euro-sign',val: 'Total: €' + state.totalPrice },
+      { icon: 'fa-euro-sign',val: 'Totale: €' + state.totalPrice },
     ].map(r => `<div class="bw-cd-row"><i class="fas ${r.icon}"></i><span>${r.val}</span></div>`).join('');
 
     document.getElementById('bw-overlay').style.display = 'flex';
 
   } catch (e) {
-    err.textContent   = e.message + '. Please try again or call us directly.';
+    err.textContent   = e.message + '. Riprova o chiamaci direttamente.';
     err.style.display = 'block';
     btn.innerHTML     = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
     btn.disabled      = false;
