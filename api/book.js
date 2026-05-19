@@ -17,7 +17,7 @@ const REQUIRED = ['name','phone','email','vehicleType','vehicleBrand','vehicleMo
                    'service','packageType','date','timeSlot','price'];
 
 async function triggerN8n(payload) {
-  const webhookUrl = "https://afdfhashdf.app.n8n.cloud/webhook-test/book-appointment"; // process.env.N8N_BOOKING_WEBHOOK_URL;
+  const webhookUrl = process.env.N8N_BOOKING_WEBHOOK_URL;
   console.log('[n8n] webhook URL:', webhookUrl || 'NOT SET');
   if (!webhookUrl) return;
   try {
@@ -158,7 +158,7 @@ module.exports = async (req, res) => {
     calendarEventId: calendarEventId || null,
     // business info for email templates in n8n
     businessName:    'Autolavaggio La Palma',
-    businessEmail:   'Autolavaggio04012@gmail.com',
+    businessEmail:   'autolavaggiolapalma4u@gmail.com',
     businessPhone:   '+39 351 373 5176',
     businessAddress: 'Via Piave, Autolavaggio La Palma',
   });
