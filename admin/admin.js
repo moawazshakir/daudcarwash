@@ -2,7 +2,7 @@
 const SUPABASE_URL = "https://wqjkhoswqucapkddgaxl.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indxamtob3N3cXVjYXBrZGRnYXhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4NzM1MDEsImV4cCI6MjA5MzQ0OTUwMX0.-CSxDNYVEJGrQ4EwN7uHAis5Et3NVTip1tGBTgyKluw";
 
-const ADMIN_PASS = "6501091";
+function getAdminPass() { return sessionStorage.getItem('adminPass') || ''; }
 
 function switchTab(name) {
   document.getElementById('tab-bookings').style.display = name === 'bookings' ? 'block' : 'none';
@@ -18,7 +18,7 @@ async function loadAdminReviews() {
 
   try {
     const res = await fetch('/api/reviews', {
-      headers: { 'x-admin-password': ADMIN_PASS }
+      headers: { 'x-admin-password': getAdminPass() }
     });
     const reviews = await res.json();
 
@@ -64,7 +64,7 @@ async function submitReview() {
   try {
     const res = await fetch('/api/reviews', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-admin-password': ADMIN_PASS },
+      headers: { 'Content-Type': 'application/json', 'x-admin-password': getAdminPass() },
       body: JSON.stringify({ reviewer_name: name, reviewer_role: role || 'Customer', review_text: text, rating })
     });
 
@@ -94,7 +94,7 @@ async function deleteReview(id) {
   try {
     const res = await fetch('/api/reviews', {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json', 'x-admin-password': ADMIN_PASS },
+      headers: { 'Content-Type': 'application/json', 'x-admin-password': getAdminPass() },
       body: JSON.stringify({ id })
     });
     if (!res.ok) throw new Error();
@@ -112,41 +112,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const loginPanel = document.getElementById('login-panel');
   const dashboardPanel = document.getElementById('dashboard-panel');
 
-  // For this static prototype, we are checking the generated password here.
-  // In a full production build, this would be verified via Supabase on a backend server.
-  const ADMIN_PASSWORD = "6501091"; 
-
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const submitBtn = form.querySelector('button');
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
     submitBtn.disabled = true;
+    errorMsg.style.display = 'none';
 
-    // Simulate secure network verification delay
-    setTimeout(() => {
-      if (passwordInput.value === ADMIN_PASSWORD) {
-        // Success Animation
+    try {
+      const res = await fetch('/api/admin-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: passwordInput.value }),
+      });
+
+      if (res.ok) {
+        sessionStorage.setItem('adminPass', passwordInput.value);
+
         loginPanel.style.transform = 'scale(0.95)';
         loginPanel.style.opacity = '0';
-        
+
         setTimeout(async () => {
           loginPanel.classList.add('hidden');
           dashboardPanel.classList.remove('hidden');
-          
-          // Expand container for the dashboard
           document.querySelector('.admin-container').classList.add('dashboard-active');
-          
-          // Trigger CSS reflow to ensure animation plays
           void dashboardPanel.offsetWidth;
-          
           dashboardPanel.style.opacity = '1';
           dashboardPanel.style.transform = 'scale(1)';
-          
           await loadBookings();
 
-          // Star picker for reviews tab
           document.querySelectorAll('#rv-stars i').forEach(star => {
             star.addEventListener('click', () => {
               const val = parseInt(star.dataset.val);
@@ -158,14 +154,17 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         }, 300);
       } else {
-        // Error Animation
         errorMsg.style.display = 'block';
         passwordInput.value = '';
         passwordInput.focus();
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
       }
-    }, 1200);
+    } catch (_) {
+      errorMsg.style.display = 'block';
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }
   });
 
   // Hide error message when user starts typing again

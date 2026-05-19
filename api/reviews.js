@@ -1,6 +1,6 @@
 const { supabase } = require('./lib/supabase');
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'xK9$mP2@vL7#qW5';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
