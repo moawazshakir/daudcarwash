@@ -2,7 +2,7 @@
 const SUPABASE_URL = "https://wqjkhoswqucapkddgaxl.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indxamtob3N3cXVjYXBrZGRnYXhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4NzM1MDEsImV4cCI6MjA5MzQ0OTUwMX0.-CSxDNYVEJGrQ4EwN7uHAis5Et3NVTip1tGBTgyKluw";
 
-const ADMIN_PASS = "xK9$mP2@vL7#qW5";
+const ADMIN_PASS = "6501091";
 
 function switchTab(name) {
   document.getElementById('tab-bookings').style.display = name === 'bookings' ? 'block' : 'none';
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // For this static prototype, we are checking the generated password here.
   // In a full production build, this would be verified via Supabase on a backend server.
-  const ADMIN_PASSWORD = "xK9$mP2@vL7#qW5"; 
+  const ADMIN_PASSWORD = "6501091"; 
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
