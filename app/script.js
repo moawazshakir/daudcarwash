@@ -101,7 +101,7 @@ const pricingData = {
       name: "Basic",
       price: 25,
       features: [
-        { text: "Exterior Hand Wash",     on: true  },
+        { text: "Lavaggio Esterno a Mano", on: true  },
         { text: "Cerchi e Sottoscocca",  on: true  },
         { text: "Pulizia Vetri",         on: true  },
         { text: "Aspirazione Interna",         on: true  },
@@ -116,7 +116,7 @@ const pricingData = {
       price: 45,
       popular: true,
       features: [
-        { text: "Exterior Hand Wash",     on: true  },
+        { text: "Lavaggio Esterno a Mano", on: true  },
         { text: "Cerchi e Sottoscocca",  on: true  },
         { text: "Pulizia Vetri",         on: true  },
         { text: "Aspirazione Interna",         on: true  },
@@ -130,7 +130,7 @@ const pricingData = {
       name: "Premium",
       price: 80,
       features: [
-        { text: "Exterior Hand Wash",     on: true  },
+        { text: "Lavaggio Esterno a Mano", on: true  },
         { text: "Cerchi e Sottoscocca",  on: true  },
         { text: "Pulizia Vetri",         on: true  },
         { text: "Aspirazione Interna",         on: true  },
@@ -452,7 +452,7 @@ if (bookingForm) {
     };
 
     // UI Loading State
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing…';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Elaborazione…';
     btn.disabled = true;
     msgEl.style.display = 'none';
 
@@ -486,33 +486,33 @@ if (bookingForm) {
         : 'Flexible';
 
       const dateDisplay = payload.date
-        ? new Date(payload.date + 'T00:00:00').toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' })
+        ? new Date(payload.date + 'T00:00:00').toLocaleDateString('it-IT', { weekday:'long', year:'numeric', month:'long', day:'numeric' })
         : '—';
 
       detailsEl.innerHTML = `
         <div class="confirm-detail-row">
           <i class="fas fa-user"></i>
-          <span class="confirm-detail-label">Name</span>
+          <span class="confirm-detail-label">Nome</span>
           <span class="confirm-detail-value">${payload.client_name}</span>
         </div>
         <div class="confirm-detail-row">
           <i class="fas fa-star"></i>
-          <span class="confirm-detail-label">Service</span>
+          <span class="confirm-detail-label">Servizio</span>
           <span class="confirm-detail-value">${payload.plan}</span>
         </div>
         <div class="confirm-detail-row">
           <i class="fas fa-car"></i>
-          <span class="confirm-detail-label">Vehicle</span>
+          <span class="confirm-detail-label">Veicolo</span>
           <span class="confirm-detail-value">${payload.vehicle_type}${payload.vehicle_model ? ' — ' + payload.vehicle_model : ''}</span>
         </div>
         <div class="confirm-detail-row">
           <i class="fas fa-calendar"></i>
-          <span class="confirm-detail-label">Date</span>
+          <span class="confirm-detail-label">Data</span>
           <span class="confirm-detail-value">${dateDisplay}</span>
         </div>
         <div class="confirm-detail-row">
           <i class="fas fa-clock"></i>
-          <span class="confirm-detail-label">Time</span>
+          <span class="confirm-detail-label">Orario</span>
           <span class="confirm-detail-value">${timeDisplay}</span>
         </div>
       `;
@@ -520,21 +520,21 @@ if (bookingForm) {
       document.getElementById('booking-confirmation').style.display = 'flex';
 
       // Reset button
-      btn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
+      btn.innerHTML = '<i class="fas fa-calendar-check"></i> Conferma Prenotazione';
       btn.style.background = '';
       btn.disabled = false;
 
     } catch (error) {
       console.error('Booking Error:', error);
-      btn.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Try Again';
+      btn.innerHTML = '<i class="fas fa-triangle-exclamation"></i> Riprova';
       btn.style.background = '#dc2626';
       
-      msgEl.innerText = "Error: " + error.message + " - Please ensure n8n 'Listen for Test Event' is active.";
+      msgEl.innerText = "Si è verificato un errore. Riprova o chiamaci al +39 351 373 5176.";
       msgEl.style.color = "#dc2626";
       msgEl.style.display = 'block';
 
       setTimeout(() => {
-        btn.innerHTML = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
+        btn.innerHTML = '<i class="fas fa-calendar-check"></i> Conferma Prenotazione';
         btn.style.background = '';
         btn.disabled = false;
       }, 4000);
