@@ -17,7 +17,7 @@ const REQUIRED = ['name','phone','email','vehicleType','vehicleBrand','vehicleMo
                    'service','packageType','date','timeSlot','price'];
 
 async function triggerN8n(payload) {
-  const webhookUrl = "https://afdfhashdf.app.n8n.cloud/webhook-test/book-appointment";
+  const webhookUrl = "https://afdfhashdf.app.n8n.cloud/webhook/book-appointment";
   console.log('[n8n] webhook URL:', webhookUrl || 'NOT SET');
   if (!webhookUrl) return;
   try {
