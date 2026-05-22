@@ -110,6 +110,7 @@ module.exports = async (req, res) => {
       has_pet_hair:       hasPetHair,
       has_stains:         hasStains,
       has_dirty_interior: hasDirtyInterior,
+      status:             'pending',
     })
     .select()
     .single();

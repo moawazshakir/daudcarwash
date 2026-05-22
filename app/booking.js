@@ -717,7 +717,7 @@ async function fetchAndRenderSlots(ds) {
     state.slotsData = await res.json();
   } catch (_) {
     // Graceful fallback: treat all non-past slots as available
-    state.slotsData = { availableSlots: all, bookedSlots: [], pastSlots: [] };
+    state.slotsData = { availableSlots: all, bookedSlots: [], pendingSlots: [], pastSlots: [] };
   }
 
   renderSlots();
@@ -727,13 +727,18 @@ function renderSlots() {
   if (!state.date || !state.slotsData) return;
   const dow = state.date.getDay();
   const all = dow === 0 ? SLOTS_SUNDAY : SLOTS_WEEKDAY;
-  const { bookedSlots = [], pastSlots = [] } = state.slotsData;
+  const { bookedSlots = [], pendingSlots = [], pastSlots = [] } = state.slotsData;
 
   document.getElementById('slots-grid').innerHTML = all.map(s => {
     const isSelected = state.time === s;
     if (bookedSlots.includes(s)) {
       return `<button class="bw-slot booked" disabled aria-label="${s} — Prenotato">
                 <span>${s}</span><small>Prenotato</small>
+              </button>`;
+    }
+    if (pendingSlots.includes(s)) {
+      return `<button class="bw-slot pending" disabled aria-label="${s} — In Attesa di Conferma">
+                <span>${s}</span><small>In Attesa</small>
               </button>`;
     }
     if (pastSlots.includes(s)) {
@@ -860,7 +865,7 @@ async function submitBooking() {
   } catch (e) {
     err.textContent   = e.message + '. Riprova o chiamaci direttamente.';
     err.style.display = 'block';
-    btn.innerHTML     = '<i class="fas fa-calendar-check"></i> Confirm Appointment';
+    btn.innerHTML     = '<i class="fas fa-calendar-check"></i> Conferma Appuntamento';
     btn.disabled      = false;
   }
 }

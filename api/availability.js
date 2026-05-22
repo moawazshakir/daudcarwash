@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
 
   const { data, error } = await supabase
     .from('bookings')
-    .select('booking_time')
+    .select('booking_time, status')
     .eq('booking_date', date);
 
   if (error) {
@@ -34,10 +34,12 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: 'Failed to fetch availability.' });
   }
 
-  const bookedSet = new Set(data.map(b => b.booking_time));
+  const bookedSet  = new Set(data.filter(b => b.status === 'booked').map(b => b.booking_time));
+  const pendingSet = new Set(data.filter(b => b.status !== 'booked').map(b => b.booking_time));
 
   const availableSlots = [];
   const bookedSlots    = [];
+  const pendingSlots   = [];
   const pastSlots      = [];
 
   for (const slot of allSlots) {
@@ -45,10 +47,12 @@ module.exports = async (req, res) => {
       pastSlots.push(slot);
     } else if (bookedSet.has(slot)) {
       bookedSlots.push(slot);
+    } else if (pendingSet.has(slot)) {
+      pendingSlots.push(slot);
     } else {
       availableSlots.push(slot);
     }
   }
 
-  return res.status(200).json({ date, allSlots, availableSlots, bookedSlots, pastSlots });
+  return res.status(200).json({ date, allSlots, availableSlots, bookedSlots, pendingSlots, pastSlots });
 };
