@@ -34,8 +34,8 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: 'Failed to fetch availability.' });
   }
 
-  const bookedSet  = new Set(data.filter(b => b.status === 'booked').map(b => b.booking_time));
-  const pendingSet = new Set(data.filter(b => b.status !== 'booked').map(b => b.booking_time));
+  const bookedSet  = new Set(data.filter(b => b.status === 'confirmed').map(b => b.booking_time));
+  const pendingSet = new Set(data.filter(b => b.status === 'pending').map(b => b.booking_time));
 
   const availableSlots = [];
   const bookedSlots    = [];
